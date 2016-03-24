@@ -18,12 +18,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package se.sics.kompics.scala
+package se.sics.kompics
 
-/**
- * The <code>Init</code> case class.
- * 
- * @author Lars Kroll {@literal <lkroll@kth.se>}
- * @version $Id: $
- */
-case class Init[T <: ComponentDefinition](params: Any*) extends se.sics.kompics.Init[T]
+
+package object scala {
+  
+}

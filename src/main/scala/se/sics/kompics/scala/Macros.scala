@@ -20,29 +20,13 @@
  */
 package se.sics.kompics.scala
 
-import se.sics.kompics.launch.Topology
-import se.sics.kompics.address.Address
-import scala.collection.JavaConverters._
+import scala.reflect.macros.blackbox.Context
+import scala.language.experimental.macros
 
-/**
- * The <code>ScalaTopology</code> class.
- * 
- * @author Lars Kroll <lkr@lars-kroll.com>
- * @version $Id: $
- */
-class ScalaTopology(original: Topology) {
-	def neighbours(node: Address) : Set[Address] = {		
-			val neighs = original.getNeighbors(node);
-			return neighs.asScala.toSet;
-	}
-}
-
-/**
- * The <code>ScalaTopology</code> object.
- * 
- * @author Lars Kroll <lkr@lars-kroll.com>
- * @version $Id: $
- */
-object ScalaTopology {
-	implicit def topology2scala(x: Topology): ScalaTopology = new ScalaTopology(x);
+object Macros {
+//  def handle() = macro Macros.handleMacro(
+//  
+//  def handleMacro(c: Context)(t: Tree): Tree = {
+//      
+//  }
 }

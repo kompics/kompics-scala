@@ -23,43 +23,27 @@ package se.sics.kompics.scala
 import se.sics.kompics.PortType
 import se.sics.kompics.Positive
 import se.sics.kompics.Negative
-import se.sics.kompics.launch.Topology
 import se.sics.kompics.PortCore
 import se.sics.kompics.ControlPort
-import se.sics.kompics.Event
 import se.sics.kompics.Fault
 import se.sics.kompics.ConfigurationException
 import se.sics.kompics.Handler
 import se.sics.kompics.ComponentCore
 import se.sics.kompics.Component
+import se.sics.kompics.LoopbackPort
 
 /**
  * The <code>ComponentDefinition</code> class.
  * 
- * @author Lars Kroll <lkr@lars-kroll.com>
+ * @author Lars Kroll {@literal <lkroll@kth.se>}
  * @version $Id: ComponentDefinition.scala 4036 2011-07-19 15:50:01Z lars $
  */
 abstract class ComponentDefinition extends se.sics.kompics.ComponentDefinition(classOf[ScalaComponent]) {
-	//private val core: ScalaComponent = new ScalaComponent(this);
 	
-	private val localCore: ScalaComponent = getComponentCore match {
-		case sc: ScalaComponent => sc
-		case _ => throw new ConfigurationException("Invalid core type");
-	}
-	
-	//private val initList = scala.collection.mutable.Queue.empty[Pair[Component, Event]];
-	
-	localCore.component = this;
-	
-	var faultHandler: (Event) => () => Unit = {case f: Fault => {() => 
-		f.getFault().printStackTrace(System.err);
-		}}
-	
-	var fallbackFaultHandler: Handler[Fault] = new Handler[Fault]() {
-		override def handle(fault: Fault): Unit = {
-			fault.getFault().printStackTrace(System.err);
-		}
-	};
+//	private val localCore: ScalaComponent = getComponentCore match {
+//		case sc: ScalaComponent => sc
+//		case _ => throw new ConfigurationException("Invalid core type");
+//	};
 	
 	def ++[P <: PortType](port: P): NegativePort[_ <: P] = {
 		this ++ port.getClass();
@@ -93,32 +77,11 @@ abstract class ComponentDefinition extends se.sics.kompics.ComponentDefinition(c
 		}
 	}
 	
-	def init[T <: se.sics.kompics.ComponentDefinition](initEvent: Event, c: T): Component = {
-		init(initEvent, c.getClass());
-	}
-	
-	def init[T <: se.sics.kompics.ComponentDefinition](initEvent: Event, c: Class[T]): Component = {
-		val component = create(c);
-		//initList.enqueue((component, initEvent));
-		component match {
-			case comp: ScalaComponent => {
-				comp.ctrl uponEvent faultHandler;
-				trigger(initEvent, comp.ctrl);
-				return comp;
-			}
-			case _ => {
-				subscribe(fallbackFaultHandler, component.control());
-				trigger(initEvent, component.control());
-				return component;
-			}
+	def loopbck: NegativePort[LoopbackPort] = {
+		loopback match {
+			case sc: ScalaPort[LoopbackPort] => return sc;
+			case pc: PortCore[LoopbackPort] => return new NegativeWrapper[LoopbackPort](pc);
+			case _ => throw new ClassCastException;
 		}
 	}
-	
-//	def init() = {
-//		while (!initList.isEmpty) {
-//			val (component, initEvent) = initList.dequeue;
-//			trigger(initEvent, component.control());
-//		}
-//	}
-	
 }

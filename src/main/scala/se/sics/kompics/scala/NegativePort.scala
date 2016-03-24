@@ -20,17 +20,22 @@
  */
 package se.sics.kompics.scala
 
-import se.sics.kompics._
+import scala.language.implicitConversions
+import scala.language.existentials
+import se.sics.kompics.{ KompicsEvent, Component, 
+    Channel, PortType, Positive, PortCore, 
+    ComponentCore, Handler, ConfigurationException,
+    ChannelSelector, Negative, ChannelCore}
 
 /**
  * The <code>NegativePort</code> trait.
  * 
- * @author Lars Kroll <lkr@lars-kroll.com>
+ * @author Lars Kroll {@literal <lkroll@kth.se>}
  * @version $Id: $
  */
 trait NegativePort[P <: PortType] extends Negative[P] {
 	
-	def uponEvent(handler: (Event) => () => Unit): Unit;
+	def uponEvent(handler: (KompicsEvent) => () => Unit): Unit;
 	
 	def ++(component: Component): Channel[P];
 	
@@ -61,15 +66,15 @@ class NegativeWrapper[P <: PortType](original:PortCore[P]) extends NegativePort[
 		original.setPair(port);
 	}
 	
-	override def doSubscribe[E <: Event](handler: Handler[E]): Unit = {
+	override def doSubscribe[E <: KompicsEvent](handler: Handler[E]): Unit = {
 		original.doSubscribe(handler);
 	}
 	
-	override def doTrigger(event: Event, wid: Int, channel: ChannelCore[_]): Unit = {
+	override def doTrigger(event: KompicsEvent, wid: Int, channel: ChannelCore[_]): Unit = {
 		original.doTrigger(event, wid, channel);
 	}
 	
-	override def doTrigger(event: Event, wid: Int, component: ComponentCore): Unit = {
+	override def doTrigger(event: KompicsEvent, wid: Int, component: ComponentCore): Unit = {
 		original.doTrigger(event, wid, component);
 	}
 	
@@ -77,31 +82,33 @@ class NegativeWrapper[P <: PortType](original:PortCore[P]) extends NegativePort[
 		original.addChannel(channel);
 	}
 	
-	override def addChannel(channel: ChannelCore[P], filter: ChannelFilter[_,_]): Unit = {
-		original.addChannel(channel, filter);
+	override def addChannel(channel: ChannelCore[P], selector: ChannelSelector[_,_]): Unit = {
+		original.addChannel(channel, selector);
 	}
 	
-	override def removeChannelTo(remotePort: PortCore[P]): Unit = {
-		original.removeChannelTo(remotePort);
-	}
-	
-	override def enqueue(event: Event): Unit = {
+	override def enqueue(event: KompicsEvent): Unit = {
 		original.enqueue(event);
 	}
 	
-	override def  uponEvent(handler: (Event) => () => Unit): Unit = {
+	override def  uponEvent(handler: (KompicsEvent) => () => Unit): Unit = {
 		throw new ConfigurationException("Can't use closure based handlers on non ScalaPort");
+	}
+	
+	override def doSubscribe(handler: se.sics.kompics.MatchedHandler[PT, V, E] forSome {type PT; type V; type E <: KompicsEvent with se.sics.kompics.PatternExtractor[PT, _ >: V]}) {
+	    original.doSubscribe(handler);
+	}
+  
+	override def removeChannel(channel: ChannelCore[P]) {
+	    original.removeChannel(channel);
 	}
 	
 	def ++(component: Component): Channel[P] = {
 		val positivePort:Positive[_ <: P] = component.getPositive(original.getPortType().getClass());
 		positivePort match {
 			case pos: PortCore[P] => {
-				val channel = new ChannelCore[P](pos, original, original.getPortType());
-				original.addChannel(channel);
-				pos.addChannel(channel);
-				return channel;
-			}
+                val channel = Channel.TWO_WAY.connect(pos, original);
+                return channel;
+            }
 			case _ => throw new ClassCastException()
 		}
 	}
