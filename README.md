@@ -12,5 +12,6 @@ To add Kompics Scala to your project use:
 ```scala
 resolvers += "Kompics Releases" at "http://kompics.sics.se/maven/repository/"
 resolvers += "Kompics Snapshots" at "http://kompics.sics.se/maven/snapshotrepository/"
-addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.8.2")
+
+libraryDependencies += "se.sics.kompics" %% "kompics-scala" % "0.9.2-SNAPSHOT"
 ```
