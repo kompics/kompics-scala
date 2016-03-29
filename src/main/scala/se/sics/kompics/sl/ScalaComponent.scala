@@ -18,7 +18,7 @@
   * along with this program; if not, write to the Free Software
   * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
   */
-package se.sics.kompics.scala
+package se.sics.kompics.sl
 
 import scala.collection.JavaConverters._
 import scala.language.implicitConversions
@@ -60,13 +60,13 @@ import java.util.Objects
   * @author Lars Kroll {@literal <lkroll@kth.se>}
   * @version $Id: $
   */
-protected[scala] class ScalaComponent(val component: ComponentDefinition) extends ComponentCore {
+protected[sl] class ScalaComponent(val component: ComponentDefinition) extends ComponentCore {
 
-    private[scala] val positivePorts = scala.collection.mutable.HashMap.empty[Class[_ <: PortType], ScalaPort[_ <: PortType]];
-    private[scala] val negativePorts = scala.collection.mutable.HashMap.empty[Class[_ <: PortType], ScalaPort[_ <: PortType]];
+    private[sl] val positivePorts = scala.collection.mutable.HashMap.empty[Class[_ <: PortType], ScalaPort[_ <: PortType]];
+    private[sl] val negativePorts = scala.collection.mutable.HashMap.empty[Class[_ <: PortType], ScalaPort[_ <: PortType]];
 
-    private[scala] var negativeControl: ScalaPort[ControlPort] = null;
-    private[scala] var positiveControl: ScalaPort[ControlPort] = null;
+    private[sl] var negativeControl: ScalaPort[ControlPort] = null;
+    private[sl] var positiveControl: ScalaPort[ControlPort] = null;
 
     // constructor 
     setup();
@@ -302,7 +302,7 @@ protected[scala] class ScalaComponent(val component: ComponentDefinition) extend
         }
     }
 
-    private def executeHandler(event: KompicsEvent, handler: () => Unit): Boolean = {
+    private def executeHandler(event: KompicsEvent, handler: MatchedHandler): Boolean = {
         try {
             //Kompics.logger.trace("Executing handler for event {}", event);
             handler();
@@ -357,7 +357,7 @@ protected[scala] class ScalaComponent(val component: ComponentDefinition) extend
         }
     }
 
-    val handleFault = (e: KompicsEvent) => e match {
+    val handleFault = handler {
         case f: Fault => () => {
             val ra = component.handleFault(f);
             import ResolveAction._
@@ -386,7 +386,7 @@ protected[scala] class ScalaComponent(val component: ComponentDefinition) extend
         case None    => childrenMemo = Some(children.asScala); childrenMemo.get
     }
 
-    val configHandler = (e: KompicsEvent) => e match {
+    val configHandler = handler {
 
         case event: Update => () => {
             val action = component.handleUpdate(event.update);
@@ -498,7 +498,7 @@ protected[scala] class ScalaComponent(val component: ComponentDefinition) extend
         activeSet.remove(child);
     }
 
-    val handleLifecycle = (e: KompicsEvent) => e match {
+    val handleLifecycle = handler {
         case _: Start => () => {
             if (state != State.PASSIVE) {
                 throw new KompicsException(s"$this received a Start event while in $state state. "

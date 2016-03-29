@@ -18,7 +18,7 @@
   * along with this program; if not, write to the Free Software
   * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
   */
-package se.sics.kompics.scala
+package se.sics.kompics.sl
 
 import scala.collection.JavaConverters._
 import scala.language.existentials
@@ -31,7 +31,7 @@ import se.sics.kompics.SpinlockQueue
 import se.sics.kompics.ChannelCore
 import se.sics.kompics.ChannelSelectorSet
 import se.sics.kompics.ConfigurationException
-import se.sics.kompics.Handler
+import se.sics.kompics.{ Handler => JHandler }
 import se.sics.kompics.Request
 import se.sics.kompics.Response
 import se.sics.kompics.Direct
@@ -59,10 +59,10 @@ import java.lang.reflect.Method
   */
 class ScalaPort[P <: PortType](positive: Boolean, pType: P, parent: ComponentCore, private val rwLock: ReentrantReadWriteLock)
         extends PortCore[P] with NegativePort[P] with PositivePort[P] {
-    
+
     private var pair: ScalaPort[P] = null;
-    private val subs = scala.collection.mutable.HashSet.empty[(KompicsEvent) => () => Unit];
-    private val preparedHandlers = scala.collection.mutable.HashMap.empty[KompicsEvent, Seq[() => Unit]];
+    private val subs = scala.collection.mutable.HashSet.empty[Handler];
+    private val preparedHandlers = scala.collection.mutable.HashMap.empty[KompicsEvent, Seq[MatchedHandler]];
     private val normalChannels = scala.collection.mutable.ListBuffer.empty[ChannelCore[P]];
     private val selectorChannels = new ChannelSelectorSet();
     private val eventQueue: SpinlockQueue[KompicsEvent] = new SpinlockQueue[KompicsEvent]();
@@ -85,25 +85,25 @@ class ScalaPort[P <: PortType](positive: Boolean, pType: P, parent: ComponentCor
         }
     }
 
-    override def doSubscribe[E <: KompicsEvent](handler: Handler[E]) {
+    override def doSubscribe[E <: KompicsEvent](handler: JHandler[E]) {
         var eventType = handler.getEventType();
         if (eventType == null) {
             eventType = reflectHandlerEventType(handler);
             handler.setEventType(eventType);
         }
-        val closureHandler: (KompicsEvent) => () => Unit = { e =>
-            if (e.getClass().isAssignableFrom(eventType)) () => { handler.asInstanceOf[Handler[KompicsEvent]].handle(e) } else {
+        val closureHandler: Handler = { e =>
+            if (e.getClass().isAssignableFrom(eventType)) () => { handler.asInstanceOf[JHandler[KompicsEvent]].handle(e) } else {
                 throw new MatchError(e.getClass() + " didn't match " + eventType);
             }
         };
         doSubscribe(closureHandler);
     }
 
-    override def doSubscribe(handler: se.sics.kompics.MatchedHandler[PT, V, E] forSome {type PT; type V; type E <: KompicsEvent with se.sics.kompics.PatternExtractor[PT, _ >: V]}) {
-	    throw new ConfigurationException("Can not use se.sics.kompics.MatchedHandler in ScalaPort! Use Scala's pattern matching instead.");
+    override def doSubscribe(handler: se.sics.kompics.MatchedHandler[PT, V, E] forSome { type PT; type V; type E <: KompicsEvent with se.sics.kompics.PatternExtractor[PT, _ >: V] }) {
+        throw new ConfigurationException("Can not use se.sics.kompics.MatchedHandler in ScalaPort! Use Scala's pattern matching instead.");
     }
-    
-    private def reflectHandlerEventType[E <: KompicsEvent](handler: Handler[E]): Class[E] = {
+
+    private def reflectHandlerEventType[E <: KompicsEvent](handler: JHandler[E]): Class[E] = {
         try {
             val declared = handler.getClass().getDeclaredMethods();
             val relevant = scala.collection.mutable.TreeSet.empty[Class[_ <: KompicsEvent]](new Ordering[Class[_ <: KompicsEvent]] {
@@ -134,19 +134,19 @@ class ScalaPort[P <: PortType](positive: Boolean, pType: P, parent: ComponentCor
                 + "as an argument to the handler constructor.");
     }
 
-    private def doManifestSubscribe[E <: KompicsEvent: Manifest](handler: Handler[E]): Unit = {
-        val closureHandler: (KompicsEvent) => () => Unit = { case e: E => () => { handler.handle(e) } };
+    private def doManifestSubscribe[E <: KompicsEvent: Manifest](handler: JHandler[E]): Unit = {
+        val closureHandler: Handler = { case e: E => handle { handler.handle(e) } };
         doSubscribe(closureHandler);
     }
 
-    protected[kompics] def doSubscribe(handler: (KompicsEvent) => () => Unit): Unit = {
+    protected[kompics] def doSubscribe(handler: Handler): Unit = {
         subs += handler;
     }
 
-    def uponEvent(handler: (KompicsEvent) => () => Unit): Unit = doSubscribe(handler);
+    def uponEvent(handler: Handler): Handler = { doSubscribe(handler); return handler; }
 
-    private def getMatchingHandlers(event: KompicsEvent): Seq[() => Unit] = {
-        val matching = Seq.newBuilder[() => Unit];
+    private def getMatchingHandlers(event: KompicsEvent): Seq[MatchedHandler] = {
+        val matching = Seq.newBuilder[MatchedHandler];
         subs.foreach(handler => {
             try {
                 matching += handler(event);
@@ -161,7 +161,7 @@ class ScalaPort[P <: PortType](positive: Boolean, pType: P, parent: ComponentCor
         return eventQueue.poll();
     }
 
-    protected[kompics] def pollPreparedHandlers(event: KompicsEvent): Seq[() => Unit] = {
+    protected[kompics] def pollPreparedHandlers(event: KompicsEvent): Seq[MatchedHandler] = {
         rwLock.writeLock().lock();
         try {
             if (preparedHandlers contains event) {
@@ -179,7 +179,7 @@ class ScalaPort[P <: PortType](positive: Boolean, pType: P, parent: ComponentCor
     override def doTrigger(event: KompicsEvent, wid: Int, channel: ChannelCore[_]): Unit = {
         event match {
             case r: Request => r.pushPathElement(channel);
-            case _ => // ignore
+            case _          => // ignore
         }
         pair.deliver(event, wid);
     }
@@ -188,7 +188,7 @@ class ScalaPort[P <: PortType](positive: Boolean, pType: P, parent: ComponentCor
         //		println(this.getClass()+": "+event+" triggert from "+component);
         event match {
             case r: Request => r.pushPathElement(component);
-            case _ => // ignore
+            case _          => // ignore
         }
         pair.deliver(event, wid);
     }
@@ -346,7 +346,7 @@ class ScalaPort[P <: PortType](positive: Boolean, pType: P, parent: ComponentCor
     override def cleanEvents() {
         eventQueue.clear();
     }
-    
+
     override def findChannelsTo(port: PortCore[P]): java.util.List[Channel[P]] = {
         val channels = List.newBuilder[Channel[P]];
         normalChannels.foreach { channel =>
@@ -361,20 +361,21 @@ class ScalaPort[P <: PortType](positive: Boolean, pType: P, parent: ComponentCor
             }
         }
         val sChannels = selectorChannels.iterator().asScala;
-        sChannels.foreach { case channel: ChannelCore[P] => 
-            if (this.isPositive) {
-                if (channel.hasNegativePort(port)) {
-                    channels += channel;
+        sChannels.foreach {
+            case channel: ChannelCore[P] =>
+                if (this.isPositive) {
+                    if (channel.hasNegativePort(port)) {
+                        channels += channel;
+                    }
+                } else {
+                    if (channel.hasPositivePort(port)) {
+                        channels += channel;
+                    }
                 }
-            } else {
-                if (channel.hasPositivePort(port)) {
-                    channels += channel;
-                }
-            }
         }
         return channels.result().asJava;
     }
-    
+
     override def enqueue(event: KompicsEvent): Unit = {
         //Kompics.logger.trace("Queuing up event {}", event);
         eventQueue.offer(event);
@@ -387,7 +388,7 @@ class ScalaPort[P <: PortType](positive: Boolean, pType: P, parent: ComponentCor
                 val channel = Channel.TWO_WAY.connect(pos, this);
                 return channel;
             }
-            case _ => throw new ClassCastException()
+            case _ => throw new ClassCastException(s"Can't convert ${positivePort.getClass} to PortCore!");
         }
     }
 
@@ -402,7 +403,7 @@ class ScalaPort[P <: PortType](positive: Boolean, pType: P, parent: ComponentCor
                 val channel = Channel.TWO_WAY.connect(this, neg);
                 return channel;
             }
-            case _ => throw new ClassCastException()
+            case _ => throw new ClassCastException(s"Can't convert ${negativePort.getClass} to PortCore!");
         }
     }
 
@@ -416,7 +417,7 @@ object ScalaPort {
     def apply[P <: PortType](positive: Boolean, pType: P, parent: ComponentCore): ScalaPort[P] = {
         return new ScalaPort(positive, pType, parent, new ReentrantReadWriteLock());
     }
-    
+
     def fromPort[P <: PortType](other: ScalaPort[P]): ScalaPort[P] = {
         val port = new ScalaPort(other.isPositive, other.portType, other.owner, other.rwLock);
         return port;

@@ -2,7 +2,7 @@ name := "Kompics-Scala"
 
 organization := "se.sics.kompics"
 
-version := "0.9.1-SNAPSHOT"
+version := "0.9.2-SNAPSHOT"
 
 scalaVersion := "2.11.8"
 

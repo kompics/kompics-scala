@@ -18,7 +18,7 @@
   * along with this program; if not, write to the Free Software
   * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
   */
-package se.sics.kompics.scala
+package se.sics.kompics.sl
 
 import se.sics.kompics.KompicsEvent
 import scala.reflect.runtime.universe._
@@ -41,14 +41,20 @@ abstract class Port extends se.sics.kompics.PortType {
         super.request(asJavaClass(te))
     }
     
+    def request(event: KompicsEvent) {
+        val eventType = event.getClass;
+        super.request(eventType);
+    }
+    
     def indication[E <: KompicsEvent: TypeTag] {
         val te = typeOf[E];
         super.indication(asJavaClass(te))
     }
     
-    private def asJavaClass(te: Type): Class[_ <: KompicsEvent] = {
-        val mirror = runtimeMirror(getClass.getClassLoader)
-        return mirror.runtimeClass(te.typeSymbol.asClass).asInstanceOf[Class[_ <: KompicsEvent]]
-        
+    def indication(event: KompicsEvent) {
+        val eventType = event.getClass;
+        super.indication(eventType);
     }
+    
+   
 }

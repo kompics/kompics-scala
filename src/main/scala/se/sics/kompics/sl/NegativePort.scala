@@ -18,14 +18,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package se.sics.kompics.scala
+package se.sics.kompics.sl
 
 import scala.language.implicitConversions
 import scala.language.existentials
 import se.sics.kompics.{ KompicsEvent, Component, 
     Channel, PortType, Positive, PortCore, 
-    ComponentCore, Handler, ConfigurationException,
+    ComponentCore, ConfigurationException,
     ChannelSelector, Negative, ChannelCore}
+import se.sics.kompics.{Handler => JHandler}
 
 /**
  * The <code>NegativePort</code> trait.
@@ -33,9 +34,7 @@ import se.sics.kompics.{ KompicsEvent, Component,
  * @author Lars Kroll {@literal <lkroll@kth.se>}
  * @version $Id: $
  */
-trait NegativePort[P <: PortType] extends Negative[P] {
-	
-	def uponEvent(handler: (KompicsEvent) => () => Unit): Unit;
+trait NegativePort[P <: PortType] extends Negative[P] with AnyPort {
 	
 	def ++(component: Component): Channel[P];
 	
@@ -66,7 +65,7 @@ class NegativeWrapper[P <: PortType](original:PortCore[P]) extends NegativePort[
 		original.setPair(port);
 	}
 	
-	override def doSubscribe[E <: KompicsEvent](handler: Handler[E]): Unit = {
+	override def doSubscribe[E <: KompicsEvent](handler: JHandler[E]): Unit = {
 		original.doSubscribe(handler);
 	}
 	
@@ -90,7 +89,7 @@ class NegativeWrapper[P <: PortType](original:PortCore[P]) extends NegativePort[
 		original.enqueue(event);
 	}
 	
-	override def  uponEvent(handler: (KompicsEvent) => () => Unit): Unit = {
+	override def uponEvent(handler: Handler): Handler = {
 		throw new ConfigurationException("Can't use closure based handlers on non ScalaPort");
 	}
 	
@@ -109,7 +108,7 @@ class NegativeWrapper[P <: PortType](original:PortCore[P]) extends NegativePort[
                 val channel = Channel.TWO_WAY.connect(pos, original);
                 return channel;
             }
-			case _ => throw new ClassCastException()
+			case _ => throw new ClassCastException(s"Can't convert ${positivePort.getClass} to PortCore!");
 		}
 	}
 	

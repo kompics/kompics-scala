@@ -1,26 +1,27 @@
 /**
- * This file is part of the Kompics component model runtime.
- * 
- * Copyright (C) 2009 Swedish Institute of Computer Science (SICS)
- * Copyright (C) 2009 Royal Institute of Technology (KTH)
- *
- * Kompics is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- */
-package se.sics.kompics.scala
+  * This file is part of the Kompics component model runtime.
+  *
+  * Copyright (C) 2009 Swedish Institute of Computer Science (SICS)
+  * Copyright (C) 2009 Royal Institute of Technology (KTH)
+  *
+  * Kompics is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU General Public License
+  * as published by the Free Software Foundation; either version 2
+  * of the License, or (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program; if not, write to the Free Software
+  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+  */
+package se.sics.kompics.sl
 
 import org.scalatest._
+
 import concurrent.AsyncAssertions
 import se.sics.kompics.KompicsEvent
 import se.sics.kompics.Component
@@ -42,7 +43,7 @@ object KompicsUnitSuite {
 
     class SetupDefinition(init: Init[SetupDefinition]) extends ComponentDefinition {
 
-        private val (conf, checker) = init match { case Init(conf: Conf, checker: EventChecker) => (conf, checker) };
+        private val (conf, checker) = init match { case Init(conf: Conf @unchecked, checker: EventChecker @unchecked) => (conf, checker) };
 
         def child[T <: se.sics.kompics.ComponentDefinition](definition: Class[T]): Component = child(definition, None, None);
         def child[T <: se.sics.kompics.ComponentDefinition](definition: Class[T], initEvent: Option[se.sics.kompics.Init[T]]): Component = child(definition, initEvent, None);
@@ -68,6 +69,7 @@ object KompicsUnitSuite {
 abstract class KompicsUnitSuite extends FunSuite with Matchers with AsyncAssertions {
 
     import KompicsUnitSuite._
+
     import org.scalatest.exceptions.NotAllowedException
     import org.scalatest.exceptions.TestFailedException
     import org.scalatest.concurrent.PatienceConfiguration._
