@@ -29,11 +29,12 @@ parallelExecution in Test := false
 //assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeScala = false)
 
 publishMavenStyle := true
-
+//credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
 publishTo <<= version { (v: String) =>
 	val kompics = "kompics.i.sics.se";
+	val keyFile = Path.userHome / ".ssh" / "id_rsa";
 	if (v.trim.endsWith("SNAPSHOT"))
-		Some(Resolver.sftp("SICS Snapshot Repository", "kompics.i.sics.se", "/home/maven/snapshotrepository"))
+		Some(Resolver.sftp("SICS Snapshot Repository", kompics, "/home/maven/snapshotrepository") as("root", keyFile))
 	else
-		Some(Resolver.sftp("SICS Release Repository", "kompics.i.sics.se", "/home/maven/repository"))
+		Some(Resolver.sftp("SICS Release Repository", kompics, "/home/maven/repository") as("root", keyFile))
 }
