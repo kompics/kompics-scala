@@ -136,4 +136,12 @@ abstract class ComponentDefinition extends se.sics.kompics.ComponentDefinition(c
 			case _ => throw new ClassCastException;
 		}
 	}
+	
+	private var configMemo: Option[Config] = None;
+	protected def cfg: Config = {
+	    configMemo match {
+	        case Some(c) => c
+	        case None => configMemo = Some(Config.jconf2SConf(config)); configMemo.get
+	    }
+	}
 }

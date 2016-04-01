@@ -42,7 +42,7 @@ import se.sics.kompics.Fault
 import se.sics.kompics.SpinlockQueue
 import se.sics.kompics.Kompics
 import se.sics.kompics.KompicsEvent
-import se.sics.kompics.config.Config
+import se.sics.kompics.config.{Config => JConfig}
 import se.sics.kompics.config.ConfigUpdate
 import se.sics.kompics.config.ValueMerger
 import se.sics.kompics.Update
@@ -79,7 +79,7 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
             Kompics.getConfig().copy(component.separateConfigId());
         }
         if (ComponentCore.childUpdate.get() != null) {
-            val ci = conf.asInstanceOf[Config.Impl];
+            val ci = conf.asInstanceOf[JConfig.Impl];
             ci.apply(ComponentCore.childUpdate.get(), ValueMerger.NONE);
             ComponentCore.childUpdate.set(null);
         }
@@ -366,11 +366,11 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
                     Kompics.logger.info("Fault {} was resolved by user.", f);
                 case IGNORE =>
                     Kompics.logger.info("Fault {} was declared to be ignored by user. Resuming component...", f);
-                    markSubtreeAtAs(f.getSourceCore.asInstanceOf[ComponentCore], State.PASSIVE);
+                    markSubtreeAtAs(f.getSource.getComponentCore, State.PASSIVE);
                     f.getSourceCore.control().doTrigger(Start.event, wid, this);
                 case DESTROY =>
                     Kompics.logger.info("User declared that Fault {} should destroy component tree...", f);
-                    destroyTreeAtParentOf(f.getSource.asInstanceOf[ComponentCore]);
+                    destroyTreeAtParentOf(f.getSource.getComponentCore);
                     Kompics.logger.info("finished destroying the subtree.");
                 case _ =>
                     escalateFault(f);
@@ -378,7 +378,7 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
         }
     }
 
-    private def confImpl = conf.asInstanceOf[Config.Impl];
+    private def confImpl = conf.asInstanceOf[JConfig.Impl];
 
     private var childrenMemo: Option[Seq[ComponentCore]] = None;
     private def childrenS = childrenMemo match {
@@ -494,10 +494,14 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
 
     private val activeSet = scala.collection.mutable.HashSet.empty[Component];
 
-    protected[kompics] def setInactive(child: Component) {
-        activeSet.remove(child);
-    }
+//    override protected[kompics] def setInactive(child: Component) {
+//        activeSet.remove(child);
+//    }
 
+    override protected[kompics] def setInactive(child: se.sics.kompics.Component): Unit = {
+        
+    }
+    
     val handleLifecycle = handler {
         case _: Start => () => {
             if (state != State.PASSIVE) {

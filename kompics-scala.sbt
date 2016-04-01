@@ -9,8 +9,8 @@ scalaVersion := "2.11.8"
 scalacOptions ++= Seq("-deprecation","-feature")
 
 
-resolvers += Resolver.mavenLocal
-
+//resolvers += Resolver.mavenLocal
+//resolvers += "Local Maven Repository" at "file:///" + Path.userHome.absolutePath + "/.m2/repository"
 resolvers += "Kompics Releases" at "http://kompics.sics.se/maven/repository/"
 resolvers += "Kompics Snapshots" at "http://kompics.sics.se/maven/snapshotrepository/"
 

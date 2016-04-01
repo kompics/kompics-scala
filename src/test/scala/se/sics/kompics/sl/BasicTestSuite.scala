@@ -28,7 +28,7 @@ import se.sics.kompics.Kompics
 class BasicTestSuite extends KompicsUnitSuite {
 
     import KompicsUnitSuite._
-    import ScalaComponent._
+    //import ScalaComponent._
 
     test("Component should be instantiated") {
         val (cd, init) = setup({ cd =>

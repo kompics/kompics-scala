@@ -51,6 +51,7 @@ class FaultTestSuite extends KompicsUnitSuite {
                 case fault: Fault => fault.getCause shouldBe a[TestError]
             }
         }
+        ew.await();
     }
 
     test("Faults should escalated by default") {
@@ -62,24 +63,29 @@ class FaultTestSuite extends KompicsUnitSuite {
         ew { event =>
             event shouldBe a[se.sics.kompics.Start]
         }
-        ew { event =>
-            event shouldBe a[Fault]
-            event match {
-                case fault: Fault => fault.getCause shouldBe a[TestError]
+        for (i <- 1 to 2) {
+            ew { event =>
+                event shouldBe a[Fault]
+                event match {
+                    case fault: Fault => fault.getCause shouldBe a[TestError]
+                }
             }
         }
+        ew.await();
         Kompics.shutdown();
-    }
-}
-
-class ParentFaulter extends ComponentDefinition {
-    ctrl uponEvent {
-        throw new TestError();
     }
 }
 
 class TestError extends RuntimeException {
 
+}
+
+class ParentFaulter extends ComponentDefinition {
+    ctrl uponEvent {
+        case msg: se.sics.kompics.Start => handle {
+            throw new TestError();
+        }
+    }
 }
 
 class Parent(init: Init[Parent]) extends ComponentDefinition with EventTester {
@@ -109,7 +115,10 @@ class Child(init: Init[Child]) extends ComponentDefinition with EventTester {
 
     val child = create(classOf[GrandChild], Init[GrandChild](checker))
 
-    override def handleFault(fault: Fault) = ResolveAction.ESCALATE;
+    override def handleFault(fault: Fault) = {
+        check(fault);
+        ResolveAction.ESCALATE;
+    }
 }
 
 class GrandChild(init: Init[GrandChild]) extends ComponentDefinition with EventTester {
