@@ -10,11 +10,8 @@ scalacOptions ++= Seq("-deprecation","-feature")
 
 
 //resolvers += Resolver.mavenLocal
-//resolvers += "Local Maven Repository" at "file:///" + Path.userHome.absolutePath + "/.m2/repository"
 resolvers += "Kompics Releases" at "http://kompics.sics.se/maven/repository/"
 resolvers += "Kompics Snapshots" at "http://kompics.sics.se/maven/snapshotrepository/"
-
-//resolvers := Resolver.mavenLocal +: resolvers.value
 
 libraryDependencies += "se.sics.kompics" % "kompics-core" % "0.9.2-SNAPSHOT"
 libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value
@@ -23,10 +20,6 @@ libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.6" % "test"
 libraryDependencies += "ch.qos.logback" % "logback-classic" % "0.9.28" % "test"
 
 parallelExecution in Test := false
-
-//mainClass in assembly := Some("se.kth.climate.fast.dtr.DTR")
-
-//assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeScala = false)
 
 publishMavenStyle := true
 //credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
