@@ -84,7 +84,8 @@ package object sl {
     }
 
     def asJavaClass[T](te: Type): Class[T] = {
-        val mirror = runtimeMirror(getClass.getClassLoader)
+        //val mirror = runtimeMirror(getClass.getClassLoader)
+        val mirror = runtimeMirror(Thread.currentThread().getContextClassLoader())
         return mirror.runtimeClass(te.typeSymbol.asClass).asInstanceOf[Class[T]]
     }
 }
