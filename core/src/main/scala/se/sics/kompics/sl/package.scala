@@ -21,6 +21,7 @@
 package se.sics.kompics
 
 import scala.reflect.runtime.universe._
+import scala.language.implicitConversions
 
 package object sl {
     
@@ -35,11 +36,41 @@ package object sl {
         matcher
     }
 
-    def `!connect`[P <: PortType](t: Tuple2[PositivePort[P], NegativePort[P]]): Channel[P] = {
+    case class PortAndPort[P <: PortType](pos: PositivePort[P], neg: NegativePort[P])
+    case class PortAndComponent[P <: PortType](pos: PositivePort[P], negC: Component)
+    case class ComponentAndPort[P <: PortType](posC: Component, neg: NegativePort[P])
+    
+    implicit def tuple2pnp[P <: PortType](t: Tuple2[PositivePort[P], NegativePort[P]]) = PortAndPort(t._1, t._2);
+    implicit def tuple2pnc[P <: PortType](t: Tuple2[PositivePort[P], Component]) = PortAndComponent(t._1, t._2);
+    implicit def tuple2cnp[P <: PortType](t: Tuple2[Component, NegativePort[P]]) = ComponentAndPort(t._1, t._2);
+    
+    
+    
+    def `!connect`[P <: PortType](t: PortAndPort[P]): Channel[P] = {
         t match {
-            case (pos: PortCore[P], neg: PortCore[P]) =>
+            case PortAndPort(pos: PortCore[P], neg: PortCore[P]) =>
                 Channel.TWO_WAY.connect(pos, neg);
-            case _ => throw new ClassCastException(s"Can't convert (${t._1.getClass}, ${t._2.getClass}) to (PortCore, PortCore)!");
+            case _ => throw new ClassCastException(s"Can't convert (${t.pos.getClass}, ${t.neg.getClass}) to (PortCore, PortCore)!");
+        }
+    }
+    
+    def `!connect`[P <: PortType](t: PortAndComponent[P]): Channel[P] = {
+        t match {
+            case PortAndComponent(pos: PortCore[P], negC) =>
+                val javaPortType = pos.getPortType.getClass;
+                val neg = negC.required(javaPortType);
+                Channel.TWO_WAY.connect(pos, neg.asInstanceOf[PortCore[P]]);
+            case _ => throw new ClassCastException(s"Can't convert (${t.pos.getClass}, ${t.negC.getClass}) to (PortCore, Component)!");
+        }
+    }
+    
+    def `!connect`[P <: PortType](t:ComponentAndPort[P]): Channel[P] = {   
+        t match {
+            case ComponentAndPort(posC, neg: PortCore[P]) =>
+                val javaPortType = neg.getPortType.getClass;
+                val pos = posC.provided(javaPortType);
+                Channel.TWO_WAY.connect(pos.asInstanceOf[PortCore[P]], neg);
+            case _ => throw new ClassCastException(s"Can't convert (${t.posC.getClass}, ${t.neg.getClass}) to (Component, PortCore)!");
         }
     }
 

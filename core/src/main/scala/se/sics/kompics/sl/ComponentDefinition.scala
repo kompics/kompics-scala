@@ -113,6 +113,12 @@ abstract class ComponentDefinition extends se.sics.kompics.ComponentDefinition(c
 	
 	protected def connect[P <: PortType: TypeTag](t: Tuple2[Component, Component]): Channel[P] = `!connect`[P](t)
 	
+	protected def connect[P <: PortType](t: PortAndComponent[P]): Channel[P] = `!connect`(t)
+	
+	protected def connect[P <: PortType](t: ComponentAndPort[P]): Channel[P] = `!connect`(t)
+	
+	protected def connect[P <: PortType](t: PortAndPort[P]): Channel[P] = `!connect`(t)
+	
 	protected def trigger[P <: PortType](t: Tuple2[KompicsEvent, se.sics.kompics.Port[P]]) = `!trigger`(t)(this)
 	
 	protected def subscribe(t: Tuple2[Handler, AnyPort]): Unit = {

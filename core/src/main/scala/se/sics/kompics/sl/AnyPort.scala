@@ -20,10 +20,8 @@
  */
 package se.sics.kompics.sl
 
-/**
- * The <code>Init</code> case class.
- * 
- * @author Lars Kroll {@literal <lkroll@kth.se>}
- * @version $Id: $
- */
-case class Init[T <: ComponentDefinition](params: Any*) extends se.sics.kompics.Init[T]
+import se.sics.kompics.KompicsEvent
+
+trait AnyPort {
+    def uponEvent(handler: Handler): Handler;
+}
