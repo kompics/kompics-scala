@@ -107,8 +107,8 @@ class StochasticProcessChain extends Serializable {
         TimeLink2(time)
     }
 
-    def inParallel(doNext: StochasticProcess): StochasticProcessChain = {
-        chain += (InParallel -> doNext);
+    def inParallel(parallelProcs: StochasticProcess*): StochasticProcessChain = {
+        parallelProcs.foreach(proc => chain += (InParallel -> proc));
         StochasticProcessChain.this
     }
 

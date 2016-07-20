@@ -1,42 +1,34 @@
 package se.sics.kompics.sl.simulator
 
 import scala.reflect.runtime.universe._
-
+import collection.JavaConverters._
 import se.sics.kompics.ComponentDefinition
-import se.sics.kompics.network.{ Network, Address, Header, Msg, Transport };
-import se.sics.kompics.simulator.events.system._
-import se.sics.kompics.simulator.util.GlobalView;
-import se.sics.kompics.simulator.network.identifier.IdentifierExtractor;
-import se.sics.kompics.simulator.network.identifier.impl.SocketIdExtractor;
+import se.sics.kompics.network.{Address, Header, Msg, Network, Transport}
+import se.sics.kompics.simulator.events.system.{ChangeNetworkModelEvent, _}
+import se.sics.kompics.simulator.util.GlobalView
+import se.sics.kompics.simulator.network.identifier.IdentifierExtractor
+import se.sics.kompics.simulator.network.identifier.impl.SocketIdExtractor
+import se.sics.kompics.simulator.network.NetworkModel
+import java.util.HashMap
+
+import collection.mutable._
+import scala.collection.mutable;
 
 object StartNode {
+  
     def apply[C <: ComponentDefinition: TypeTag](addresser: => Address, init: => se.sics.kompics.Init[C]): StartNodeEvent = {
-        new StartNodeEvent() {
+      apply(addresser, init, mutable.Map[String, Any](), s"StartEvent[${se.sics.kompics.sl.asJavaClass[C](typeOf[C]).getName}] <${addresser.toString()}>");
+    }
 
-            val selfAddr = addresser;
-            val componentType = typeOf[C];
-            val javaType = se.sics.kompics.sl.asJavaClass[C](componentType);
-
-            override def getNodeAddress(): Address = {
-                return selfAddr;
-            }
-
-            override def getComponentDefinition(): Class[C] = {
-                return javaType;
-            }
-
-            override def getComponentInit(): se.sics.kompics.Init[C] = {
-                return init;
-            }
-
-            override def toString(): String = {
-                return s"StartEvent[${javaType.getName}] <${selfAddr.toString()}>"
-            }
-
-        }
+    def apply[C <: ComponentDefinition: TypeTag, A <: Any](addresser: => Address, init: => se.sics.kompics.Init[C], conf: Map[String, A]): StartNodeEvent = {
+      apply(addresser, init, conf, s"StartEvent[${se.sics.kompics.sl.asJavaClass[C](typeOf[C]).getName}] <${addresser.toString()}>");
     }
 
     def apply[C <: ComponentDefinition: TypeTag](addresser: => Address, init: => se.sics.kompics.Init[C], stringer: => String): StartNodeEvent = {
+      apply(addresser, init, mutable.Map[String, Any](), stringer);
+    }
+
+    def apply[C <: ComponentDefinition: TypeTag, A <: Any](addresser: => Address, init: => se.sics.kompics.Init[C], conf: Map[String, A],  stringer: => String): StartNodeEvent = {
         new StartNodeEvent() {
 
             val selfAddr = addresser;
@@ -49,6 +41,10 @@ object StartNode {
 
             override def getComponentDefinition(): Class[C] = {
                 return javaType;
+            }
+          
+            override def initConfigUpdate(): java.util.Map[String, Object] = {
+                return conf.mapValues(x => x.asInstanceOf[AnyRef]).asJava;    
             }
 
             override def getComponentInit(): se.sics.kompics.Init[C] = {
@@ -74,6 +70,12 @@ object KillNode {
             }
 
         }
+    }
+}
+
+object ChangeNetwork {
+    def apply(netModel : => NetworkModel): ChangeNetworkModelEvent ={
+        new ChangeNetworkModelEvent(netModel)
     }
 }
 
