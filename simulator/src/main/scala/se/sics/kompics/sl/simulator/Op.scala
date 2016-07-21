@@ -39,6 +39,7 @@ object Op {
         }
     }
 
+
     def apply[E <: KompicsEvent](generator: Unit => E): Operation[E] = new FunctionOperation(generator)
     def apply[E <: KompicsEvent, N <: Number](generator: N => E): Operation1[E, N] = new FunctionOperation1(generator)
     def apply[E <: KompicsEvent, N <: Number, N2 <: Number](generator: (N, N2) => E): Operation2[E, N, N2] = new FunctionOperation2(generator)

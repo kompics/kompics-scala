@@ -23,6 +23,11 @@ project/plugins/project/
 .cache-main
 .cache-tests
 
+# Intellij
+.idea/
+*.iml
+*.iws
+
 # Other
 # src/main/resources/application.conf
 .DS_STORE
