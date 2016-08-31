@@ -174,7 +174,7 @@ class StochasticProcessChain extends Serializable {
 
             private def toJava(sp: se.sics.kompics.sl.simulator.StochasticProcess): StochasticProcess = {
                 new StochasticProcess() {
-                    println(s"Converting SSP to JSP: $sp")
+                    //println(s"Converting SSP to JSP: $sp")
                     eventInterArrivalTime(sp.eventIntegerArrivalTime);
                     for (op <- sp.operations) {
                         generators.add(op);
