@@ -2,18 +2,18 @@ name := "Kompics-Scala"
 
 organization := "se.sics.kompics"
 
-version := "0.9.4-SNAPSHOT"
+version := "1.0.0-SNAPSHOT"
 
 scalaVersion := "2.11.8"
 
 scalacOptions ++= Seq("-deprecation","-feature")
 
 
-//resolvers += Resolver.mavenLocal
+resolvers += Resolver.mavenLocal
 resolvers += "Kompics Releases" at "http://kompics.sics.se/maven/repository/"
 resolvers += "Kompics Snapshots" at "http://kompics.sics.se/maven/snapshotrepository/"
 
-libraryDependencies += "se.sics.kompics" % "kompics-core" % "0.9.4-SNAPSHOT"
+libraryDependencies += "se.sics.kompics" % "kompics-core" % version.value
 libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value
 libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.3"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.3" % "test"
