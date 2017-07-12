@@ -61,7 +61,7 @@ class BasicTestSuite extends FunSuite with Matchers {
 
 }
 
-object SimpleSimulation {
+case object SimpleSimulation {
     
     import Distributions._
     // needed for the distributions, but needs to be initialised after setting the seed
