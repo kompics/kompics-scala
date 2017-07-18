@@ -26,10 +26,10 @@ parallelExecution in Test := false
 
 publishMavenStyle := true
 //credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
-publishTo <<= version { (v: String) =>
+publishTo := {
 	val kompics = "kompics.i.sics.se"
 	val keyFile = Path.userHome / ".ssh" / "id_rsa"
-	if (v.trim.endsWith("SNAPSHOT"))
+	if (version.value.trim.endsWith("SNAPSHOT"))
 		Some(Resolver.sftp("SICS Snapshot Repository", kompics, "/home/maven/snapshotrepository") as("root", keyFile))
 	else
 		Some(Resolver.sftp("SICS Release Repository", kompics, "/home/maven/repository") as("root", keyFile))

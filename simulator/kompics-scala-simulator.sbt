@@ -2,7 +2,7 @@ name := "Kompics-Scala-Simulator"
 
 organization := "se.sics.kompics"
 
-version := "0.9.2-SNAPSHOT"
+version := "1.0.0-SNAPSHOT"
 
 scalaVersion := "2.12.2"
 
@@ -15,8 +15,8 @@ resolvers += Resolver.mavenLocal
 resolvers += "Kompics Releases" at "http://kompics.sics.se/maven/repository/"
 resolvers += "Kompics Snapshots" at "http://kompics.sics.se/maven/snapshotrepository/"
 
-libraryDependencies += "se.sics.kompics" %% "kompics-scala" % "0.9.2-SNAPSHOT"
-libraryDependencies += "se.sics.kompics.simulator" % "core" % "0.9.2-SNAPSHOT"
+libraryDependencies += "se.sics.kompics" %% "kompics-scala" % version.value
+libraryDependencies += "se.sics.kompics.simulator" % "core" % version.value
 libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value
 libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.3"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.3" % "test"
@@ -27,11 +27,11 @@ parallelExecution in Test := false
 
 publishMavenStyle := true
 //credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
-publishTo <<= version { (v: String) =>
-	val kompics = "kompics.i.sics.se"
-	val keyFile = Path.userHome / ".ssh" / "id_rsa"
-	if (v.trim.endsWith("SNAPSHOT"))
-		Some(Resolver.sftp("SICS Snapshot Repository", kompics, "/home/maven/snapshotrepository") as("root", keyFile))
-	else
-		Some(Resolver.sftp("SICS Release Repository", kompics, "/home/maven/repository") as("root", keyFile))
+publishTo := {
+  val kompics = "kompics.i.sics.se"
+  val keyFile = Path.userHome / ".ssh" / "id_rsa"
+  if (version.value.trim.endsWith("SNAPSHOT"))
+    Some(Resolver.sftp("SICS Snapshot Repository", kompics, "/home/maven/snapshotrepository") as("root", keyFile))
+  else
+    Some(Resolver.sftp("SICS Release Repository", kompics, "/home/maven/repository") as("root", keyFile))
 }
