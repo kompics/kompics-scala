@@ -22,19 +22,10 @@ package se.sics.kompics.sl
 
 import scala.reflect.runtime.universe._
 
-import se.sics.kompics.PortType
-import se.sics.kompics.Positive
-import se.sics.kompics.Negative
-import se.sics.kompics.PortCore
-import se.sics.kompics.ControlPort
-import se.sics.kompics.Fault
-import se.sics.kompics.ConfigurationException
-import se.sics.kompics.{ Handler => JHandler }
-import se.sics.kompics.ComponentCore
-import se.sics.kompics.Component
-import se.sics.kompics.Channel
-import se.sics.kompics.LoopbackPort
-import se.sics.kompics.KompicsEvent
+import se.sics.kompics.{ PortType, Positive, Negative, PortCore, ControlPort, Fault }
+import se.sics.kompics.{ ComponentCore, Channel, LoopbackPort, KompicsEvent, Component }
+import se.sics.kompics.{ Handler => JHandler, ComponentDefinition => JCD, Init => JInit }
+import se.sics.kompics.config.ConfigUpdate
 import org.slf4j.{ Logger, MDC };
 
 /**
@@ -108,6 +99,21 @@ abstract class ComponentDefinition extends se.sics.kompics.ComponentDefinition(c
       case sc: ScalaPort[P @unchecked] => return sc
       case _                           => throw new ClassCastException(s"Can't cast ${oldport.getClass} to ScalaPort!")
     }
+  }
+
+  protected def create[C <: JCD: TypeTag]: Component = {
+    val javaCType = asJavaClass[C](typeOf[C]);
+    super.create(javaCType, Init.NONE)
+  }
+
+  protected def create[C <: JCD: TypeTag](init: JInit[C]): Component = {
+    val javaCType = asJavaClass[C](typeOf[C]);
+    super.create(javaCType, init)
+  }
+
+  protected def create[C <: JCD: TypeTag](init: JInit[C], update: ConfigUpdate): Component = {
+    val javaCType = asJavaClass[C](typeOf[C]);
+    super.create(javaCType, init, update)
   }
 
   protected def connect[P <: PortType](portType: P)(t: Tuple2[Component, Component]): Channel[P] = `!connect`[P](portType)(t)
