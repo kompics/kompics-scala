@@ -234,8 +234,8 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
     this.wid = wid;
 
     // 1. pick a port with a non-empty handler queue
-    // 2. execute the first handler
-    // 3. make component ready
+    // 2. execute all first handler
+    // 3. repeat or reschedule
 
     var count = 0;
     var wc = workCount.get();
@@ -253,21 +253,17 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
             previousState = state;
             MDC.put(JCD.MDC_KEY_CSTATE, state.name());
           }
-          var event: KompicsEvent = null;
+          var eventHandlers: (KompicsEvent, Seq[MatchedHandler]) = null;
           var nextPort: ScalaPort[_] = null;
           if ((state == State.PASSIVE) || (state == State.STARTING)) {
-            event = negativeControl.pickFirstEvent();
+            eventHandlers = negativeControl.pollPreparedHandlers();
             nextPort = negativeControl;
 
-            if (event == null) {
+            if (eventHandlers == null) {
               logger.debug("Not scheduling component.");
               // try again
               if (wc > 0) {
-                if (scheduler == null) {
-                  scheduler = Kompics.getScheduler();
-                }
-                //logger.trace("Rescheduling {} due to waiting events on passive component", this);
-                scheduler.schedule(this, wid);
+                schedule(wid);
               }
               return ; // Don't run anything else
             }
@@ -282,17 +278,17 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
               }
               case x => throw new RuntimeException("Incompatible port type: " + x)
             }
-            event = nextPort.pickFirstEvent();
+            eventHandlers = nextPort.pollPreparedHandlers();
           }
 
-          if (event == null) {
+          if (eventHandlers == null) {
             logger.debug("Couldn't find event to schedule: wc={}", wc);
             wc = workCount.decrementAndGet();
             count += 1;
             break
           }
 
-          val handlers = nextPort.pollPreparedHandlers(event);
+          val (event, handlers) = eventHandlers;
 
           if (handlers != null) {
             breakable {
@@ -313,10 +309,7 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
     }
 
     if (wc > 0) {
-      if (scheduler == null)
-        scheduler = Kompics.getScheduler();
-      //logger.trace("Rescheduling {} due to remaining work", this);
-      scheduler.schedule(this, wid);
+      schedule(wid);
     }
   }
 

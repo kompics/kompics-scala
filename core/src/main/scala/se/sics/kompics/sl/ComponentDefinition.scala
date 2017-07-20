@@ -22,7 +22,7 @@ package se.sics.kompics.sl
 
 import scala.reflect.runtime.universe._
 
-import se.sics.kompics.{ PortType, Positive, Negative, PortCore, ControlPort, Fault }
+import se.sics.kompics.{ PortType, Positive, Negative, PortCore, ControlPort, Fault, ConfigurationException }
 import se.sics.kompics.{ ComponentCore, Channel, LoopbackPort, KompicsEvent, Component }
 import se.sics.kompics.{ Handler => JHandler, ComponentDefinition => JCD, Init => JInit }
 import se.sics.kompics.config.ConfigUpdate
@@ -131,6 +131,13 @@ abstract class ComponentDefinition extends se.sics.kompics.ComponentDefinition(c
   protected def subscribe(t: Tuple2[Handler, AnyPort]): Unit = {
     t match {
       case (h, p) => p uponEvent h
+    }
+  }
+
+  protected def unsubscribe(h: Handler, p: AnyPort): Unit = {
+    p match {
+      case sp: ScalaPort[_] => sp.doUnsubscribe(h);
+      case _                => throw new ConfigurationException("Could not unsubscribe handler from non-ScalaPort!");
     }
   }
 
