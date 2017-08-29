@@ -27,6 +27,7 @@ package object sl {
     
     type MatchedHandler = () => Unit;
     type Handler = KompicsEvent => MatchedHandler;
+    type DirectHandler = PartialFunction[KompicsEvent, Unit];
 
     def handle(handler: => Unit): MatchedHandler = {
         handler _;
@@ -34,6 +35,10 @@ package object sl {
 
     def handler(matcher: Handler): Handler = {
         matcher
+    }
+    
+    def dhandler(matcher: DirectHandler): DirectHandler = {
+      matcher
     }
 
     case class PortAndPort[P <: PortType](pos: PositivePort[P], neg: NegativePort[P])

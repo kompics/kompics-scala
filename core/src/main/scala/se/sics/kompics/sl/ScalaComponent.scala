@@ -292,6 +292,11 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
 
           if (handlers != null) {
             breakable {
+              nextPort.getMatchingDirectHandlers(event) foreach { handler =>
+                if (executeHandler(event, handler)) {
+                  break
+                }
+              }
               handlers foreach { handler =>
                 if (executeHandler(event, handler)) {
                   break
@@ -317,6 +322,20 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
     try {
       //Kompics.logger.trace("Executing handler for event {}", event);
       handler();
+      return false;
+    } catch {
+      case ex: Throwable =>
+        logger.error("Handling an event caused a fault! Might be handled later...", ex);
+        markSubtreeAs(State.FAULTY);
+        escalateFault(new Fault(ex, this, event));
+        return true; // state changed
+    }
+  }
+
+  private def executeHandler(event: KompicsEvent, handler: DirectHandler): Boolean = {
+    try {
+      //Kompics.logger.trace("Executing handler for event {}", event);
+      handler(event);
       return false;
     } catch {
       case ex: Throwable =>
@@ -368,8 +387,8 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
     }
   }
 
-  val handleFault = handler {
-    case f: Fault => () => {
+  val handleFault = dhandler {
+    case f: Fault => {
       val ra = component.handleFault(f);
       import ResolveAction._
       ra match {
@@ -397,9 +416,9 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
     case None    => childrenMemo = Some(children.asScala); childrenMemo.get
   }
 
-  val configHandler = handler {
+  val configHandler = dhandler {
 
-    case event: Update => () => {
+    case event: Update => {
       val action = component.handleUpdate(event.update);
       import UpdateAction.Propagation._
       action.selfStrategy match {
@@ -511,8 +530,8 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
 
   }
 
-  val handleLifecycle = handler {
-    case _: Start => () => {
+  val handleLifecycle = dhandler {
+    case _: Start => {
       if (state != State.PASSIVE) {
         throw new KompicsException(s"$this received a Start event while in $state state. "
           + "Duplicate Start events are not allowed!");
@@ -540,7 +559,7 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
         childrenLock.readLock().unlock();
       }
     }
-    case event: Started => () => {
+    case event: Started => {
       logger.debug("Got Started event from {}", event.component);
       activeSet.add(event.component);
       logger.debug("Active set has {} members", activeSet.size);
@@ -557,7 +576,7 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
         childrenLock.readLock().unlock();
       }
     }
-    case _: Stop => () => {
+    case _: Stop => {
       if (state != Component.State.ACTIVE) {
         throw new KompicsException(s"$this received a Stop event while in $state state. "
           + "Duplicate Stop events are not allowed!");
@@ -594,7 +613,7 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
         childrenLock.readLock().unlock();
       }
     }
-    case event: Stopped => () => {
+    case event: Stopped => {
       logger.debug("Got Stopped event from {}", event.component);
       activeSet -= event.component;
       logger.debug(s"Active set has {} members", activeSet.size);
@@ -612,7 +631,7 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
         }
       }
     }
-    case _: Kill => () => {
+    case _: Kill => {
       if (state != Component.State.ACTIVE) {
         throw new KompicsException(s"$this received a Kill event while in $state state. "
           + "Duplicate Kill events are not allowed!");
@@ -652,7 +671,7 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
         childrenLock.readLock().unlock();
       }
     }
-    case event: Killed => () => {
+    case event: Killed => {
       logger.debug("Got Killed event from {}", event.component);
 
       activeSet -= event.component;

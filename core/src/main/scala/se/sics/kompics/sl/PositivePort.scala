@@ -110,6 +110,10 @@ class PositiveWrapper[P <: PortType](original: PortCore[P]) extends PositivePort
     throw new ConfigurationException("Can't use closure based handlers on non ScalaPort");
   }
 
+  override def uponEventDo(handler: DirectHandler): DirectHandler = {
+    throw new ConfigurationException("Can't use closure based handlers on non ScalaPort");
+  }
+
   def --(component: Component): Channel[P] = {
     val negativePort: Negative[_ <: P] = component.getNegative(original.getPortType().getClass());
     negativePort match {

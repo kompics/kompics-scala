@@ -62,6 +62,7 @@ class ScalaPort[P <: PortType](positive: Boolean, pType: P, parent: ComponentCor
 
   private var pair: ScalaPort[P] = null;
   private var subs = Array.empty[Handler];
+  private var dsubs = Array.empty[DirectHandler];
   //private val preparedHandlers = scala.collection.mutable.HashMap.empty[KompicsEvent, Seq[MatchedHandler]];
   private val preparedHandlers = new java.util.concurrent.ConcurrentLinkedQueue[Tuple2[KompicsEvent, Seq[MatchedHandler]]]();
   private val normalChannels = scala.collection.mutable.ListBuffer.empty[ChannelCore[P]];
@@ -153,6 +154,19 @@ class ScalaPort[P <: PortType](positive: Boolean, pType: P, parent: ComponentCor
     }
   }
 
+  protected[kompics] def doSubscribe(handler: DirectHandler): Unit = {
+    rwLock.writeLock().lock();
+    try {
+      // Don't care about update performance...only iteration matters
+      val newSubs = new Array[DirectHandler](dsubs.length + 1);
+      System.arraycopy(dsubs, 0, newSubs, 0, dsubs.length);
+      newSubs(dsubs.length) = handler;
+      dsubs = newSubs;
+    } finally {
+      rwLock.writeLock().unlock();
+    }
+  }
+
   protected[kompics] def doUnsubscribe(handler: Handler): Unit = {
     rwLock.writeLock().lock();
     try {
@@ -190,7 +204,48 @@ class ScalaPort[P <: PortType](positive: Boolean, pType: P, parent: ComponentCor
     }
   }
 
-  def uponEvent(handler: Handler): Handler = { doSubscribe(handler); return handler; }
+  protected[kompics] def doUnsubscribe(handler: DirectHandler): Unit = {
+    rwLock.writeLock().lock();
+    try {
+      // Don't care about update performance...only iteration matters
+      if (dsubs.length > 1) {
+        val newSubs = new Array[DirectHandler](dsubs.length - 1);
+        //System.arraycopy(subs, 0, newSubs, 0, subs.length);
+        var found = false;
+        var (i, j) = (0, 0);
+        while (i < subs.length) {
+          if (dsubs(i) eq handler) {
+            found = true;
+          } else {
+            newSubs(j) = dsubs(i);
+            j += 1;
+          }
+          i += 1;
+        }
+        if (found) {
+          dsubs = newSubs;
+        } else {
+          throw new RuntimeException(s"Handler ${handler} is not subscribed to this port ${this}");
+        }
+      } else if (dsubs.length == 1) {
+        if (dsubs(0) eq handler) {
+          dsubs = Array.empty[DirectHandler];
+        } else {
+          throw new RuntimeException(s"Handler ${handler} is not subscribed to this port ${this}");
+        }
+      } else {
+        throw new RuntimeException("Handler ${handler} could not be unsubscribed as no handler is currently subscribed to this port ${this}");
+      }
+    } finally {
+      rwLock.writeLock().unlock();
+    }
+  }
+
+  override def uponEvent(handler: Handler): Handler = { doSubscribe(handler); return handler; }
+
+  override def uponEventDo(handler: DirectHandler): DirectHandler = {
+    doSubscribe(handler); return handler;
+  }
 
   private def getMatchingHandlers(event: KompicsEvent): Seq[MatchedHandler] = {
     // This has supposedly the fastest construction for unkown size collections: http://www.lihaoyi.com/post/BenchmarkingScalaCollections.html#construction-performance
@@ -207,6 +262,25 @@ class ScalaPort[P <: PortType](positive: Boolean, pType: P, parent: ComponentCor
       i += 1;
     }
     return matching;
+  }
+
+  private[sl] def getMatchingDirectHandlers(event: KompicsEvent): Seq[DirectHandler] = {
+    rwLock.readLock().lock();
+    try {
+      var matching = List.empty[DirectHandler];
+      val l = dsubs.length;
+      var i = 0;
+      while (i < l) {
+        val handler = dsubs(i);
+        if (handler.isDefinedAt(event)) {
+          matching = handler :: matching;
+        }
+        i += 1;
+      }
+      return matching;
+    } finally {
+      rwLock.readLock().unlock();
+    }
   }
 
   //  protected[kompics] def pickFirstEvent(): KompicsEvent = {
@@ -342,6 +416,14 @@ class ScalaPort[P <: PortType](positive: Boolean, pType: P, parent: ComponentCor
         preparedHandlers.offer((event -> handlers));
         owner.eventReceived(this, event, wid);
         return true;
+      } else {
+        for (h <- dsubs) {
+          if (h.isDefinedAt(event)) {
+            preparedHandlers.offer((event -> Seq.empty[MatchedHandler]));
+            owner.eventReceived(this, event, wid);
+            return true;
+          }
+        }
       }
     }
     return false;

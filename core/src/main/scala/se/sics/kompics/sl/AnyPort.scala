@@ -1,6 +1,6 @@
 /**
  * This file is part of the Kompics component model runtime.
- * 
+ *
  * Copyright (C) 2009 Swedish Institute of Computer Science (SICS)
  * Copyright (C) 2009 Royal Institute of Technology (KTH)
  *
@@ -23,5 +23,6 @@ package se.sics.kompics.sl
 import se.sics.kompics.KompicsEvent
 
 trait AnyPort {
-    def uponEvent(handler: Handler): Handler;
+  def uponEvent(handler: Handler): Handler;
+  def uponEventDo(handler: DirectHandler): DirectHandler;
 }
