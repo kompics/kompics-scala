@@ -5,9 +5,9 @@ organization := "se.sics.kompics"
 
 version := "1.0.0-SNAPSHOT"
 
-scalaVersion := "2.12.2"
+scalaVersion := "2.12.4"
 
-crossScalaVersions := Seq("2.11.11", "2.12.2")
+crossScalaVersions := Seq("2.11.11", "2.12.4")
 
 scalacOptions ++= Seq("-deprecation","-feature")
 
@@ -16,7 +16,7 @@ resolvers += Resolver.mavenLocal
 resolvers += "Kompics Releases" at "http://kompics.sics.se/maven/repository/"
 resolvers += "Kompics Snapshots" at "http://kompics.sics.se/maven/snapshotrepository/"
 
-libraryDependencies += "se.sics.kompics" % "kompics-core" % version.value
+libraryDependencies += "se.sics.kompics" % "kompics-core" % "1.0.+"
 libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value
 libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.3"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.3" % "test"
