@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of the Kompics component model runtime.
  *
  * Copyright (C) 2009 Swedish Institute of Computer Science (SICS)
@@ -58,7 +58,7 @@ import java.lang.reflect.Method
  * @version $Id: $
  */
 class ScalaPort[P <: PortType](positive: Boolean, pType: P, parent: ComponentCore, private val rwLock: ReentrantReadWriteLock)
-    extends PortCore[P] with NegativePort[P] with PositivePort[P] {
+  extends PortCore[P] with NegativePort[P] with PositivePort[P] {
 
   private var pair: ScalaPort[P] = null;
   private var subs = Array.empty[Handler];

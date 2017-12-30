@@ -17,10 +17,11 @@ resolvers += "Kompics Releases" at "http://kompics.sics.se/maven/repository/"
 resolvers += "Kompics Snapshots" at "http://kompics.sics.se/maven/snapshotrepository/"
 
 libraryDependencies += "se.sics.kompics" % "kompics-core" % "1.0.+"
+libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.7.+"
 libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value
-libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.3"
-libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.3" % "test"
-libraryDependencies += "ch.qos.logback" % "logback-classic" % "0.9.28" % "test"
+libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.+"
+libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.+" % "test"
+libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.+" % "test"
 
 parallelExecution in Test := false
 

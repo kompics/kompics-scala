@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of the Kompics component model runtime.
  *
  * Copyright (C) 2009 Swedish Institute of Computer Science (SICS)
@@ -26,7 +26,8 @@ import se.sics.kompics.{ PortType, Positive, Negative, PortCore, ControlPort, Fa
 import se.sics.kompics.{ ComponentCore, Channel, LoopbackPort, KompicsEvent, Component }
 import se.sics.kompics.{ Handler => JHandler, ComponentDefinition => JCD, Init => JInit }
 import se.sics.kompics.config.ConfigUpdate
-import org.slf4j.{ Logger, MDC };
+import org.slf4j.{ Logger => JLogger, MDC };
+import com.typesafe.scalalogging.Logger
 
 /**
  * The <code>ComponentDefinition</code> class.
@@ -149,7 +150,11 @@ abstract class ComponentDefinition extends se.sics.kompics.ComponentDefinition(c
     }
   }
 
-  protected[sl] def log: Logger = this.logger;
+  private var loggerMemo: Option[Logger] = None;
+  protected[sl] def log: Logger = loggerMemo match {
+    case Some(l) => l
+    case None    => loggerMemo = Some(Logger(this.logger)); loggerMemo.get
+  }
   override protected[sl] def setMDC(): Unit = super.setMDC();
   protected def logCtxPut(p: Tuple2[String, String]): Unit = super.loggingCtxPut(p._1, p._2);
   protected def logCtxPutAlways(p: Tuple2[String, String]): Unit = super.loggingCtxPutAlways(p._1, p._2);
@@ -166,10 +171,8 @@ abstract class ComponentDefinition extends se.sics.kompics.ComponentDefinition(c
   }
 
   private var configMemo: Option[Config] = None;
-  protected def cfg: Config = {
-    configMemo match {
-      case Some(c) => c
-      case None    => configMemo = Some(Config.jconf2SConf(config)); configMemo.get
-    }
+  protected def cfg: Config = configMemo match {
+    case Some(c) => c
+    case None    => configMemo = Some(Config.jconf2SConf(config)); configMemo.get
   }
 }

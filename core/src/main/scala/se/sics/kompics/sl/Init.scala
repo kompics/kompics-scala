@@ -1,6 +1,6 @@
-/**
+/*
  * This file is part of the Kompics component model runtime.
- * 
+ *
  * Copyright (C) 2009 Swedish Institute of Computer Science (SICS)
  * Copyright (C) 2009 Royal Institute of Technology (KTH)
  *
@@ -22,12 +22,12 @@ package se.sics.kompics.sl
 
 /**
  * The <code>Init</code> case class.
- * 
+ *
  * @author Lars Kroll {@literal <lkroll@kth.se>}
  * @version $Id: $
  */
 case class Init[T <: ComponentDefinition](params: Any*) extends se.sics.kompics.Init[T]
 
 object Init {
-    val NONE = se.sics.kompics.Init.NONE;
+  val NONE = se.sics.kompics.Init.NONE;
 }

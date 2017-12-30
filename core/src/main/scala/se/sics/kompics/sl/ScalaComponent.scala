@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of the Kompics component model runtime.
  *
  * Copyright (C) 2009 Swedish Institute of Computer Science (SICS)
@@ -72,7 +72,7 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
 
   private val executeNEvents = Kompics.maxNumOfExecutedEvents.get();
 
-  // constructor 
+  // constructor
   setup();
 
   private def setup() {
@@ -203,7 +203,7 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
     positivePorts.values.foreach { port => port.cleanChannels() }
   }
 
-  override protected[kompics] def logger(): Logger = this.component.log;
+  override protected[kompics] def logger(): Logger = this.component.log.underlying;
 
   override def getPositive[P <: PortType](portType: Class[P]): Positive[P] = {
     if (positivePorts.contains(portType)) {
@@ -276,7 +276,7 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
                 count += 1;
                 break;
               }
-              case x => throw new RuntimeException("Incompatible port type: " + x)
+              case x => throw new RuntimeException(s"Incompatible port type: $x")
             }
             eventHandlers = nextPort.pollPreparedHandlers();
           }
