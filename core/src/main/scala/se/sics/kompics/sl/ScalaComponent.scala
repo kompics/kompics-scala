@@ -55,6 +55,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicReference
 import java.util.Objects
 import org.slf4j.{ Logger, MDC };
+import com.google.common.base.Optional;
 
 /**
  * The <code>ScalaComponent</code> class.
@@ -82,22 +83,27 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
     } else {
       Kompics.getConfig().copy(component.separateConfigId());
     }
-    if (ComponentCore.childUpdate.get() != null) {
+    if (ComponentCore.childUpdate.get().isPresent()) {
       val ci = conf.asInstanceOf[JConfig.Impl];
-      ci.apply(ComponentCore.childUpdate.get(), ValueMerger.NONE);
-      ComponentCore.childUpdate.set(null);
+      ci.apply(ComponentCore.childUpdate.get().get(), ValueMerger.NONE);
+      ComponentCore.childUpdate.set(Optional.absent());
     }
     ComponentCore.parentThreadLocal.set(null);
   }
 
-  override def doCreate[T <: se.sics.kompics.ComponentDefinition](definition: Class[T], initEvent: se.sics.kompics.Init[T]): Component = doCreate(definition, initEvent, None)
+  implicit private def optionalToOption[T](o: Optional[T]): Option[T] = if (o.isPresent()) Some(o.get) else None;
 
-  override def doCreate[T <: se.sics.kompics.ComponentDefinition](definition: Class[T], initEvent: se.sics.kompics.Init[T], update: ConfigUpdate): Component = {
-    if (update == null) {
-      doCreate(definition, initEvent, None);
-    } else {
-      doCreate(definition, initEvent, Some(update));
-    }
+  override protected[sl] def doCreate[T <: se.sics.kompics.ComponentDefinition](
+    definition: Class[T],
+    initEvent:  Optional[se.sics.kompics.Init[T]]): Component = {
+    doCreateScala(definition, initEvent, Optional.absent())
+  }
+
+  override protected[sl] def doCreate[T <: se.sics.kompics.ComponentDefinition](
+    definition: Class[T],
+    initEvent:  Optional[se.sics.kompics.Init[T]],
+    update:     Optional[ConfigUpdate]): Component = {
+    doCreateScala(definition, initEvent, update);
   }
 
   //    def doCreate(definition: Class[_ <: se.sics.kompics.ComponentDefinition], initEvent: se.sics.kompics.Init[_]): Component = doCreate(definition, initEvent, None)
@@ -110,15 +116,15 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
   //        }
   //    }
 
-  def doCreate(definition: Class[_ <: se.sics.kompics.ComponentDefinition], initEvent: se.sics.kompics.Init[_], update: Option[ConfigUpdate]): Component = {
+  protected[sl] def doCreateScala[C <: se.sics.kompics.ComponentDefinition](
+    definition: Class[C],
+    initEvent:  Option[se.sics.kompics.Init[C]],
+    update:     Optional[ConfigUpdate]): Component = {
     // create an instance of the implementing component type
     childrenLock.writeLock().lock();
     try {
       ComponentCore.parentThreadLocal.set(this);
-      update match {
-        case Some(u) => ComponentCore.childUpdate.set(u);
-        case None    => ComponentCore.childUpdate.set(null);
-      }
+      ComponentCore.childUpdate.set(update);
 
       val cdi = createInstance(definition, initEvent);
       val childCore = cdi.getComponentCore();
@@ -136,14 +142,19 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
     }
   }
 
-  private def createInstance[T <: se.sics.kompics.ComponentDefinition](definition: Class[T], initEvent: se.sics.kompics.Init[_]): T = {
-    if (initEvent == null) {
-      return definition.newInstance();
+  private def createInstance[T <: se.sics.kompics.ComponentDefinition](
+    definition: Class[T],
+    initEvent:  Option[se.sics.kompics.Init[T]]): T = {
+    initEvent match {
+      case None                               => return definition.newInstance();
+      case Some(_: se.sics.kompics.Init.None) => return definition.newInstance();
+      case Some(init) => {
+        // look for a constructor that takes a single parameter
+        // and is assigment compatible with the given init event
+        val constr = definition.getConstructor(init.getClass);
+        return constr.newInstance(init);
+      }
     }
-    // look for a constructor that takes a single parameter
-    // and is assigment compatible with the given init event
-    val constr = definition.getConstructor(initEvent.getClass);
-    return constr.newInstance(initEvent);
   }
 
   override def createNegativePort[P <: PortType](portType: Class[P]): Negative[P] = {
