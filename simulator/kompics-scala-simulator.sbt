@@ -11,9 +11,10 @@ crossScalaVersions := Seq("2.11.11", "2.12.4")
 scalacOptions ++= Seq("-deprecation","-feature")
 
 
-resolvers += Resolver.mavenLocal
+
 resolvers += "Kompics Releases" at "http://kompics.sics.se/maven/repository/"
 resolvers += "Kompics Snapshots" at "http://kompics.sics.se/maven/snapshotrepository/"
+resolvers += Resolver.mavenLocal
 
 libraryDependencies += "se.sics.kompics" %% "kompics-scala" % "1.0.+"
 libraryDependencies += "se.sics.kompics.simulator" % "core" % "1.0.+"

@@ -50,11 +50,14 @@ class BasicTestSuite extends FunSuite with Matchers {
     val seed = 1234l;
     JSimulationScenario.setSeed(seed);
     SimpleSimulation.scenario.simulate(classOf[LauncherComp]);
+  }
 
-    //customSimulate(classOf[LauncherComp], SimpleSimulation)
-
-    //        InstrumentationHelper.store(SimpleSimulation);
-    //        LauncherComp.main(Array.empty[String]);
+  test("Simulation with result shouldn't fail") {
+    val seed = 1234l;
+    JSimulationScenario.setSeed(seed);
+    SimulationResult += ("test", 1);
+    SimpleSimulation.scenario.simulate(classOf[LauncherComp]);
+    SimulationResult[Int]("test") should be (1);
   }
 
 }
@@ -75,12 +78,12 @@ case object SimpleSimulation {
 
   val startPongerOp = Op { (self: Integer) =>
     val selfAddr = intToAddress(self)
-    StartNode(selfAddr, new Init[PongerParent](selfAddr));
+    StartNode(selfAddr, Init[PongerParent](selfAddr));
   }
   val startPingerOp = Op { (self: Integer, ponger: Integer) =>
     val selfAddr = intToAddress(self);
     val pongerAddr = intToAddress(ponger);
-    StartNode(selfAddr, new Init[PingerParent](selfAddr, pongerAddr));
+    StartNode(selfAddr, Init[PingerParent](selfAddr, pongerAddr));
   }
   val scenario = raise(5, startPongerOp, 1.toN).arrival(constant(1000.millis)) andThen
     1000.millis afterTermination

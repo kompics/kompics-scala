@@ -82,7 +82,7 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
       parent.config().copy(component.separateConfigId());
     } else {
       Kompics.getConfig().copy(component.separateConfigId());
-    }
+    };
     if (ComponentCore.childUpdate.get().isPresent()) {
       val ci = conf.asInstanceOf[JConfig.Impl];
       ci.apply(ComponentCore.childUpdate.get().get(), ValueMerger.NONE);
