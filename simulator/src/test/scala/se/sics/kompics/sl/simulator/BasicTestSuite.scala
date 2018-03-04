@@ -58,6 +58,7 @@ class BasicTestSuite extends FunSuite with Matchers {
     SimulationResult += ("test", 1);
     SimpleSimulation.scenario.simulate(classOf[LauncherComp]);
     SimulationResult[Int]("test") should be (1);
+    SimulationResult[Int]("test2") should be (2);
   }
 
 }
@@ -76,20 +77,41 @@ case object SimpleSimulation {
     }
   }
 
+  val startResultSetterOp = Op { (self: Integer) =>
+    val selfAddr = intToAddress(self);
+    StartNode(selfAddr, Init[ResultSetter](selfAddr))
+  }
   val startPongerOp = Op { (self: Integer) =>
     val selfAddr = intToAddress(self)
-    StartNode(selfAddr, Init[PongerParent](selfAddr));
+    StartNode(selfAddr, Init[PongerParent](selfAddr))
   }
   val startPingerOp = Op { (self: Integer, ponger: Integer) =>
     val selfAddr = intToAddress(self);
     val pongerAddr = intToAddress(ponger);
-    StartNode(selfAddr, Init[PingerParent](selfAddr, pongerAddr));
+    StartNode(selfAddr, Init[PingerParent](selfAddr, pongerAddr))
   }
-  val scenario = raise(5, startPongerOp, 1.toN).arrival(constant(1000.millis)) andThen
-    1000.millis afterTermination
-    raise(5, startPingerOp, 6.toN, 1.toN).arrival(constant(1000.millis)) andThen
-    10000.millis afterTermination
-    Terminate;
+  //  val scenario = raise(5, startPongerOp, 1.toN).arrival(constant(1000.millis)) andThen
+  //    1000.millis afterTermination
+  //    raise(5, startPingerOp, 6.toN, 1.toN).arrival(constant(1000.millis)).inParallel(raise(1, startResultSetterOp, 1.toN).arrival(constant(1000.millis)))
+  //    andThen 10000.millis afterTermination
+  //    Terminate;
+
+  val scenario = raise(5, startPongerOp, 1.toN).arrival(constant(1000.millis)).andThen(1000.millis)
+    .afterTermination(raise(5, startPingerOp, 6.toN, 1.toN).arrival(constant(1000.millis)))
+    .inParallel(raise(1, startResultSetterOp, 1.toN).arrival(constant(1000.millis)))
+    .andThen(10000.millis).afterTermination(Terminate);
+}
+
+class ResultSetter(init: Init[ResultSetter]) extends ComponentDefinition {
+
+  val timer = requires[Timer]; // ignore
+  val net = requires[Network]; // ignore
+
+  ctrl uponEvent {
+    case _: Start => handle {
+      SimulationResult += ("test2", 2);
+    }
+  }
 }
 
 case object Ping extends KompicsEvent
