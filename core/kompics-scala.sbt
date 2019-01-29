@@ -3,11 +3,11 @@ name := "Kompics-Scala"
 organization := "se.sics.kompics"
 
 
-version := "1.0.0"
+version := "1.0.1"
 
-scalaVersion := "2.12.4"
+scalaVersion := "2.12.8"
 
-crossScalaVersions := Seq("2.11.11", "2.12.4")
+crossScalaVersions := Seq("2.11.12", "2.12.8")
 
 scalacOptions ++= Seq("-deprecation","-feature")
 
@@ -17,7 +17,7 @@ resolvers += "Kompics Releases" at "http://kompics.sics.se/maven/repository/"
 resolvers += "Kompics Snapshots" at "http://kompics.sics.se/maven/snapshotrepository/"
 
 libraryDependencies += "se.sics.kompics" % "kompics-core" % "1.0.+"
-libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.7.+"
+libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.9.+"
 libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value
 libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.+"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.+" % "test"

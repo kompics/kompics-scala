@@ -146,8 +146,8 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
     definition: Class[T],
     initEvent:  Option[se.sics.kompics.Init[T]]): T = {
     initEvent match {
-      case None                               => return definition.newInstance();
-      case Some(_: se.sics.kompics.Init.None) => return definition.newInstance();
+      case None                               => return definition.getConstructor().newInstance();
+      case Some(_: se.sics.kompics.Init.None) => return definition.getConstructor().newInstance();
       case Some(init) => {
         // look for a constructor that takes a single parameter
         // and is assigment compatible with the given init event
