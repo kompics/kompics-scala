@@ -7,6 +7,8 @@ See the [documentation](http://kompics.sics.se/current/scala/index.html) for mor
 ### Current Version
 `1.0.0` for Scala 2.11 and 2.12
 
+Note that simulations require jdk8 exactly at this point. See [kompics/kompics-simulator#14](https://github.com/kompics/kompics-simulator/issues/14) for tracking this issue.
+
 #### SBT Dependency
 To add Kompics Scala to your project use:
 ```scala
