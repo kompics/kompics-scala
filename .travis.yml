@@ -9,7 +9,6 @@ jdk:
   - oraclejdk11
   - openjdk8
 
-matrix:
-  include:
-    - script: "cd core; sbt ++$TRAVIS_SCALA_VERSION test"
-    - script: "cd simulator; sbt ++$TRAVIS_SCALA_VERSION test"
+script: 
+  - "cd core; sbt ++$TRAVIS_SCALA_VERSION test"
+  - "cd ../simulator; sbt ++$TRAVIS_SCALA_VERSION test"
