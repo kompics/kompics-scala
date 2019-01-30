@@ -2,6 +2,10 @@ language: scala
 scala:
    - 2.11.12
    - 2.12.8
+os: 
+  - osx
+  - linux
+osx_image: xcode9.3
 dist: trusty
 jdk:
   - oraclejdk8
@@ -9,6 +13,21 @@ jdk:
   - oraclejdk11
   - openjdk8
 
-script: 
-  - "cd core; sbt ++$TRAVIS_SCALA_VERSION test"
-  - "cd ../simulator; sbt ++$TRAVIS_SCALA_VERSION test"
+script:
+  - "cd core"
+  - "sbt ++$TRAVIS_SCALA_VERSION test"
+  - "sbt ++$TRAVIS_SCALA_VERSION publishLocal"
+  - "cd .."
+  - "cd simulator"
+  - "sbt ++$TRAVIS_SCALA_VERSION test"
+
+matrix:
+  exclude:
+    - os: osx
+      jdk: oraclejdk9
+    - os: osx
+      jdk: oraclejdk11
+
+  allow_failures:
+    - jdk: oraclejdk9
+    - jdk: oraclejdk11
