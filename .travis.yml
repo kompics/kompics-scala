@@ -24,6 +24,8 @@ script:
 matrix:
   exclude:
     - os: osx
+      jdk: openjdk8
+    - os: osx
       jdk: oraclejdk9
     - os: osx
       jdk: oraclejdk11
