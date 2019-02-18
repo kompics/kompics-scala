@@ -52,6 +52,7 @@ class FaultTestSuite extends KompicsUnitSuite {
       }
     }
     ew.await();
+    Kompics.waitForTermination();
   }
 
   test("Faults should escalated by default") {
