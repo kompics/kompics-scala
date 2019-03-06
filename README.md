@@ -7,7 +7,7 @@ A Scala DSL for the [Kompics](http://kompics.sics.se/) message-passing component
 See the [documentation](http://kompics.sics.se/current/scala/index.html) for more information.
 
 ### Current Version
-`1.0.1` for Scala 2.11 and 2.12
+`1.0.2` for Scala 2.11 and 2.12
 
 Note that simulations require jdk8 exactly at this point. See [kompics/kompics-simulator#14](https://github.com/kompics/kompics-simulator/issues/14) for tracking this issue.
 
