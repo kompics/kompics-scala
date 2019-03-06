@@ -2,7 +2,7 @@ name := "Kompics-Scala-Simulator"
 
 organization := "se.sics.kompics"
 
-version := "1.0.1"
+version := "1.0.2"
 
 scalaVersion := "2.12.8"
 
