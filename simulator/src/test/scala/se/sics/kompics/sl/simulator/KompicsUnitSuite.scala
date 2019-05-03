@@ -1,35 +1,35 @@
 /**
-  * This file is part of the Kompics component model runtime.
-  *
-  * Copyright (C) 2009 Swedish Institute of Computer Science (SICS)
-  * Copyright (C) 2009 Royal Institute of Technology (KTH)
-  *
-  * Kompics is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU General Public License
-  * as published by the Free Software Foundation; either version 2
-  * of the License, or (at your option) any later version.
-  *
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU General Public License for more details.
-  *
-  * You should have received a copy of the GNU General Public License
-  * along with this program; if not, write to the Free Software
-  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-  */
+ * This file is part of the Kompics component model runtime.
+ *
+ * Copyright (C) 2009 Swedish Institute of Computer Science (SICS)
+ * Copyright (C) 2009 Royal Institute of Technology (KTH)
+ *
+ * Kompics is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
 package se.sics.kompics.sl
 
 import org.scalatest._
 
-import concurrent.AsyncAssertions
+import concurrent.Waiters
 import se.sics.kompics.KompicsEvent
 import se.sics.kompics.Component
 import se.sics.kompics.config.ConfigUpdate
 
 trait EventTester {
   @volatile protected var check: KompicsEvent => Unit = { (msg) =>
-    }
+  }
 
   def registerHandler(f: KompicsEvent => Unit) {
     check = f
@@ -43,7 +43,7 @@ object KompicsUnitSuite {
   type EventChecker = KompicsEvent => Unit;
 
   class SetupDefinition(init: Init[SetupDefinition])
-      extends ComponentDefinition {
+    extends ComponentDefinition {
 
     private val (conf, checker) = init match {
       case Init(conf: Conf @unchecked, checker: EventChecker @unchecked) =>
@@ -51,15 +51,15 @@ object KompicsUnitSuite {
     };
 
     def child[T <: se.sics.kompics.ComponentDefinition](
-        definition: Class[T]): Component = child(definition, None, None);
+      definition: Class[T]): Component = child(definition, None, None);
     def child[T <: se.sics.kompics.ComponentDefinition](
-        definition: Class[T],
-        initEvent: Option[se.sics.kompics.Init[T]]): Component =
+      definition: Class[T],
+      initEvent:  Option[se.sics.kompics.Init[T]]): Component =
       child(definition, initEvent, None);
     def child[T <: se.sics.kompics.ComponentDefinition](
-        definition: Class[T],
-        initEvent: Option[se.sics.kompics.Init[T]],
-        update: Option[ConfigUpdate]): Component = {
+      definition: Class[T],
+      initEvent:  Option[se.sics.kompics.Init[T]],
+      update:     Option[ConfigUpdate]): Component = {
       val c = (initEvent, update) match {
         case (Some(ie), Some(u)) => create(definition, ie, u)
         case (Some(ie), None)    => create(definition, ie)
@@ -79,22 +79,21 @@ object KompicsUnitSuite {
 }
 
 abstract class KompicsUnitSuite
-    extends FunSuite
-    with Matchers
-    with AsyncAssertions {
+  extends FunSuite
+  with Matchers
+  with Waiters {
 
   import KompicsUnitSuite._
 
   import org.scalatest.exceptions.NotAllowedException
   import org.scalatest.exceptions.TestFailedException
   import org.scalatest.concurrent.PatienceConfiguration._
-  import time.{Nanoseconds, Seconds, Span}
+  import time.{ Nanoseconds, Seconds, Span }
 
   override implicit def patienceConfig =
     PatienceConfig(scaled(Span(5, Seconds)))
 
-  def setup(configure: Conf, checker: EventChecker)
-    : Tuple2[Class[SetupDefinition], Init[SetupDefinition]] =
+  def setup(configure: Conf, checker: EventChecker): Tuple2[Class[SetupDefinition], Init[SetupDefinition]] =
     (classOf[SetupDefinition], Init(configure, checker))
 
   class EventWaiter extends EventChecker {
@@ -153,8 +152,9 @@ abstract class KompicsUnitSuite
           val diff = endTime - System.nanoTime
           if (diff > 0) Span(diff, Nanoseconds) else Span.Zero
         }
-        val e = eventQueue.poll(timeLeft.totalNanos,
-                                java.util.concurrent.TimeUnit.NANOSECONDS);
+        val e = eventQueue.poll(
+          timeLeft.totalNanos,
+          java.util.concurrent.TimeUnit.NANOSECONDS);
         println(s"Pulled a $e out of the eventQueue");
         if (e != null) {
           val check = checkers.poll();
