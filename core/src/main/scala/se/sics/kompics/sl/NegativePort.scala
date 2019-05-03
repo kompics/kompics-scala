@@ -102,7 +102,7 @@ class NegativeWrapper[P <: PortType](original: PortCore[P]) extends NegativePort
     throw new ConfigurationException("Can't use closure based handlers on non ScalaPort");
   }
 
-  override def doSubscribe(handler: se.sics.kompics.MatchedHandler[PT, V, E] forSome { type PT; type V; type E <: se.sics.kompics.PatternExtractor[PT, _ >: V] }) {
+  override def doSubscribe(handler: se.sics.kompics.MatchedHandler[_, _, _]): Unit = {
     original.doSubscribe(handler);
   }
 

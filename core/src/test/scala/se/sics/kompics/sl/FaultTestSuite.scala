@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of the Kompics component model runtime.
  *
  * Copyright (C) 2009 Swedish Institute of Computer Science (SICS)
@@ -43,7 +43,7 @@ class FaultTestSuite extends KompicsUnitSuite {
     });
 
     ew {
-      Kompics.createAndStart(classOf[ParentFaulter], se.sics.kompics.Init.NONE);
+      Kompics.createAndStart(classOf[ParentFaulter], Init.none[ParentFaulter]);
     }
     ew { event =>
       event shouldBe a[Fault]

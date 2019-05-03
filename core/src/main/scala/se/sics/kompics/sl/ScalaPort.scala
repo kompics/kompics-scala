@@ -100,7 +100,12 @@ class ScalaPort[P <: PortType](positive: Boolean, pType: P, parent: ComponentCor
     doSubscribe(closureHandler);
   }
 
-  override def doSubscribe(handler: se.sics.kompics.MatchedHandler[PT, V, E] forSome { type PT; type V; type E <: se.sics.kompics.PatternExtractor[PT, _ >: V] }) {
+  /**
+   * This method has no implementation in Scala!
+   *
+   * Use pattern matching instead!
+   */
+  override def doSubscribe(handler: se.sics.kompics.MatchedHandler[_, _, _]): Unit = {
     throw new ConfigurationException("Can not use se.sics.kompics.MatchedHandler in ScalaPort! Use Scala's pattern matching instead.");
   }
 
