@@ -24,25 +24,18 @@ import scala.collection.JavaConverters._
 import scala.language.implicitConversions
 import util.control.Breaks._
 import se.sics.kompics.PortType
+import se.sics.kompics.ComponentCoreScala
 import se.sics.kompics.ComponentCore
 import se.sics.kompics.ControlPort
 import se.sics.kompics.Component
 import se.sics.kompics.{ ComponentDefinition => JCD }
 import se.sics.kompics.ConfigurationException
 import se.sics.kompics.Negative
-import se.sics.kompics.Start
-import se.sics.kompics.Started
-import se.sics.kompics.Stop
-import se.sics.kompics.Stopped
-import se.sics.kompics.Kill
-import se.sics.kompics.Killed
 import se.sics.kompics.PortCore
 import java.util.LinkedList
 import se.sics.kompics.Positive
 import se.sics.kompics.Fault
 import se.sics.kompics.SpinlockQueue
-import se.sics.kompics.Kompics
-import se.sics.kompics.KompicsEvent
 import se.sics.kompics.config.{ Config => JConfig }
 import se.sics.kompics.config.ConfigUpdate
 import se.sics.kompics.config.ValueMerger
@@ -55,7 +48,8 @@ import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicReference
 import java.util.Objects
 import org.slf4j.{ Logger, MDC };
-import com.google.common.base.Optional;
+import java.util.Optional;
+import scala.compat.java8.OptionConverters._
 
 /**
  * The <code>ScalaComponent</code> class.
@@ -63,7 +57,7 @@ import com.google.common.base.Optional;
  * @author Lars Kroll {@literal <lkroll@kth.se>}
  * @version $Id: $
  */
-protected[sl] class ScalaComponent(val component: ComponentDefinition) extends ComponentCore {
+protected[sl] class ScalaComponent(val component: ComponentDefinition) extends ComponentCoreScala {
 
   private[sl] val positivePorts = scala.collection.mutable.HashMap.empty[Class[_ <: PortType], ScalaPort[_ <: PortType]];
   private[sl] val negativePorts = scala.collection.mutable.HashMap.empty[Class[_ <: PortType], ScalaPort[_ <: PortType]];
@@ -81,29 +75,27 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
     this.conf = if (this.parent != null) {
       parent.config().copy(component.separateConfigId());
     } else {
-      Kompics.getConfig().copy(component.separateConfigId());
+      Kompics.config.copy(component.separateConfigId());
     };
     if (ComponentCore.childUpdate.get().isPresent()) {
       val ci = conf.asInstanceOf[JConfig.Impl];
       ci.apply(ComponentCore.childUpdate.get().get(), ValueMerger.NONE);
-      ComponentCore.childUpdate.set(Optional.absent());
+      ComponentCore.childUpdate.set(None);
     }
     ComponentCore.parentThreadLocal.set(null);
   }
 
-  implicit private def optionalToOption[T](o: Optional[T]): Option[T] = if (o.isPresent()) Some(o.get) else None;
-
   override protected[sl] def doCreate[T <: se.sics.kompics.ComponentDefinition](
     definition: Class[T],
     initEvent:  Optional[se.sics.kompics.Init[T]]): Component = {
-    doCreateScala(definition, initEvent, Optional.absent())
+    doCreateScala(definition, initEvent.asScala, None)
   }
 
   override protected[sl] def doCreate[T <: se.sics.kompics.ComponentDefinition](
     definition: Class[T],
     initEvent:  Optional[se.sics.kompics.Init[T]],
     update:     Optional[ConfigUpdate]): Component = {
-    doCreateScala(definition, initEvent, update);
+    doCreateScala(definition, initEvent.asScala, update);
   }
 
   //    def doCreate(definition: Class[_ <: se.sics.kompics.ComponentDefinition], initEvent: se.sics.kompics.Init[_]): Component = doCreate(definition, initEvent, None)
@@ -389,7 +381,7 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
         case IGNORE =>
           logger.info("Fault {} was declared to be ignored by user. Resuming component...", f);
           markSubtreeAtAs(f.getSource.getComponentCore, State.PASSIVE);
-          f.getSourceCore.control().doTrigger(Start.event, wid, this);
+          f.getSourceCore.control().doTrigger(Start, wid, this);
         case DESTROY =>
           logger.info("User declared that Fault {} should destroy component tree...", f);
           destroyTreeAtParentOf(f.getSource.getComponentCore);
@@ -481,7 +473,7 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
     }
   }
 
-  protected[kompics] def doConfigUpdate(update: ConfigUpdate) {
+  override protected[kompics] def doConfigUpdateScala(update: ConfigUpdate): Unit = {
     confImpl.apply(update, ValueMerger.NONE);
     val forwardedEvent = new Update(update, id());
     // forward down
@@ -490,8 +482,10 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
         forwardedEvent, wid, this);
     }
     // forward up
-    parent.getControl().asInstanceOf[PortCore[ControlPort]].doTrigger(
-      forwardedEvent, wid, this);
+    if (parent != null) {
+      parent.getControl().asInstanceOf[PortCore[ControlPort]].doTrigger(
+        forwardedEvent, wid, this);
+    }
     component.postUpdate();
   }
 
@@ -519,7 +513,7 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
   //    }
 
   override protected[kompics] def setInactive(child: se.sics.kompics.Component): Unit = {
-
+    activeSet.remove(child);
   }
 
   val handleLifecycle = handler {
@@ -537,7 +531,7 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
             logger.debug("Sending Start to child: {}", child);
             // start child
             child.getControl().asInstanceOf[PortCore[ControlPort]].doTrigger(
-              Start.event, wid, component.getComponentCore());
+              Start, wid, component.getComponentCore());
           }
         } else {
           logger.debug("Started!");
@@ -585,7 +579,7 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
               logger.debug("Sending Stop to child: {}", child);
               // stop child
               child.getControl().asInstanceOf[PortCore[ControlPort]].doTrigger(
-                Stop.event, wid, component.getComponentCore());
+                Stop, wid, component.getComponentCore());
             }
           }
         } else {
@@ -642,7 +636,7 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
               logger.debug("Sending Kill to child: {}", child);
               // stop child
               child.getControl().asInstanceOf[PortCore[ControlPort]].doTrigger(
-                Kill.event, wid, component.getComponentCore());
+                Kill, wid, component.getComponentCore());
             }
           }
         } else {

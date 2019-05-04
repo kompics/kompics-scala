@@ -1,3 +1,4 @@
+
 /*
  * This file is part of the Kompics component model runtime.
  *
@@ -18,41 +19,19 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package se.sics.kompics.sl
+package se.sics.kompics
 
-import scala.reflect.runtime.universe._
+import se.sics.kompics.config.ConfigUpdate
 
 /**
- * The <code>PortType</code> class.
+ * A small adapter class for Java -> Scala
  *
  * @author Lars Kroll {@literal <lkroll@kth.se>}
- * @version $Id: $
  */
-abstract class Port extends se.sics.kompics.PortType {
-  se.sics.kompics.PortType.preloadInstance(this);
-
-  //    def request[E <: KompicsEvent](event: E) {
-  //        super.request(event.getClass)
-  //    }
-
-  def request[E <: KompicsEvent: TypeTag] {
-    val te = typeOf[E];
-    super.request(asJavaClass(te))
+protected[kompics] abstract class ComponentCoreScala extends ComponentCore {
+  override private[kompics] def doConfigUpdate(update: ConfigUpdate): Unit = {
+    this.doConfigUpdateScala(update);
   }
 
-  def request(event: KompicsEvent) {
-    val eventType = event.getClass;
-    super.request(eventType);
-  }
-
-  def indication[E <: KompicsEvent: TypeTag] {
-    val te = typeOf[E];
-    super.indication(asJavaClass(te))
-  }
-
-  def indication(event: KompicsEvent) {
-    val eventType = event.getClass;
-    super.indication(eventType);
-  }
-
+  protected[kompics] def doConfigUpdateScala(update: ConfigUpdate): Unit;
 }

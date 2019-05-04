@@ -23,7 +23,6 @@ package se.sics.kompics.sl
 import org.scalatest._
 
 import concurrent.Waiters;
-import se.sics.kompics.KompicsEvent
 import se.sics.kompics.Component
 import se.sics.kompics.config.ConfigUpdate
 

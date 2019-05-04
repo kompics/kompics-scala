@@ -22,11 +22,42 @@ package se.sics.kompics
 
 import scala.reflect.runtime.universe._
 import scala.language.implicitConversions
+import scala.compat.java8.OptionConverters._
 
+/**
+ * This package contains the Scala DSL for Kompics.
+ *
+ * It is recommended to import this as `import se.sics.kompics.sl._`, since it
+ * contains a number of implicit conversions and convenience methods that are
+ * good to have in scope.
+ *
+ * @author Lars Kroll {@literal <lkroll@kth.se>}
+ */
 package object sl {
 
+  /**
+   * The type used in the match body of a `uponEvent` block.
+   */
   type MatchedHandler = () => Unit;
+  /**
+   * The type returned by an `uponEvent` block.
+   */
   type Handler = KompicsEvent => MatchedHandler;
+
+  /*
+   * Forward a bunch of types for convenience.
+   */
+  //type Kompics = se.sics.kompics.Kompics;
+  type KompicsEvent = se.sics.kompics.KompicsEvent;
+  type Start = se.sics.kompics.Start;
+  val Start = se.sics.kompics.Start.event;
+  type Started = se.sics.kompics.Started;
+  type Stop = se.sics.kompics.Stop;
+  val Stop = se.sics.kompics.Stop.event;
+  type Stopped = se.sics.kompics.Stopped;
+  type Kill = se.sics.kompics.Kill;
+  val Kill = se.sics.kompics.Kill.event;
+  type Killed = se.sics.kompics.Killed;
 
   def handle(handler: => Unit): MatchedHandler = {
     handler _;
@@ -44,6 +75,13 @@ package object sl {
   implicit def tuple2pnc[P <: PortType](t: Tuple2[PositivePort[P], Component]) = PortAndComponent(t._1, t._2);
   implicit def tuple2cnp[P <: PortType](t: Tuple2[Component, NegativePort[P]]) = ComponentAndPort(t._1, t._2);
 
+  implicit def option2optional[T](o: Option[T]): java.util.Optional[T] = o.asJava;
+
+  /**
+   * Connect a positive port `p` to a negative port `n`, both of type `P`.
+   *
+   * Use as ``!connect`[P](p -> n)`.
+   */
   def `!connect`[P <: PortType](t: PortAndPort[P]): Channel[P] = {
     t match {
       case PortAndPort(pos: PortCore[P], neg: PortCore[P]) =>
@@ -52,6 +90,11 @@ package object sl {
     }
   }
 
+  /**
+   * Connect a component `c` to a positive port `p` of type `P`.
+   *
+   * Use as ``!connect`[P](p -> c)`
+   */
   def `!connect`[P <: PortType](t: PortAndComponent[P]): Channel[P] = {
     t match {
       case PortAndComponent(pos: PortCore[P], negC) =>
@@ -62,6 +105,11 @@ package object sl {
     }
   }
 
+  /**
+   * Connect a component `c` to a negative port `p` of type `P`.
+   *
+   * Use as ``!connect`[P](c -> p)`
+   */
   def `!connect`[P <: PortType](t: ComponentAndPort[P]): Channel[P] = {
     t match {
       case ComponentAndPort(posC, neg: PortCore[P]) =>
@@ -72,6 +120,11 @@ package object sl {
     }
   }
 
+  /**
+   * Connect two components on a Java port type `P`.
+   *
+   * Use as ``!connect`[P](c1 -> c2)`.
+   */
   def `!connect`[P <: PortType: TypeTag](t: Tuple2[Component, Component]): Channel[P] = {
     val portType = typeOf[P];
     val javaPortType = asJavaClass[P](portType);
@@ -89,6 +142,11 @@ package object sl {
     }
   }
 
+  /**
+   * Connect two components on a Scala port object `P`.
+   *
+   * Use as ``!connect`(P)(c1 -> c2)`.
+   */
   def `!connect`[P <: PortType](portType: P)(t: Tuple2[Component, Component]): Channel[P] = {
     val javaPortType = portType.getClass;
     t match {
@@ -105,6 +163,9 @@ package object sl {
     }
   }
 
+  /**
+   * Trigger an event on a port via a component proxy.
+   */
   def `!trigger`[P <: PortType](t: Tuple2[KompicsEvent, se.sics.kompics.Port[P]])(implicit cd: se.sics.kompics.ComponentDefinition): Unit = {
     t match {
       case (e, p) =>

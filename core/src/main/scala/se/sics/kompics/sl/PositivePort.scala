@@ -23,7 +23,6 @@ package se.sics.kompics.sl
 import scala.language.implicitConversions
 import scala.language.existentials
 import se.sics.kompics.{
-  KompicsEvent,
   Component,
   Channel,
   PortType,
@@ -45,15 +44,26 @@ import se.sics.kompics.{ Handler => JHandler }
  */
 trait PositivePort[P <: PortType] extends Positive[P] with AnyPort {
 
+  /**
+   * Create a bidirectional channel to the `component`.
+   */
   def --(component: Component): Channel[P];
 
+  /**
+   * Create a bidirectional channel to each `Component` in `components`.
+   */
   def --(components: Component*): Seq[Channel[P]];
+
+  /**
+   * Get the negative pair/dual.
+   */
+  def dualNegative: NegativePort[P];
 }
 
 /**
  * The <code>PositiveWrapper</code> class.
  *
- * @author Lars Kroll <lkr@lars-kroll.com>
+ * @author Lars Kroll <lkroll@kth.se>
  * @version $Id: $
  */
 class PositiveWrapper[P <: PortType](original: PortCore[P]) extends PositivePort[P] {
@@ -110,7 +120,7 @@ class PositiveWrapper[P <: PortType](original: PortCore[P]) extends PositivePort
     throw new ConfigurationException("Can't use closure based handlers on non ScalaPort");
   }
 
-  def --(component: Component): Channel[P] = {
+  override def --(component: Component): Channel[P] = {
     val negativePort: Negative[_ <: P] = component.getNegative(original.getPortType().getClass());
     negativePort match {
       case neg: PortCore[P] => {
@@ -121,15 +131,19 @@ class PositiveWrapper[P <: PortType](original: PortCore[P]) extends PositivePort
     }
   }
 
-  def --(components: Component*): Seq[Channel[P]] = {
+  override def --(components: Component*): Seq[Channel[P]] = {
     components.map(--);
+  }
+
+  override def dualNegative: NegativePort[P] = {
+    NegativePort.port2negative(this.getPair())
   }
 }
 
 /**
  * The <code>PositivePort</code> object.
  *
- * @author Lars Kroll <lkr@lars-kroll.com>
+ * @author Lars Kroll <lkroll@kth.se>
  * @version $Id: $
  */
 object PositivePort {

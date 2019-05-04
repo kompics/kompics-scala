@@ -22,8 +22,6 @@ package se.sics.kompics.sl
 
 import org.scalatest._
 
-import se.sics.kompics.KompicsEvent
-import se.sics.kompics.Kompics
 import se.sics.kompics.{ Fault, FaultHandler }
 import se.sics.kompics.Fault.ResolveAction
 
@@ -35,12 +33,12 @@ class FaultTestSuite extends KompicsUnitSuite {
 
     val ew = new EventWaiter;
 
-    Kompics.setFaultHandler(new FaultHandler {
+    Kompics.faultHandler = new FaultHandler {
       override def handle(fault: Fault): ResolveAction = {
         ew(fault)
         return ResolveAction.DESTROY
       }
-    });
+    };
 
     ew {
       Kompics.createAndStart(classOf[ParentFaulter], Init.none[ParentFaulter]);

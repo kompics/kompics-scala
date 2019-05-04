@@ -22,6 +22,7 @@ package se.sics.kompics.sl
 
 import scala.language.implicitConversions
 import scala.reflect.runtime.universe._
+import scala.compat.java8.OptionConverters._
 
 class Config(val original: se.sics.kompics.config.Config) {
   import Config._
@@ -31,7 +32,7 @@ class Config(val original: se.sics.kompics.config.Config) {
   def readValue[T: TypeTag](key: String): Option[T] = {
     val valueType = typeOf[T];
     val valueClass = asJavaClass[T](valueType);
-    original.readValue(key, valueClass);
+    original.readValue(key, valueClass).asScala;
   }
 
   @throws(classOf[ClassCastException])
@@ -45,11 +46,4 @@ class Config(val original: se.sics.kompics.config.Config) {
 object Config {
 
   implicit def jconf2SConf(c: se.sics.kompics.config.Config): Config = new Config(c);
-  implicit def optional2Option[T](o: com.google.common.base.Optional[T]): Option[T] = {
-    if (o.isPresent()) {
-      return Some(o.get);
-    } else {
-      return None
-    }
-  }
 }

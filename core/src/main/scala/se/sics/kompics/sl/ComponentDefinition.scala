@@ -23,7 +23,7 @@ package se.sics.kompics.sl
 import scala.reflect.runtime.universe._
 
 import se.sics.kompics.{ PortType, Positive, Negative, PortCore, ControlPort, Fault, ConfigurationException }
-import se.sics.kompics.{ ComponentCore, Channel, LoopbackPort, KompicsEvent, Component }
+import se.sics.kompics.{ ComponentCore, Channel, LoopbackPort, Component }
 import se.sics.kompics.{ Handler => JHandler, ComponentDefinition => JCD, Init => JInit }
 import se.sics.kompics.config.ConfigUpdate
 import org.slf4j.{ Logger => JLogger, MDC };

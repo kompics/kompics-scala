@@ -23,7 +23,6 @@ package se.sics.kompics.sl
 import scala.language.implicitConversions
 import scala.language.existentials
 import se.sics.kompics.{
-  KompicsEvent,
   Component,
   Channel,
   PortType,
@@ -45,15 +44,26 @@ import se.sics.kompics.{ Handler => JHandler }
  */
 trait NegativePort[P <: PortType] extends Negative[P] with AnyPort {
 
+  /**
+   * Create a bidirectional channel to the `component`.
+   */
   def ++(component: Component): Channel[P];
 
+  /**
+   * Create a bidirectional channel to each `Component` in `components`.
+   */
   def ++(components: Component*): Seq[Channel[P]];
+
+  /**
+   * Get the positive pair/dual.
+   */
+  def dualPositive: PositivePort[P];
 }
 
 /**
  * The <code>NegativeWrapper</code> class.
  *
- * @author Lars Kroll <lkr@lars-kroll.com>
+ * @author Lars Kroll <lkroll@kth.se>
  * @version $Id: $
  */
 class NegativeWrapper[P <: PortType](original: PortCore[P]) extends NegativePort[P] {
@@ -124,12 +134,16 @@ class NegativeWrapper[P <: PortType](original: PortCore[P]) extends NegativePort
   def ++(components: Component*): Seq[Channel[P]] = {
     components.map(++);
   }
+
+  override def dualPositive: PositivePort[P] = {
+    PositivePort.port2positive(this.getPair())
+  }
 }
 
 /**
  * The <code>NegativePort</code> object.
  *
- * @author Lars Kroll <lkr@lars-kroll.com>
+ * @author Lars Kroll <lkroll@kth.se>
  * @version $Id: $
  */
 object NegativePort {

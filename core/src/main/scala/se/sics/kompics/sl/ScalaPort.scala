@@ -26,7 +26,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock
 import se.sics.kompics.ComponentCore
 import se.sics.kompics.PortType
 import se.sics.kompics.PortCore
-import se.sics.kompics.KompicsEvent
 import se.sics.kompics.SpinlockQueue
 import se.sics.kompics.ChannelCore
 import se.sics.kompics.ChannelSelectorSet
@@ -42,12 +41,6 @@ import se.sics.kompics.Channel
 import se.sics.kompics.Positive
 import se.sics.kompics.Negative
 import se.sics.kompics.RequestPathElement
-import se.sics.kompics.Kompics
-//import se.sics.kompics.Port
-//import scala.collection.mutable.HashMap
-//import scala.collection.mutable.ListBuffer
-//import scala.collection.mutable.HashSet
-//import scala.collection.mutable.SetBuilder
 import scala.reflect.Manifest
 import java.lang.reflect.Method
 
@@ -468,6 +461,22 @@ class ScalaPort[P <: PortType](positive: Boolean, pType: P, parent: ComponentCor
 
   def --(components: Component*): Seq[Channel[P]] = {
     components.map(--);
+  }
+
+  override def dualPositive: PositivePort[P] = {
+    if (this.isPositive) {
+      throw new IllegalArgumentException("This port is already positive!");
+    } else {
+      pair
+    }
+  }
+
+  override def dualNegative: NegativePort[P] = {
+    if (this.isPositive) {
+      pair
+    } else {
+      throw new IllegalArgumentException("This port is already negative!");
+    }
   }
 }
 

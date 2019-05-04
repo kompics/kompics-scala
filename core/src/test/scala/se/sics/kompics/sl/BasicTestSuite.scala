@@ -22,9 +22,6 @@ package se.sics.kompics.sl
 
 import org.scalatest._
 
-import se.sics.kompics.KompicsEvent
-import se.sics.kompics.Kompics
-
 class BasicTestSuite extends KompicsUnitSuite {
 
   import KompicsUnitSuite._
@@ -123,6 +120,27 @@ class BasicTestSuite extends KompicsUnitSuite {
     ew.await();
     Kompics.shutdown();
   }
+
+  test("Component should handle updates") {
+
+    val ew = new EventWaiter;
+
+    val (cd, init) = setup({ cd =>
+      cd.child(classOf[ConfigTestComponent]);
+    }, ew);
+    // init
+    ew {
+      Kompics.createAndStart(cd, init);
+    }
+    ew { event =>
+      event shouldBe a[se.sics.kompics.Start]
+    }
+    ew { event =>
+      event shouldBe a[TearDown]
+    }
+    ew.await();
+    Kompics.shutdown();
+  }
 }
 
 case class TearDown() extends KompicsEvent
@@ -132,6 +150,31 @@ class BasicTestComponent extends ComponentDefinition with EventTester {
   ctrl uponEvent {
     case msg: se.sics.kompics.Start => handle {
       check(msg);
+      trigger(TearDown(), onSelf);
+    }
+  }
+
+  loopbck uponEvent {
+    case TearDown() => handle { suicide() }
+  }
+
+  override def tearDown() {
+    check(TearDown())
+  }
+
+}
+
+class ConfigTestComponent extends ComponentDefinition with EventTester {
+
+  ctrl uponEvent {
+    case msg: se.sics.kompics.Start => handle {
+      check(msg);
+
+      val cb = cfg.original.modify(this.id());
+      cb.setValue("test", 42);
+      val cu = cb.finalise();
+      this.updateConfig(cu); // this shouldn't crash at least
+
       trigger(TearDown(), onSelf);
     }
   }
