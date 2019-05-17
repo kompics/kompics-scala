@@ -2,7 +2,7 @@ name := "Kompics-Scala-Simulator"
 
 organization := "se.sics.kompics"
 
-version := "1.1.0-SNAPSHOT"
+version := "1.1.0-"
 
 scalaVersion := "2.12.8"
 
@@ -10,7 +10,7 @@ crossScalaVersions := Seq("2.11.12", "2.12.8")
 
 scalacOptions ++= Seq("-deprecation","-feature")
 
-val kompicsV = "1.1.0-SNAPSHOT";
+val kompicsV = "1.1.0";
 
 resolvers += Resolver.mavenLocal
 resolvers += Resolver.jcenterRepo

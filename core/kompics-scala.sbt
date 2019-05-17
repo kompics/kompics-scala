@@ -3,7 +3,7 @@ name := "Kompics-Scala"
 organization := "se.sics.kompics"
 
 
-version := "1.1.0-SNAPSHOT"
+version := "1.1.0"
 
 scalaVersion := "2.12.8"
 
@@ -16,7 +16,7 @@ resolvers += Resolver.mavenLocal
 resolvers += Resolver.jcenterRepo
 resolvers += Resolver.bintrayRepo("kompics", "Maven")
 
-libraryDependencies += "se.sics.kompics" % "kompics-core" % "1.1.0-SNAPSHOT"
+libraryDependencies += "se.sics.kompics" % "kompics-core" % version.value
 libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.9.+"
 libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value
 libraryDependencies += "org.scala-lang.modules" %% "scala-java8-compat" % "0.9.0"
