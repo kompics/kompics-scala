@@ -80,7 +80,7 @@ class DataParent extends ComponentDefinition with sl.EventTester {
 
   val dataHandler = new ClassMatchedHandler[CData, DataContainer]() {
 
-    override def handle(content: CData, context: DataContainer) {
+    override def handle(content: CData, context: DataContainer): Unit = {
       if ((content != null) && (context != null)) {
         check(context);
       } else {
@@ -91,7 +91,7 @@ class DataParent extends ComponentDefinition with sl.EventTester {
 
   val falseDataHandler = new ClassMatchedHandler[FData, DataContainer]() {
 
-    override def handle(content: FData, context: DataContainer) {
+    override def handle(content: FData, context: DataContainer): Unit = {
       throw new RuntimeException("Only CData handlers should be triggered, not FData!");
     }
   };
@@ -106,7 +106,7 @@ class DataChild extends ComponentDefinition with sl.EventTester {
 
   val startHandler = new Handler[Start]() {
 
-    override def handle(event: Start) {
+    override def handle(event: Start): Unit = {
       check(event);
       trigger(new DataContainer(new CData()), dp);
     }

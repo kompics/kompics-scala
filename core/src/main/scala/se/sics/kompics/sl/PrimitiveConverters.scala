@@ -20,7 +20,7 @@
  */
 package se.sics.kompics.sl
 
-import se.sics.kompics.config.{ Conversions, Converter }
+import se.sics.kompics.config.{Conversions, Converter}
 import scala.reflect.runtime.universe._
 
 abstract class SConv[T: TypeTag] extends Converter[T] {
@@ -43,9 +43,9 @@ object PrimitiveConverters {
   Conversions.register(IntConv);
   Conversions.register(LongConv);
 
-  def register() {
-    //println("Registering Scala Converters");
-  }
+  // def register(): Unit = {
+  //   //println("Registering Scala Converters");
+  // }
 
   object BooleanConv extends SConv[Boolean] {
     override def convert(o: Any): Boolean = {
@@ -111,11 +111,12 @@ object PrimitiveConverters {
     override def convert(o: Any): Char = {
       o match {
         case n: Number => n.shortValue.toChar
-        case s: String => if (s.length == 1) {
-          s.charAt(0)
-        } else {
-          s.toShort.toChar
-        }
+        case s: String =>
+          if (s.length == 1) {
+            s.charAt(0)
+          } else {
+            s.toShort.toChar
+          }
         case _ => null.asInstanceOf[Char]
       }
     }

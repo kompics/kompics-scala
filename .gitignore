@@ -32,3 +32,8 @@ project/plugins/project/
 # src/main/resources/application.conf
 .DS_STORE
 nb-configuration.xml
+
+# Metals specific
+.bloop/
+.metals/
+.vscode/

@@ -23,49 +23,49 @@ package se.sics.kompics.sl
 import scala.language.implicitConversions
 import scala.language.existentials
 import se.sics.kompics.{
-  Component,
   Channel,
-  PortType,
-  Positive,
-  PortCore,
+  ChannelCore,
+  ChannelSelector,
+  Component,
   ComponentCore,
   ConfigurationException,
-  ChannelSelector,
   Negative,
-  ChannelCore
+  PortCore,
+  PortType,
+  Positive
 }
-import se.sics.kompics.{ Handler => JHandler }
+import se.sics.kompics.{Handler => JHandler}
 
 /**
- * The <code>NegativePort</code> trait.
- *
- * @author Lars Kroll {@literal <lkroll@kth.se>}
- * @version $Id: $
- */
+  * The <code>NegativePort</code> trait.
+  *
+  * @author Lars Kroll {@literal <lkroll@kth.se>}
+  * @version $Id: $
+  */
 trait NegativePort[P <: PortType] extends Negative[P] with AnyPort {
 
   /**
-   * Create a bidirectional channel to the `component`.
-   */
+    * Create a bidirectional channel to the `component`.
+    */
   def ++(component: Component): Channel[P];
 
   /**
-   * Create a bidirectional channel to each `Component` in `components`.
-   */
+    * Create a bidirectional channel to each `Component` in `components`.
+    */
   def ++(components: Component*): Seq[Channel[P]];
 
   /**
-   * Get the positive pair/dual.
-   */
+    * Get the positive pair/dual.
+    */
   def dualPositive: PositivePort[P];
 }
 
 /**
- * The <code>NegativeWrapper</code> class.
- *
- * @author Lars Kroll <lkroll@kth.se>
- * @version $Id: $
- */
+  * The <code>NegativeWrapper</code> class.
+  *
+  * @author Lars Kroll <lkroll@kth.se>
+  * @version $Id: $
+  */
 class NegativeWrapper[P <: PortType](original: PortCore[P]) extends NegativePort[P] {
 
   override def getPortType(): P = {
@@ -116,7 +116,7 @@ class NegativeWrapper[P <: PortType](original: PortCore[P]) extends NegativePort
     original.doSubscribe(handler);
   }
 
-  override def removeChannel(channel: ChannelCore[P]) {
+  override def removeChannel(channel: ChannelCore[P]): Unit = {
     original.removeChannel(channel);
   }
 
@@ -141,11 +141,11 @@ class NegativeWrapper[P <: PortType](original: PortCore[P]) extends NegativePort
 }
 
 /**
- * The <code>NegativePort</code> object.
- *
- * @author Lars Kroll <lkroll@kth.se>
- * @version $Id: $
- */
+  * The <code>NegativePort</code> object.
+  *
+  * @author Lars Kroll <lkroll@kth.se>
+  * @version $Id: $
+  */
 object NegativePort {
   implicit def port2negative[P <: PortType](x: PortCore[P]): NegativePort[P] = new NegativeWrapper[P](x);
 }

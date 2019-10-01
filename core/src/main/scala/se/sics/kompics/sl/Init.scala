@@ -21,25 +21,28 @@
 package se.sics.kompics.sl
 
 /**
- * The <code>Init</code> case class.
- *
- * @author Lars Kroll {@literal <lkroll@kth.se>}
- * @version $Id: $
- */
+  * The <code>Init</code> case class.
+  *
+  * @author Lars Kroll {@literal <lkroll@kth.se>}
+  * @version $Id: $
+  */
 case class Init[T <: ComponentDefinition](params: Any*) extends se.sics.kompics.Init[T]
 
 object Init {
+
   /**
-   * Reference to se.sics.kompics.Init.NONE.
-   *
-   * Use in <code>create</code> calls.
-   */
+    * Reference to se.sics.kompics.Init.NONE.
+    *
+    * Use in <code>create</code> calls.
+    */
   val NONE = se.sics.kompics.Init.NONE;
+
   /**
-   * Cast reference to <code>se.sics.kompics.Init.NONE</code>.
-   *
-   * Use in abstractions that expect an instance of <code>se.sics.kompics.Init[T]</code>.
-   *
-   */
-  def none[T <: se.sics.kompics.ComponentDefinition]: se.sics.kompics.Init[T] = se.sics.kompics.Init.NONE.asInstanceOf[se.sics.kompics.Init[T]];
+    * Cast reference to <code>se.sics.kompics.Init.NONE</code>.
+    *
+    * Use in abstractions that expect an instance of <code>se.sics.kompics.Init[T]</code>.
+    *
+    */
+  def none[T <: se.sics.kompics.ComponentDefinition]: se.sics.kompics.Init[T] =
+    se.sics.kompics.Init.NONE.asInstanceOf[se.sics.kompics.Init[T]];
 }

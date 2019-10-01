@@ -68,15 +68,15 @@ class ConfigTestSuite extends fixture.FlatSpec with Matchers {
     // java API
     val oval = conf.original.readValue[Long]("config.testl");
     oval.isPresent() shouldBe true
-    oval.get shouldBe 5l
+    oval.get shouldBe 5L
     val oval2 = conf.original.getValue("config.testl", classOf[Long]);
-    oval2 shouldBe 5l
+    oval2 shouldBe 5L
     // scala API
     val lval = conf.readValue[Long]("config.testl");
-    lval shouldBe Some(5l);
+    lval shouldBe Some(5L);
     val lval2 = conf.getValue[Long]("config.testl");
     //lval2 shouldBe a [Long];
-    lval2 shouldBe 5l;
+    lval2 shouldBe 5L;
     // *** INT ***
     val ival = conf.readValue[Int]("config.testl");
     ival shouldBe Some(5);

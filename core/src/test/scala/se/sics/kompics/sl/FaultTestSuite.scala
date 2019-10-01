@@ -22,7 +22,7 @@ package se.sics.kompics.sl
 
 import org.scalatest._
 
-import se.sics.kompics.{ Fault, FaultHandler }
+import se.sics.kompics.{Fault, FaultHandler}
 import se.sics.kompics.Fault.ResolveAction
 
 class FaultTestSuite extends KompicsUnitSuite {
@@ -75,15 +75,14 @@ class FaultTestSuite extends KompicsUnitSuite {
   }
 }
 
-class TestError extends RuntimeException {
-
-}
+class TestError extends RuntimeException {}
 
 class ParentFaulter extends ComponentDefinition {
   ctrl uponEvent {
-    case msg: se.sics.kompics.Start => handle {
-      throw new TestError();
-    }
+    case msg: se.sics.kompics.Start =>
+      handle {
+        throw new TestError();
+      }
   }
 }
 
@@ -129,9 +128,10 @@ class GrandChild(init: Init[GrandChild]) extends ComponentDefinition with EventT
   registerHandler(checker);
 
   ctrl uponEvent {
-    case msg: se.sics.kompics.Start => handle {
-      check(msg);
-      throw new TestError();
-    }
+    case msg: se.sics.kompics.Start =>
+      handle {
+        check(msg);
+        throw new TestError();
+      }
   }
 }

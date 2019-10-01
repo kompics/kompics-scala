@@ -22,19 +22,19 @@ package se.sics.kompics.sl
 
 import scala.reflect.runtime.universe._
 
-import se.sics.kompics.{ PortType, Positive, Negative, PortCore, ControlPort, Fault, ConfigurationException }
-import se.sics.kompics.{ ComponentCore, Channel, LoopbackPort, Component }
-import se.sics.kompics.{ Handler => JHandler, ComponentDefinition => JCD, Init => JInit }
+import se.sics.kompics.{ConfigurationException, ControlPort, Fault, Negative, PortCore, PortType, Positive}
+import se.sics.kompics.{Channel, Component, ComponentCore, LoopbackPort}
+import se.sics.kompics.{Handler => JHandler, ComponentDefinition => JCD, Init => JInit}
 import se.sics.kompics.config.ConfigUpdate
-import org.slf4j.{ Logger => JLogger, MDC };
+import org.slf4j.{Logger => JLogger, MDC};
 import com.typesafe.scalalogging.Logger
 
 /**
- * The <code>ComponentDefinition</code> class.
- *
- * @author Lars Kroll {@literal <lkroll@kth.se>}
- * @version $Id: ComponentDefinition.scala 4036 2011-07-19 15:50:01Z lars $
- */
+  * The <code>ComponentDefinition</code> class.
+  *
+  * @author Lars Kroll {@literal <lkroll@kth.se>}
+  * @version $Id: ComponentDefinition.scala 4036 2011-07-19 15:50:01Z lars $
+  */
 abstract class ComponentDefinition extends se.sics.kompics.ComponentDefinition(classOf[ScalaComponent]) {
 
   //	private val localCore: ScalaComponent = getComponentCore match {
@@ -117,7 +117,8 @@ abstract class ComponentDefinition extends se.sics.kompics.ComponentDefinition(c
     super.create(javaCType, init, update)
   }
 
-  protected def connect[P <: PortType](portType: P)(t: Tuple2[Component, Component]): Channel[P] = `!connect`[P](portType)(t)
+  protected def connect[P <: PortType](portType: P)(t: Tuple2[Component, Component]): Channel[P] =
+    `!connect`[P](portType)(t)
 
   protected def connect[P <: PortType: TypeTag](t: Tuple2[Component, Component]): Channel[P] = `!connect`[P](t)
 

@@ -29,9 +29,7 @@ class BasicTestSuite extends KompicsUnitSuite {
 
   test("Component should be instantiated") {
     val (cd, init) = setup({ cd =>
-
     }, { event =>
-
     });
     Kompics.createAndStart(cd, init);
     Kompics.shutdown();
@@ -80,12 +78,15 @@ class BasicTestSuite extends KompicsUnitSuite {
 
     val ew = new EventWaiter;
 
-    val (cd, init) = setup({ cd =>
-      val req = cd.child(classOf[BasicTestRequirer]);
-      val prov = cd.child(classOf[BasicTestProvider]);
-      //req -- TestPort ++ prov;
-      `!connect`(TestPort)(prov -> req);
-    }, ew);
+    val (cd, init) = setup(
+      { cd =>
+        val req = cd.child(classOf[BasicTestRequirer]);
+        val prov = cd.child(classOf[BasicTestProvider]);
+        //req -- TestPort ++ prov;
+        `!connect`(TestPort)(prov -> req);
+      },
+      ew
+    );
     ew {
       Kompics.createAndStart(cd, init);
     }
@@ -103,12 +104,15 @@ class BasicTestSuite extends KompicsUnitSuite {
     val n = 50;
     val ew = new EventWaiter;
 
-    val (cd, init) = setup({ cd =>
-      val sender = cd.child(classOf[FifoSender], Some(Init[FifoSender](n)));
-      val receiver = cd.child(classOf[FifoReceiver]);
-      //sender -- FifoPort ++ receiver;
-      `!connect`(FifoPort)(receiver -> sender);
-    }, ew);
+    val (cd, init) = setup(
+      { cd =>
+        val sender = cd.child(classOf[FifoSender], Some(Init[FifoSender](n)));
+        val receiver = cd.child(classOf[FifoReceiver]);
+        //sender -- FifoPort ++ receiver;
+        `!connect`(FifoPort)(receiver -> sender);
+      },
+      ew
+    );
     ew {
       Kompics.createAndStart(cd, init);
     }
@@ -148,17 +152,18 @@ case class TearDown() extends KompicsEvent
 class BasicTestComponent extends ComponentDefinition with EventTester {
 
   ctrl uponEvent {
-    case msg: se.sics.kompics.Start => handle {
-      check(msg);
-      trigger(TearDown(), onSelf);
-    }
+    case msg: se.sics.kompics.Start =>
+      handle {
+        check(msg);
+        trigger(TearDown(), onSelf);
+      }
   }
 
   loopbck uponEvent {
     case TearDown() => handle { suicide() }
   }
 
-  override def tearDown() {
+  override def tearDown(): Unit = {
     check(TearDown())
   }
 
@@ -167,23 +172,24 @@ class BasicTestComponent extends ComponentDefinition with EventTester {
 class ConfigTestComponent extends ComponentDefinition with EventTester {
 
   ctrl uponEvent {
-    case msg: se.sics.kompics.Start => handle {
-      check(msg);
+    case msg: se.sics.kompics.Start =>
+      handle {
+        check(msg);
 
-      val cb = cfg.original.modify(this.id());
-      cb.setValue("test", 42);
-      val cu = cb.finalise();
-      this.updateConfig(cu); // this shouldn't crash at least
+        val cb = cfg.original.modify(this.id());
+        cb.setValue("test", 42);
+        val cu = cb.finalise();
+        this.updateConfig(cu); // this shouldn't crash at least
 
-      trigger(TearDown(), onSelf);
-    }
+        trigger(TearDown(), onSelf);
+      }
   }
 
   loopbck uponEvent {
     case TearDown() => handle { suicide() }
   }
 
-  override def tearDown() {
+  override def tearDown(): Unit = {
     check(TearDown())
   }
 
@@ -202,13 +208,14 @@ class BasicTestRequirer extends ComponentDefinition with EventTester {
   val test = requires(TestPort);
 
   ctrl uponEvent {
-    case _: se.sics.kompics.Start => handle { trigger (TestMessage("lala") -> test); }
+    case _: se.sics.kompics.Start => handle { trigger(TestMessage("lala") -> test); }
   }
 
   test uponEvent {
-    case msg @ TestAck => handle {
-      check(msg)
-    }
+    case msg @ TestAck =>
+      handle {
+        check(msg)
+      }
   }
 }
 
@@ -217,10 +224,11 @@ class BasicTestProvider extends ComponentDefinition with EventTester {
   val test = provides(TestPort);
 
   test uponEvent {
-    case msg @ TestMessage(t) => handle {
-      check(msg);
-      trigger (TestAck -> test);
-    }
+    case msg @ TestMessage(t) =>
+      handle {
+        check(msg);
+        trigger(TestAck -> test);
+      }
 
   }
 
@@ -239,12 +247,13 @@ class FifoSender(init: Init[FifoSender]) extends ComponentDefinition with EventT
   }
 
   ctrl uponEvent {
-    case _: se.sics.kompics.Start => handle {
-      for (i <- 1 to n) {
-        println(s"Sending msg $i");
-        trigger (FifoMessage(i) -> fifo);
+    case _: se.sics.kompics.Start =>
+      handle {
+        for (i <- 1 to n) {
+          println(s"Sending msg $i");
+          trigger(FifoMessage(i) -> fifo);
+        }
       }
-    }
   }
 }
 
@@ -252,9 +261,10 @@ class FifoReceiver extends ComponentDefinition with EventTester {
   val fifo = provides(FifoPort);
 
   fifo uponEvent {
-    case m @ FifoMessage(i) => handle {
-      println(s"Received msg $i");
-      check(m);
-    }
+    case m @ FifoMessage(i) =>
+      handle {
+        println(s"Received msg $i");
+        check(m);
+      }
   }
 }

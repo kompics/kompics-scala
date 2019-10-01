@@ -27,7 +27,7 @@ import scala.compat.java8.OptionConverters._
 class Config(val original: se.sics.kompics.config.Config) {
   import Config._
 
-  PrimitiveConverters.register();
+  val _conv = PrimitiveConverters; // force the object to be loaded and do it's registration
 
   def readValue[T: TypeTag](key: String): Option[T] = {
     val valueType = typeOf[T];

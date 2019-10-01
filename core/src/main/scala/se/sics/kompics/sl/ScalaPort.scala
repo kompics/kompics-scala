@@ -30,7 +30,7 @@ import se.sics.kompics.SpinlockQueue
 import se.sics.kompics.ChannelCore
 import se.sics.kompics.ChannelSelectorSet
 import se.sics.kompics.ConfigurationException
-import se.sics.kompics.{ Handler => JHandler }
+import se.sics.kompics.{Handler => JHandler}
 import se.sics.kompics.Request
 import se.sics.kompics.Response
 import se.sics.kompics.Direct
@@ -45,23 +45,29 @@ import scala.reflect.Manifest
 import java.lang.reflect.Method
 
 /**
- * The <code>ScalaPort</code> class.
- *
- * @author Lars Kroll {@literal <lkroll@kth.se>}
- * @version $Id: $
- */
-class ScalaPort[P <: PortType](positive: Boolean, pType: P, parent: ComponentCore, private val rwLock: ReentrantReadWriteLock)
-  extends PortCore[P] with NegativePort[P] with PositivePort[P] {
+  * The <code>ScalaPort</code> class.
+  *
+  * @author Lars Kroll {@literal <lkroll@kth.se>}
+  * @version $Id: $
+  */
+class ScalaPort[P <: PortType](positive: Boolean,
+                               pType: P,
+                               parent: ComponentCore,
+                               private val rwLock: ReentrantReadWriteLock)
+    extends PortCore[P]
+    with NegativePort[P]
+    with PositivePort[P] {
 
   private var pair: ScalaPort[P] = null;
   private var subs = Array.empty[Handler];
   //private val preparedHandlers = scala.collection.mutable.HashMap.empty[KompicsEvent, Seq[MatchedHandler]];
-  private val preparedHandlers = new java.util.concurrent.ConcurrentLinkedQueue[Tuple2[KompicsEvent, Seq[MatchedHandler]]]();
+  private val preparedHandlers =
+    new java.util.concurrent.ConcurrentLinkedQueue[Tuple2[KompicsEvent, Seq[MatchedHandler]]]();
   private val normalChannels = scala.collection.mutable.ListBuffer.empty[ChannelCore[P]];
   private val selectorChannels = new ChannelSelectorSet();
   //private val eventQueue: SpinlockQueue[KompicsEvent] = new SpinlockQueue[KompicsEvent]();
 
-  private def setup() {
+  private def setup(): Unit = {
     isPositive = positive;
     portType = pType;
     owner = parent;
@@ -79,14 +85,16 @@ class ScalaPort[P <: PortType](positive: Boolean, pType: P, parent: ComponentCor
     }
   }
 
-  override def doSubscribe[E <: KompicsEvent](handler: JHandler[E]) {
+  override def doSubscribe[E <: KompicsEvent](handler: JHandler[E]): Unit = {
     var eventType = handler.getEventType();
     if (eventType == null) {
       eventType = reflectHandlerEventType(handler);
       handler.setEventType(eventType);
     }
     val closureHandler: Handler = { e =>
-      if (e.getClass().isAssignableFrom(eventType)) () => { handler.asInstanceOf[JHandler[KompicsEvent]].handle(e) } else {
+      if (e.getClass().isAssignableFrom(eventType))() => {
+        handler.asInstanceOf[JHandler[KompicsEvent]].handle(e)
+      } else {
         throw new MatchError(e.getClass() + " didn't match " + eventType);
       }
     };
@@ -94,27 +102,30 @@ class ScalaPort[P <: PortType](positive: Boolean, pType: P, parent: ComponentCor
   }
 
   /**
-   * This method has no implementation in Scala!
-   *
-   * Use pattern matching instead!
-   */
+    * This method has no implementation in Scala!
+    *
+    * Use pattern matching instead!
+    */
   override def doSubscribe(handler: se.sics.kompics.MatchedHandler[_, _, _]): Unit = {
-    throw new ConfigurationException("Can not use se.sics.kompics.MatchedHandler in ScalaPort! Use Scala's pattern matching instead.");
+    throw new ConfigurationException(
+      "Can not use se.sics.kompics.MatchedHandler in ScalaPort! Use Scala's pattern matching instead."
+    );
   }
 
   private def reflectHandlerEventType[E <: KompicsEvent](handler: JHandler[E]): Class[E] = {
     try {
       val declared = handler.getClass().getDeclaredMethods();
-      val relevant = scala.collection.mutable.TreeSet.empty[Class[_ <: KompicsEvent]](new Ordering[Class[_ <: KompicsEvent]] {
-        override def compare(e1: Class[_ <: KompicsEvent], e2: Class[_ <: KompicsEvent]): Int = {
-          if (e1.isAssignableFrom(e2)) {
-            return 1;
-          } else if (e2.isAssignableFrom(e1)) {
-            return -1;
+      val relevant =
+        scala.collection.mutable.TreeSet.empty[Class[_ <: KompicsEvent]](new Ordering[Class[_ <: KompicsEvent]] {
+          override def compare(e1: Class[_ <: KompicsEvent], e2: Class[_ <: KompicsEvent]): Int = {
+            if (e1.isAssignableFrom(e2)) {
+              return 1;
+            } else if (e2.isAssignableFrom(e1)) {
+              return -1;
+            }
+            return 0;
           }
-          return 0;
-        }
-      });
+        });
       for (m <- declared) {
         if (m.getName().equals("handle")) {
           relevant += m.getParameterTypes()(0).asInstanceOf[Class[_ <: KompicsEvent]];
@@ -125,12 +136,14 @@ class ScalaPort[P <: PortType](positive: Boolean, pType: P, parent: ComponentCor
     } catch {
       case e: Throwable =>
         throw new RuntimeException(s"Cannot reflect handler event type for "
-          + "handler $handler. Please specify it "
-          + "as an argument to the handler constructor.", e);
+                                     + "handler $handler. Please specify it "
+                                     + "as an argument to the handler constructor.",
+                                   e);
     }
     throw new RuntimeException(
       s"Cannot reflect handler event type for handler $handler. Please specify it "
-        + "as an argument to the handler constructor.");
+        + "as an argument to the handler constructor."
+    );
   }
 
   private def doManifestSubscribe[E <: KompicsEvent: Manifest](handler: JHandler[E]): Unit = {
@@ -181,7 +194,9 @@ class ScalaPort[P <: PortType](positive: Boolean, pType: P, parent: ComponentCor
           throw new RuntimeException(s"Handler ${handler} is not subscribed to this port ${this}");
         }
       } else {
-        throw new RuntimeException("Handler ${handler} could not be unsubscribed as no handler is currently subscribed to this port ${this}");
+        throw new RuntimeException(
+          "Handler ${handler} could not be unsubscribed as no handler is currently subscribed to this port ${this}"
+        );
       }
     } finally {
       rwLock.writeLock().unlock();
@@ -269,7 +284,8 @@ class ScalaPort[P <: PortType](positive: Boolean, pType: P, parent: ComponentCor
               } else {
                 throw new RuntimeException(
                   s"Response path invalid: expected to arrive to component ${component.getComponent()}"
-                    + " but instead arrived at ${owner.getComponent()}");
+                    + " but instead arrived at ${owner.getComponent()}"
+                );
               }
             }
           } else {
@@ -295,7 +311,9 @@ class ScalaPort[P <: PortType](positive: Boolean, pType: P, parent: ComponentCor
         // nothing
       } else {
         // error, event type doesn't flow on this port in this direction
-        throw new RuntimeException(s"${eventType.getCanonicalName()} events cannot be triggered on ${portDirection(!isPositive)} ${portType.getClass().getCanonicalName()}");
+        throw new RuntimeException(
+          s"${eventType.getCanonicalName()} events cannot be triggered on ${portDirection(!isPositive)} ${portType.getClass().getCanonicalName()}"
+        );
       }
     }
   }
@@ -375,7 +393,7 @@ class ScalaPort[P <: PortType](positive: Boolean, pType: P, parent: ComponentCor
     }
   }
 
-  override def removeChannel(channel: ChannelCore[P]) {
+  override def removeChannel(channel: ChannelCore[P]): Unit = {
     rwLock.writeLock().lock();
     try {
       selectorChannels.removeChannel(channel);
@@ -385,7 +403,7 @@ class ScalaPort[P <: PortType](positive: Boolean, pType: P, parent: ComponentCor
     }
   }
 
-  override def cleanChannels() {
+  override def cleanChannels(): Unit = {
     rwLock.writeLock().lock();
     try {
       selectorChannels.clear();
@@ -395,7 +413,7 @@ class ScalaPort[P <: PortType](positive: Boolean, pType: P, parent: ComponentCor
     }
   }
 
-  override def cleanEvents() {
+  override def cleanEvents(): Unit = {
     preparedHandlers.clear();
   }
 

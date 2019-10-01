@@ -1,4 +1,3 @@
-
 /*
  * This file is part of the Kompics component model runtime.
  *
@@ -24,11 +23,11 @@ package se.sics.kompics
 import se.sics.kompics.config.ConfigUpdate
 
 /**
- * A small adapter class for Java -> Scala
- *
- * @author Lars Kroll {@literal <lkroll@kth.se>}
- */
-protected[kompics] abstract class ComponentCoreScala extends ComponentCore {
+  * A small adapter class for Java -> Scala
+  *
+  * @author Lars Kroll {@literal <lkroll@kth.se>}
+  */
+abstract protected[kompics] class ComponentCoreScala extends ComponentCore {
   override private[kompics] def doConfigUpdate(update: ConfigUpdate): Unit = {
     this.doConfigUpdateScala(update);
   }

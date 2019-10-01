@@ -20,14 +20,14 @@
  */
 package se.sics.kompics.sl
 
-import se.sics.kompics.{ Kompics => JKompics, Scheduler, FaultHandler, Init => JInit }
-import se.sics.kompics.config.{ Config => JConfig }
+import se.sics.kompics.{Kompics => JKompics, Scheduler, FaultHandler, Init => JInit}
+import se.sics.kompics.config.{Config => JConfig}
 
 /**
- * Convenient object to forward static members of `se.sics.kompics.Kompics`.
- *
- * @author Lars Kroll {@literal <lkroll@kth.se>}
- */
+  * Convenient object to forward static members of `se.sics.kompics.Kompics`.
+  *
+  * @author Lars Kroll {@literal <lkroll@kth.se>}
+  */
 object Kompics {
   val SHUTDOWN_TIMEOUT = JKompics.SHUTDOWN_TIMEOUT;
   val logger = JKompics.logger;
@@ -53,15 +53,23 @@ object Kompics {
 
   def createAndStart[C <: ComponentDefinition](main: Class[C]): Unit = JKompics.createAndStart[C](main);
 
-  def createAndStart[C <: ComponentDefinition](main: Class[C], init: JInit[C]): Unit = JKompics.createAndStart[C](main, init);
+  def createAndStart[C <: ComponentDefinition](main: Class[C], init: JInit[C]): Unit =
+    JKompics.createAndStart[C](main, init);
 
-  def createAndStart[C <: ComponentDefinition](main: Class[C], workers: Int): Unit = JKompics.createAndStart[C](main, workers);
+  def createAndStart[C <: ComponentDefinition](main: Class[C], workers: Int): Unit =
+    JKompics.createAndStart[C](main, workers);
 
-  def createAndStart[C <: ComponentDefinition](main: Class[C], init: JInit[C], workers: Int): Unit = JKompics.createAndStart[C](main, init, workers);
+  def createAndStart[C <: ComponentDefinition](main: Class[C], init: JInit[C], workers: Int): Unit =
+    JKompics.createAndStart[C](main, init, workers);
 
-  def createAndStart[C <: ComponentDefinition](main: Class[C], workers: Int, maxEventExecuteNumber: Int): Unit = JKompics.createAndStart[C](main, workers, maxEventExecuteNumber);
+  def createAndStart[C <: ComponentDefinition](main: Class[C], workers: Int, maxEventExecuteNumber: Int): Unit =
+    JKompics.createAndStart[C](main, workers, maxEventExecuteNumber);
 
-  def createAndStart[C <: ComponentDefinition](main: Class[C], init: JInit[C], workers: Int, maxEventExecuteNumber: Int): Unit = JKompics.createAndStart[C](main, init, workers, maxEventExecuteNumber);
+  def createAndStart[C <: ComponentDefinition](main: Class[C],
+                                               init: JInit[C],
+                                               workers: Int,
+                                               maxEventExecuteNumber: Int): Unit =
+    JKompics.createAndStart[C](main, init, workers, maxEventExecuteNumber);
 
   def asyncShutdown(): Unit = JKompics.asyncShutdown();
 

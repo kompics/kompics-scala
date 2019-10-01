@@ -23,11 +23,11 @@ package se.sics.kompics.sl
 import scala.reflect.runtime.universe._
 
 /**
- * The <code>PortType</code> class.
- *
- * @author Lars Kroll {@literal <lkroll@kth.se>}
- * @version $Id: $
- */
+  * The <code>PortType</code> class.
+  *
+  * @author Lars Kroll {@literal <lkroll@kth.se>}
+  * @version $Id: $
+  */
 abstract class Port extends se.sics.kompics.PortType {
   se.sics.kompics.PortType.preloadInstance(this);
 
@@ -35,22 +35,22 @@ abstract class Port extends se.sics.kompics.PortType {
   //        super.request(event.getClass)
   //    }
 
-  def request[E <: KompicsEvent: TypeTag] {
+  def request[E <: KompicsEvent: TypeTag]: Unit = {
     val te = typeOf[E];
     super.request(asJavaClass(te))
   }
 
-  def request(event: KompicsEvent) {
+  def request(event: KompicsEvent): Unit = {
     val eventType = event.getClass;
     super.request(eventType);
   }
 
-  def indication[E <: KompicsEvent: TypeTag] {
+  def indication[E <: KompicsEvent: TypeTag]: Unit = {
     val te = typeOf[E];
     super.indication(asJavaClass(te))
   }
 
-  def indication(event: KompicsEvent) {
+  def indication(event: KompicsEvent): Unit = {
     val eventType = event.getClass;
     super.indication(eventType);
   }

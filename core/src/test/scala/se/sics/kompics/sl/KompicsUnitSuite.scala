@@ -27,9 +27,10 @@ import se.sics.kompics.Component
 import se.sics.kompics.config.ConfigUpdate
 
 trait EventTester {
-  @volatile protected var check: KompicsEvent => Unit = { (msg) => }
+  @volatile protected var check: KompicsEvent => Unit = { (msg) =>
+  }
 
-  def registerHandler(f: KompicsEvent => Unit) {
+  def registerHandler(f: KompicsEvent => Unit): Unit = {
     check = f
   }
 }
@@ -42,11 +43,18 @@ object KompicsUnitSuite {
 
   class SetupDefinition(init: Init[SetupDefinition]) extends ComponentDefinition {
 
-    private val (conf, checker) = init match { case Init(conf: Conf @unchecked, checker: EventChecker @unchecked) => (conf, checker) };
+    private val (conf, checker) = init match {
+      case Init(conf: Conf @unchecked, checker: EventChecker @unchecked) => (conf, checker)
+    };
 
-    def child[T <: se.sics.kompics.ComponentDefinition](definition: Class[T]): Component = child(definition, None, None);
-    def child[T <: se.sics.kompics.ComponentDefinition](definition: Class[T], initEvent: Option[se.sics.kompics.Init[T]]): Component = child(definition, initEvent, None);
-    def child[T <: se.sics.kompics.ComponentDefinition](definition: Class[T], initEvent: Option[se.sics.kompics.Init[T]], update: Option[ConfigUpdate]): Component = {
+    def child[T <: se.sics.kompics.ComponentDefinition](definition: Class[T]): Component =
+      child(definition, None, None);
+    def child[T <: se.sics.kompics.ComponentDefinition](definition: Class[T],
+                                                        initEvent: Option[se.sics.kompics.Init[T]]): Component =
+      child(definition, initEvent, None);
+    def child[T <: se.sics.kompics.ComponentDefinition](definition: Class[T],
+                                                        initEvent: Option[se.sics.kompics.Init[T]],
+                                                        update: Option[ConfigUpdate]): Component = {
       val c = (initEvent, update) match {
         case (Some(ie), Some(u)) => create(definition, ie, u)
         case (Some(ie), None)    => create(definition, ie)
@@ -72,26 +80,27 @@ abstract class KompicsUnitSuite extends FunSuite with Matchers with Waiters {
   import org.scalatest.exceptions.NotAllowedException
   import org.scalatest.exceptions.TestFailedException
   import org.scalatest.concurrent.PatienceConfiguration._
-  import time.{ Nanoseconds, Seconds, Span }
+  import time.{Nanoseconds, Seconds, Span}
 
-  override implicit def patienceConfig = PatienceConfig(scaled(Span(5, Seconds)))
+  implicit override def patienceConfig = PatienceConfig(scaled(Span(5, Seconds)))
 
-  def setup(configure: Conf, checker: EventChecker): Tuple2[Class[SetupDefinition], Init[SetupDefinition]] = (classOf[SetupDefinition], Init(configure, checker))
+  def setup(configure: Conf, checker: EventChecker): Tuple2[Class[SetupDefinition], Init[SetupDefinition]] =
+    (classOf[SetupDefinition], Init(configure, checker))
 
   class EventWaiter extends EventChecker {
 
-    private final val creatingThread = Thread.currentThread
+    final private val creatingThread = Thread.currentThread
 
     val checkers: java.util.Deque[EventChecker] = new java.util.LinkedList[EventChecker]();
     val eventQueue = new java.util.concurrent.LinkedBlockingDeque[KompicsEvent]();
 
     private var init: () => Unit = () => {};
 
-    def apply(init: => Unit) {
+    def apply(init: => Unit): Unit = {
       this.init = init _;
     }
 
-    def apply(fun: EventChecker) {
+    def apply(fun: EventChecker): Unit = {
       if (Thread.currentThread != creatingThread) {
         throw new NotAllowedException("EventCheckers must be created on the test thread not within components!", 2)
       }
@@ -99,7 +108,7 @@ abstract class KompicsUnitSuite extends FunSuite with Matchers with Waiters {
     }
 
     class NOF(n: Int) {
-      def of(fun: EventChecker) {
+      def of(fun: EventChecker): Unit = {
         for (_ <- 1 to n) {
           apply(fun)
         }
@@ -110,12 +119,12 @@ abstract class KompicsUnitSuite extends FunSuite with Matchers with Waiters {
       new NOF(times);
     }
 
-    def apply(event: KompicsEvent) {
+    def apply(event: KompicsEvent): Unit = {
       println(s"Putting $event into the event queue");
       eventQueue.put(event);
     }
 
-    private def awaitImpl(timeout: Span) {
+    private def awaitImpl(timeout: Span): Unit = {
       if (Thread.currentThread != creatingThread) {
         throw new NotAllowedException("Await must be called on test thread!", 2)
       }
@@ -143,11 +152,11 @@ abstract class KompicsUnitSuite extends FunSuite with Matchers with Waiters {
       }
     }
 
-    def await(timeout: Timeout) {
+    def await(timeout: Timeout): Unit = {
       awaitImpl(timeout.value)
     }
 
-    def await()(implicit config: PatienceConfig) {
+    def await()(implicit config: PatienceConfig): Unit = {
       awaitImpl(config.timeout)
     }
   }
