@@ -60,12 +60,9 @@ class ScalaPort[P <: PortType](positive: Boolean,
 
   private var pair: ScalaPort[P] = null;
   private var subs = Array.empty[Handler];
-  //private val preparedHandlers = scala.collection.mutable.HashMap.empty[KompicsEvent, Seq[MatchedHandler]];
-  private val preparedHandlers =
-    new java.util.concurrent.ConcurrentLinkedQueue[Tuple2[KompicsEvent, Seq[MatchedHandler]]]();
   private val normalChannels = scala.collection.mutable.ListBuffer.empty[ChannelCore[P]];
   private val selectorChannels = new ChannelSelectorSet();
-  //private val eventQueue: SpinlockQueue[KompicsEvent] = new SpinlockQueue[KompicsEvent]();
+  private val eventQueue: SpinlockQueue[KompicsEvent] = new SpinlockQueue[KompicsEvent]();
 
   private def setup(): Unit = {
     isPositive = positive;
@@ -91,12 +88,8 @@ class ScalaPort[P <: PortType](positive: Boolean,
       eventType = reflectHandlerEventType(handler);
       handler.setEventType(eventType);
     }
-    val closureHandler: Handler = { e =>
-      if (e.getClass().isAssignableFrom(eventType))() => {
-        handler.asInstanceOf[JHandler[KompicsEvent]].handle(e)
-      } else {
-        throw new MatchError(e.getClass() + " didn't match " + eventType);
-      }
+    val closureHandler: Handler = {
+      case e if e.getClass().isAssignableFrom(eventType) => handler.asInstanceOf[JHandler[KompicsEvent]].handle(e)
     };
     doSubscribe(closureHandler);
   }
@@ -147,7 +140,7 @@ class ScalaPort[P <: PortType](positive: Boolean,
   }
 
   private def doManifestSubscribe[E <: KompicsEvent: Manifest](handler: JHandler[E]): Unit = {
-    val closureHandler: Handler = { case e: E => handle { handler.handle(e) } };
+    val closureHandler: Handler = { case e: E => handler.handle(e) };
     doSubscribe(closureHandler);
   }
 
@@ -203,24 +196,52 @@ class ScalaPort[P <: PortType](positive: Boolean,
     }
   }
 
-  def uponEvent(handler: Handler): Handler = { doSubscribe(handler); return handler; }
+  def uponEvent(handler: Handler): Handler = {
+    doSubscribe(handler);
+    return handler;
+  }
 
-  private def getMatchingHandlers(event: KompicsEvent): Seq[MatchedHandler] = {
-    // This has supposedly the fastest construction for unkown size collections: http://www.lihaoyi.com/post/BenchmarkingScalaCollections.html#construction-performance
-    var matching = List.empty[MatchedHandler];
+  private[kompics] def hasMatchingHandler(event: KompicsEvent): Boolean = {
     val l = subs.length;
     var i = 0;
     while (i < l) {
       val handler = subs(i);
-      try {
-        matching = handler(event) :: matching;
-      } catch {
-        case e: MatchError => //ignore (not all handlers usually match) //println("MatchError: "+e.getMessage());
+      if (handler.isDefinedAt(event)) {
+        return true;
       }
       i += 1;
     }
-    return matching;
+    return false;
   }
+
+  private[kompics] def foreachMatchingHandler(event: KompicsEvent)(f: Handler => Unit): Unit = {
+    val l = subs.length;
+    var i = 0;
+    while (i < l) {
+      val handler = subs(i);
+      if (handler.isDefinedAt(event)) {
+        f(handler);
+      }
+      i += 1;
+    }
+  }
+
+  // private def getMatchingHandlers(event: KompicsEvent): Seq[MatchedHandler] = {
+  //   // This has supposedly the fastest construction for unkown size collections: http://www.lihaoyi.com/post/BenchmarkingScalaCollections.html#construction-performance
+  //   var matching = List.empty[MatchedHandler];
+  //   val l = subs.length;
+  //   var i = 0;
+  //   while (i < l) {
+  //     val handler = subs(i);
+  //     try {
+  //       matching = handler(event) :: matching;
+  //     } catch {
+  //       case e: MatchError => //ignore (not all handlers usually match) //println("MatchError: "+e.getMessage());
+  //     }
+  //     i += 1;
+  //   }
+  //   return matching;
+  // }
 
   //  protected[kompics] def pickFirstEvent(): KompicsEvent = {
   //    return eventQueue.poll();
@@ -241,7 +262,7 @@ class ScalaPort[P <: PortType](positive: Boolean,
   //        }
   //    }
 
-  protected[kompics] def pollPreparedHandlers(): (KompicsEvent, Seq[MatchedHandler]) = preparedHandlers.poll();
+  //protected[kompics] def pollPreparedHandlers(): (KompicsEvent, Seq[MatchedHandler]) = preparedHandlers.poll();
 
   override def doTrigger(event: KompicsEvent, wid: Int, channel: ChannelCore[_]): Unit = {
     event match {
@@ -353,10 +374,9 @@ class ScalaPort[P <: PortType](positive: Boolean,
 
   private def deliverToSubscribers(event: KompicsEvent, wid: Int): Boolean = {
     if (!subs.isEmpty) {
-      val handlers = getMatchingHandlers(event);
-      if (!handlers.isEmpty) {
-        preparedHandlers.offer((event -> handlers));
+      if (hasMatchingHandler(event)) {
         owner.eventReceived(this, event, wid);
+        this.eventQueue.offer(event);
         return true;
       }
     }
@@ -414,7 +434,15 @@ class ScalaPort[P <: PortType](positive: Boolean,
   }
 
   override def cleanEvents(): Unit = {
-    preparedHandlers.clear();
+    eventQueue.clear();
+  }
+
+  def pollFirstEvent(): KompicsEvent = {
+    eventQueue.poll()
+  }
+
+  def hasEvent(): Boolean = {
+    !eventQueue.isEmpty()
   }
 
   override def findChannelsTo(port: PortCore[P]): java.util.List[Channel[P]] = {

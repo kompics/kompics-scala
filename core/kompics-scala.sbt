@@ -2,8 +2,7 @@ name := "Kompics-Scala"
 
 organization := "se.sics.kompics"
 
-
-version := "1.2.0-SNAPSHOT"
+version := "2.0.0-SNAPSHOT"
 
 val kompicsVersion = "1.1.0";
 
@@ -11,8 +10,7 @@ scalaVersion := "2.13.1"
 
 crossScalaVersions := Seq("2.11.12", "2.12.10", "2.13.1")
 
-scalacOptions ++= Seq("-deprecation","-feature")
-
+scalacOptions ++= Seq("-deprecation", "-feature")
 
 resolvers += Resolver.mavenLocal
 resolvers += Resolver.jcenterRepo

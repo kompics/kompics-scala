@@ -79,10 +79,9 @@ class TestError extends RuntimeException {}
 
 class ParentFaulter extends ComponentDefinition {
   ctrl uponEvent {
-    case msg: se.sics.kompics.Start =>
-      handle {
-        throw new TestError();
-      }
+    case msg: se.sics.kompics.Start => {
+      throw new TestError();
+    }
   }
 }
 
@@ -128,10 +127,9 @@ class GrandChild(init: Init[GrandChild]) extends ComponentDefinition with EventT
   registerHandler(checker);
 
   ctrl uponEvent {
-    case msg: se.sics.kompics.Start =>
-      handle {
-        check(msg);
-        throw new TestError();
-      }
+    case msg: se.sics.kompics.Start => {
+      check(msg);
+      throw new TestError();
+    }
   }
 }

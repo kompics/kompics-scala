@@ -270,13 +270,13 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
             previousState = state;
             MDC.put(JCD.MDC_KEY_CSTATE, state.name());
           }
-          var eventHandlers: (KompicsEvent, Seq[MatchedHandler]) = null;
+          var event: KompicsEvent = null;
           var nextPort: ScalaPort[_] = null;
           if ((state == State.PASSIVE) || (state == State.STARTING)) {
-            eventHandlers = negativeControl.pollPreparedHandlers();
+            event = negativeControl.pollFirstEvent();
             nextPort = negativeControl;
 
-            if (eventHandlers == null) {
+            if (event == null) {
               logger.debug("Not scheduling component.");
               // try again
               if (wc > 0) {
@@ -294,25 +294,21 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
                 break;
               }
               case x => throw new RuntimeException(s"Incompatible port type: $x")
-            }
-            eventHandlers = nextPort.pollPreparedHandlers();
+            };
+            event = nextPort.pollFirstEvent();
           }
 
-          if (eventHandlers == null) {
+          if (event == null) {
             logger.debug("Couldn't find event to schedule: wc={}", wc);
             wc = workCount.decrementAndGet();
             count += 1;
-            break
+            break;
           }
 
-          val (event, handlers) = eventHandlers;
-
-          if (handlers != null) {
-            breakable {
-              handlers foreach { handler =>
-                if (executeHandler(event, handler)) {
-                  break
-                }
+          breakable {
+            nextPort.foreachMatchingHandler(event) { handler =>
+              if (executeHandler(event, handler)) {
+                break
               }
             }
           }
@@ -330,10 +326,10 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
     }
   }
 
-  private def executeHandler(event: KompicsEvent, handler: MatchedHandler): Boolean = {
+  private def executeHandler(event: KompicsEvent, handler: Handler): Boolean = {
     try {
       //Kompics.logger.trace("Executing handler for event {}", event);
-      handler();
+      handler(event);
       return false;
     } catch {
       case ex: Throwable =>
@@ -386,25 +382,24 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
   }
 
   val handleFault = handler {
-    case f: Fault =>
-      () => {
-        val ra = component.handleFault(f);
-        import ResolveAction._
-        ra match {
-          case RESOLVED =>
-            logger.info("Fault {} was resolved by user.", f);
-          case IGNORE =>
-            logger.info("Fault {} was declared to be ignored by user. Resuming component...", f);
-            markSubtreeAtAs(f.getSource.getComponentCore, State.PASSIVE);
-            f.getSourceCore.control().doTrigger(Start, wid, this);
-          case DESTROY =>
-            logger.info("User declared that Fault {} should destroy component tree...", f);
-            destroyTreeAtParentOf(f.getSource.getComponentCore);
-            logger.info("finished destroying the subtree.");
-          case _ =>
-            escalateFault(f);
-        }
+    case f: Fault => {
+      val ra = component.handleFault(f);
+      import ResolveAction._
+      ra match {
+        case RESOLVED =>
+          logger.info("Fault {} was resolved by user.", f);
+        case IGNORE =>
+          logger.info("Fault {} was declared to be ignored by user. Resuming component...", f);
+          markSubtreeAtAs(f.getSource.getComponentCore, State.PASSIVE);
+          f.getSourceCore.control().doTrigger(Start, wid, this);
+        case DESTROY =>
+          logger.info("User declared that Fault {} should destroy component tree...", f);
+          destroyTreeAtParentOf(f.getSource.getComponentCore);
+          logger.info("finished destroying the subtree.");
+        case _ =>
+          escalateFault(f);
       }
+    }
   }
 
   private def confImpl = conf.asInstanceOf[JConfig.Impl];
@@ -417,85 +412,84 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
 
   val configHandler = handler {
 
-    case event: Update =>
-      () => {
-        val action = component.handleUpdate(event.update);
-        import UpdateAction.Propagation._
-        action.selfStrategy match {
-          case ORIGINAL =>
-            confImpl.apply(event.update, action.merger);
-          case MAP =>
-            confImpl.apply(action.selfMapper.map(event.update, event.update.modify(id())), action.merger);
-          case SWALLOW => // nothing
-        }
-        if ((parent != null) && (event.forwarder == parent.id())) { // downwards
-          action.downStrategy match {
-            case ORIGINAL =>
-              val forwardedEvent = new Update(event.update, id());
-              childrenS.foreach { child =>
-                child
-                  .getControl()
-                  .asInstanceOf[PortCore[ControlPort]]
-                  .doTrigger(forwardedEvent, wid, component.getComponentCore());
-              }
-            case MAP =>
-              val mappedUpdate = action.downMapper.map(event.update, event.update.modify(id()));
-              val forwardedEvent = new Update(mappedUpdate, id());
-              childrenS.foreach { child =>
-                child
-                  .getControl()
-                  .asInstanceOf[PortCore[ControlPort]]
-                  .doTrigger(forwardedEvent, wid, component.getComponentCore());
-              }
-            case SWALLOW => // do nothing
-          }
-        } else { // upwards and to other children
-          action.downStrategy match {
-            case ORIGINAL =>
-              val forwardedEvent = new Update(event.update, id());
-              childrenS.foreach { child =>
-                if (child.id() != event.forwarder) {
-                  child
-                    .getControl()
-                    .asInstanceOf[PortCore[ControlPort]]
-                    .doTrigger(forwardedEvent, wid, component.getComponentCore());
-                }
-              }
-            case MAP =>
-              val mappedUpdate = action.downMapper.map(event.update, event.update.modify(id()));
-              val forwardedEvent = new Update(mappedUpdate, id());
-              childrenS.foreach { child =>
-                if (child.id() != event.forwarder) {
-                  child
-                    .getControl()
-                    .asInstanceOf[PortCore[ControlPort]]
-                    .doTrigger(forwardedEvent, wid, component.getComponentCore());
-                }
-              }
-            case SWALLOW => // do nothing
-          }
-          if (parent != null) {
-            action.upStrategy match {
-              case ORIGINAL =>
-                val forwardedEvent = new Update(event.update, id());
-                parent
-                  .getControl()
-                  .asInstanceOf[PortCore[ControlPort]]
-                  .doTrigger(forwardedEvent, wid, component.getComponentCore());
-              case MAP =>
-                val mappedUpdate = action.upMapper.map(event.update, event.update.modify(id()));
-                val forwardedEvent = new Update(mappedUpdate, id());
-                parent
-                  .getControl()
-                  .asInstanceOf[PortCore[ControlPort]]
-                  .doTrigger(forwardedEvent, wid, component.getComponentCore());
-
-              case SWALLOW => // do nothing
-            }
-          }
-        }
-        component.postUpdate();
+    case event: Update => {
+      val action = component.handleUpdate(event.update);
+      import UpdateAction.Propagation._
+      action.selfStrategy match {
+        case ORIGINAL =>
+          confImpl.apply(event.update, action.merger);
+        case MAP =>
+          confImpl.apply(action.selfMapper.map(event.update, event.update.modify(id())), action.merger);
+        case SWALLOW => // nothing
       }
+      if ((parent != null) && (event.forwarder == parent.id())) { // downwards
+        action.downStrategy match {
+          case ORIGINAL =>
+            val forwardedEvent = new Update(event.update, id());
+            childrenS.foreach { child =>
+              child
+                .getControl()
+                .asInstanceOf[PortCore[ControlPort]]
+                .doTrigger(forwardedEvent, wid, component.getComponentCore());
+            }
+          case MAP =>
+            val mappedUpdate = action.downMapper.map(event.update, event.update.modify(id()));
+            val forwardedEvent = new Update(mappedUpdate, id());
+            childrenS.foreach { child =>
+              child
+                .getControl()
+                .asInstanceOf[PortCore[ControlPort]]
+                .doTrigger(forwardedEvent, wid, component.getComponentCore());
+            }
+          case SWALLOW => // do nothing
+        }
+      } else { // upwards and to other children
+        action.downStrategy match {
+          case ORIGINAL =>
+            val forwardedEvent = new Update(event.update, id());
+            childrenS.foreach { child =>
+              if (child.id() != event.forwarder) {
+                child
+                  .getControl()
+                  .asInstanceOf[PortCore[ControlPort]]
+                  .doTrigger(forwardedEvent, wid, component.getComponentCore());
+              }
+            }
+          case MAP =>
+            val mappedUpdate = action.downMapper.map(event.update, event.update.modify(id()));
+            val forwardedEvent = new Update(mappedUpdate, id());
+            childrenS.foreach { child =>
+              if (child.id() != event.forwarder) {
+                child
+                  .getControl()
+                  .asInstanceOf[PortCore[ControlPort]]
+                  .doTrigger(forwardedEvent, wid, component.getComponentCore());
+              }
+            }
+          case SWALLOW => // do nothing
+        }
+        if (parent != null) {
+          action.upStrategy match {
+            case ORIGINAL =>
+              val forwardedEvent = new Update(event.update, id());
+              parent
+                .getControl()
+                .asInstanceOf[PortCore[ControlPort]]
+                .doTrigger(forwardedEvent, wid, component.getComponentCore());
+            case MAP =>
+              val mappedUpdate = action.upMapper.map(event.update, event.update.modify(id()));
+              val forwardedEvent = new Update(mappedUpdate, id());
+              parent
+                .getControl()
+                .asInstanceOf[PortCore[ControlPort]]
+                .doTrigger(forwardedEvent, wid, component.getComponentCore());
+
+            case SWALLOW => // do nothing
+          }
+        }
+      }
+      component.postUpdate();
+    }
   }
 
   override protected[kompics] def doConfigUpdateScala(update: ConfigUpdate): Unit = {
@@ -540,114 +534,87 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
   }
 
   val handleLifecycle = handler {
-    case _: Start =>
-      () => {
-        if (state != State.PASSIVE) {
-          throw new KompicsException(
-            s"$this received a Start event while in $state state. "
-              + "Duplicate Start events are not allowed!"
-          );
+    case _: Start => {
+      if (state != State.PASSIVE) {
+        throw new KompicsException(
+          s"$this received a Start event while in $state state. "
+            + "Duplicate Start events are not allowed!"
+        );
+      }
+      try {
+        childrenLock.readLock().lock();
+        if (!children.isEmpty()) {
+          logger.debug("Starting...");
+          state = Component.State.STARTING;
+          childrenS.foreach { child =>
+            logger.debug("Sending Start to child: {}", child);
+            // start child
+            child
+              .getControl()
+              .asInstanceOf[PortCore[ControlPort]]
+              .doTrigger(Start, wid, component.getComponentCore());
+          }
+        } else {
+          logger.debug("Started!");
+          state = Component.State.ACTIVE;
+          if (parent != null) {
+            parent
+              .getControl()
+              .asInstanceOf[PortCore[ControlPort]]
+              .doTrigger(new Started(component.getComponentCore()), wid, component.getComponentCore());
+          }
         }
-        try {
-          childrenLock.readLock().lock();
-          if (!children.isEmpty()) {
-            logger.debug("Starting...");
-            state = Component.State.STARTING;
-            childrenS.foreach { child =>
-              logger.debug("Sending Start to child: {}", child);
-              // start child
+      } finally {
+        childrenLock.readLock().unlock();
+      }
+    }
+    case event: Started => {
+      logger.debug("Got Started event from {}", event.component);
+      activeSet.add(event.component);
+      logger.debug("Active set has {} members", activeSet.size);
+      try {
+        childrenLock.readLock().lock();
+        if ((activeSet.size == children.size()) && (state == State.STARTING)) {
+          logger.debug("Started!");
+          state = Component.State.ACTIVE;
+          if (parent != null) {
+            parent
+              .getControl()
+              .asInstanceOf[PortCore[ControlPort]]
+              .doTrigger(new Started(component.getComponentCore()), wid, component.getComponentCore());
+          }
+        }
+      } finally {
+        childrenLock.readLock().unlock();
+      }
+    }
+    case _: Stop => {
+      if (state != Component.State.ACTIVE) {
+        throw new KompicsException(
+          s"$this received a Stop event while in $state state. "
+            + "Duplicate Stop events are not allowed!"
+        );
+      }
+      try {
+        childrenLock.readLock().lock();
+        if (!children.isEmpty()) {
+          logger.debug("Stopping...");
+          state = Component.State.STOPPING;
+          childrenS.foreach { child =>
+            if (child.state() != Component.State.ACTIVE) {
+              // don't send stop events to already stopping components
+            } else {
+              logger.debug("Sending Stop to child: {}", child);
+              // stop child
               child
                 .getControl()
                 .asInstanceOf[PortCore[ControlPort]]
-                .doTrigger(Start, wid, component.getComponentCore());
-            }
-          } else {
-            logger.debug("Started!");
-            state = Component.State.ACTIVE;
-            if (parent != null) {
-              parent
-                .getControl()
-                .asInstanceOf[PortCore[ControlPort]]
-                .doTrigger(new Started(component.getComponentCore()), wid, component.getComponentCore());
+                .doTrigger(Stop, wid, component.getComponentCore());
             }
           }
-        } finally {
-          childrenLock.readLock().unlock();
-        }
-      }
-    case event: Started =>
-      () => {
-        logger.debug("Got Started event from {}", event.component);
-        activeSet.add(event.component);
-        logger.debug("Active set has {} members", activeSet.size);
-        try {
-          childrenLock.readLock().lock();
-          if ((activeSet.size == children.size()) && (state == State.STARTING)) {
-            logger.debug("Started!");
-            state = Component.State.ACTIVE;
-            if (parent != null) {
-              parent
-                .getControl()
-                .asInstanceOf[PortCore[ControlPort]]
-                .doTrigger(new Started(component.getComponentCore()), wid, component.getComponentCore());
-            }
-          }
-        } finally {
-          childrenLock.readLock().unlock();
-        }
-      }
-    case _: Stop =>
-      () => {
-        if (state != Component.State.ACTIVE) {
-          throw new KompicsException(
-            s"$this received a Stop event while in $state state. "
-              + "Duplicate Stop events are not allowed!"
-          );
-        }
-        try {
-          childrenLock.readLock().lock();
-          if (!children.isEmpty()) {
-            logger.debug("Stopping...");
-            state = Component.State.STOPPING;
-            childrenS.foreach { child =>
-              if (child.state() != Component.State.ACTIVE) {
-                // don't send stop events to already stopping components
-              } else {
-                logger.debug("Sending Stop to child: {}", child);
-                // stop child
-                child
-                  .getControl()
-                  .asInstanceOf[PortCore[ControlPort]]
-                  .doTrigger(Stop, wid, component.getComponentCore());
-              }
-            }
-          } else {
-            logger.debug("Stopped!");
-            state = Component.State.PASSIVE;
-            component.tearDown();
-            if (parent != null) {
-              parent
-                .getControl()
-                .asInstanceOf[PortCore[ControlPort]]
-                .doTrigger(new Stopped(component.getComponentCore()), wid, component.getComponentCore());
-            } else {
-              component.getComponentCore.synchronized {
-                component.getComponentCore.notifyAll();
-              }
-            }
-          }
-        } finally {
-          childrenLock.readLock().unlock();
-        }
-      }
-    case event: Stopped =>
-      () => {
-        logger.debug("Got Stopped event from {}", event.component);
-        activeSet -= event.component;
-        logger.debug(s"Active set has {} members", activeSet.size);
-        if (activeSet.isEmpty && (state == State.STOPPING)) {
+        } else {
           logger.debug("Stopped!");
-          state = State.PASSIVE;
+          state = Component.State.PASSIVE;
           component.tearDown();
           if (parent != null) {
             parent
@@ -656,72 +623,68 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
               .doTrigger(new Stopped(component.getComponentCore()), wid, component.getComponentCore());
           } else {
             component.getComponentCore.synchronized {
-              component.getComponentCore().notifyAll();
+              component.getComponentCore.notifyAll();
             }
           }
         }
+      } finally {
+        childrenLock.readLock().unlock();
       }
-    case _: Kill =>
-      () => {
-        if (state != Component.State.ACTIVE) {
-          throw new KompicsException(
-            s"$this received a Kill event while in $state state. "
-              + "Duplicate Kill events are not allowed!"
-          );
+    }
+    case event: Stopped => {
+      logger.debug("Got Stopped event from {}", event.component);
+      activeSet -= event.component;
+      logger.debug(s"Active set has {} members", activeSet.size);
+      if (activeSet.isEmpty && (state == State.STOPPING)) {
+        logger.debug("Stopped!");
+        state = State.PASSIVE;
+        component.tearDown();
+        if (parent != null) {
+          parent
+            .getControl()
+            .asInstanceOf[PortCore[ControlPort]]
+            .doTrigger(new Stopped(component.getComponentCore()), wid, component.getComponentCore());
+        } else {
+          component.getComponentCore.synchronized {
+            component.getComponentCore().notifyAll();
+          }
         }
-        try {
-          childrenLock.readLock().lock();
-          if (!children.isEmpty()) {
-            logger.debug("Slowly dying...");
-            state = Component.State.STOPPING;
-            getControl.getPair
-              .asInstanceOf[PortCore[ControlPort]]
-              .cleanEvents; // if multiple kills are queued up just ignore everything
+      }
+    }
+    case _: Kill => {
+      if (state != Component.State.ACTIVE) {
+        throw new KompicsException(
+          s"$this received a Kill event while in $state state. "
+            + "Duplicate Kill events are not allowed!"
+        );
+      }
+      try {
+        childrenLock.readLock().lock();
+        if (!children.isEmpty()) {
+          logger.debug("Slowly dying...");
+          state = Component.State.STOPPING;
+          getControl.getPair
+            .asInstanceOf[PortCore[ControlPort]]
+            .cleanEvents; // if multiple kills are queued up just ignore everything
 
-            childrenS.foreach { child =>
-              if (child.state() != Component.State.ACTIVE) {
-                // don't send stop events to already stopping components
-              } else {
-                logger.debug("Sending Kill to child: {}", child);
-                // stop child
-                child
-                  .getControl()
-                  .asInstanceOf[PortCore[ControlPort]]
-                  .doTrigger(Kill, wid, component.getComponentCore());
-              }
-            }
-          } else {
-            logger.debug("Dying...");
-            state = Component.State.PASSIVE;
-            getControl.getPair
-              .asInstanceOf[PortCore[ControlPort]]
-              .cleanEvents; // if multiple kills are queued up just ignore everything
-            component.tearDown();
-            if (parent != null) {
-              parent
+          childrenS.foreach { child =>
+            if (child.state() != Component.State.ACTIVE) {
+              // don't send stop events to already stopping components
+            } else {
+              logger.debug("Sending Kill to child: {}", child);
+              // stop child
+              child
                 .getControl()
                 .asInstanceOf[PortCore[ControlPort]]
-                .doTrigger(new Killed(component.getComponentCore()), wid, component.getComponentCore());
-            } else {
-              component.getComponentCore.synchronized {
-                component.getComponentCore().notifyAll();
-              }
+                .doTrigger(Kill, wid, component.getComponentCore());
             }
           }
-        } finally {
-          childrenLock.readLock().unlock();
-        }
-      }
-    case event: Killed =>
-      () => {
-        logger.debug("Got Killed event from {}", event.component);
-
-        activeSet -= event.component;
-        doDestroy(event.component);
-        logger.debug("Active set has {} members", activeSet.size);
-        if (activeSet.isEmpty && (state == State.STOPPING)) {
-          logger.debug("Stopped!");
-          state = State.PASSIVE;
+        } else {
+          logger.debug("Dying...");
+          state = Component.State.PASSIVE;
+          getControl.getPair
+            .asInstanceOf[PortCore[ControlPort]]
+            .cleanEvents; // if multiple kills are queued up just ignore everything
           component.tearDown();
           if (parent != null) {
             parent
@@ -734,7 +697,32 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
             }
           }
         }
+      } finally {
+        childrenLock.readLock().unlock();
       }
+    }
+    case event: Killed => {
+      logger.debug("Got Killed event from {}", event.component);
+
+      activeSet -= event.component;
+      doDestroy(event.component);
+      logger.debug("Active set has {} members", activeSet.size);
+      if (activeSet.isEmpty && (state == State.STOPPING)) {
+        logger.debug("Stopped!");
+        state = State.PASSIVE;
+        component.tearDown();
+        if (parent != null) {
+          parent
+            .getControl()
+            .asInstanceOf[PortCore[ControlPort]]
+            .doTrigger(new Killed(component.getComponentCore()), wid, component.getComponentCore());
+        } else {
+          component.getComponentCore.synchronized {
+            component.getComponentCore().notifyAll();
+          }
+        }
+      }
+    }
   }
 }
 

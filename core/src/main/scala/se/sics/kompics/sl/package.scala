@@ -36,14 +36,9 @@ import scala.compat.java8.OptionConverters._
 package object sl {
 
   /**
-    * The type used in the match body of a `uponEvent` block.
-    */
-  type MatchedHandler = () => Unit;
-
-  /**
     * The type returned by an `uponEvent` block.
     */
-  type Handler = KompicsEvent => MatchedHandler;
+  type Handler = PartialFunction[KompicsEvent, Unit];
 
   /*
    * Forward a bunch of types for convenience.
@@ -60,9 +55,8 @@ package object sl {
   val Kill = se.sics.kompics.Kill.event;
   type Killed = se.sics.kompics.Killed;
 
-  def handle(handler: => Unit): MatchedHandler = {
-    handler _;
-  }
+  @deprecated("This is a no-op now and can safely be removed.", "Kompics Scala 2.0.0")
+  def handle(closure: => Unit): Unit = closure;
 
   def handler(matcher: Handler): Handler = {
     matcher
