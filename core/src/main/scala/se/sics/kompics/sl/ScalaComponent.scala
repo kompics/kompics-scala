@@ -306,7 +306,7 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
           }
 
           breakable {
-            nextPort.foreachMatchingHandler(event) { handler =>
+            nextPort.foreachHandler(event) { handler =>
               if (executeHandler(event, handler)) {
                 break
               }
@@ -328,8 +328,7 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
 
   private def executeHandler(event: KompicsEvent, handler: Handler): Boolean = {
     try {
-      //Kompics.logger.trace("Executing handler for event {}", event);
-      handler(event);
+      handler.applyOrElse(event, dropEvent);
       return false;
     } catch {
       case ex: Throwable =>
@@ -339,6 +338,8 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
         return true; // state changed
     }
   }
+
+  private def dropEvent(_event: KompicsEvent): Unit = ();
 
   //    def ++[P <: PortType](port: P): PositivePort[_ <: P] = {
   //        this ++ port.getClass();

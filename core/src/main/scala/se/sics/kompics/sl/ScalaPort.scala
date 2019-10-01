@@ -214,14 +214,12 @@ class ScalaPort[P <: PortType](positive: Boolean,
     return false;
   }
 
-  private[kompics] def foreachMatchingHandler(event: KompicsEvent)(f: Handler => Unit): Unit = {
+  private[kompics] def foreachHandler(event: KompicsEvent)(f: Handler => Unit): Unit = {
     val l = subs.length;
     var i = 0;
     while (i < l) {
       val handler = subs(i);
-      if (handler.isDefinedAt(event)) {
-        f(handler);
-      }
+      f(handler);
       i += 1;
     }
   }
