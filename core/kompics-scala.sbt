@@ -12,11 +12,13 @@ crossScalaVersions := Seq("2.11.12", "2.12.10", "2.13.1")
 
 scalacOptions ++= Seq("-deprecation", "-feature")
 
+val kompicsV = "1.1.0";
+
 resolvers += Resolver.mavenLocal
 resolvers += Resolver.jcenterRepo
 resolvers += Resolver.bintrayRepo("kompics", "Maven")
 
-libraryDependencies += "se.sics.kompics" % "kompics-core" % kompicsVersion //version.value
+libraryDependencies += "se.sics.kompics" % "kompics-core" % kompicsV
 libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.9.+"
 libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value
 libraryDependencies += "org.scala-lang.modules" %% "scala-java8-compat" % "0.9.+"
