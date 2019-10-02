@@ -291,7 +291,7 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
               case null => {
                 wc = workCount.decrementAndGet();
                 count += 1;
-                break;
+                break; // continue
               }
               case x => throw new RuntimeException(s"Incompatible port type: $x")
             };
@@ -302,7 +302,7 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
             logger.debug("Couldn't find event to schedule: wc={}", wc);
             wc = workCount.decrementAndGet();
             count += 1;
-            break;
+            break; // continue
           }
 
           breakable {
@@ -329,7 +329,7 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
   private def executeHandler(event: KompicsEvent, handler: Handler): Boolean = {
     try {
       handler.applyOrElse(event, dropEvent);
-      return false;
+      return false; // no state change
     } catch {
       case ex: Throwable =>
         logger.error("Handling an event caused a fault! Might be handled later...", ex);

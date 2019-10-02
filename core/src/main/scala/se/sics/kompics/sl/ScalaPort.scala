@@ -374,7 +374,6 @@ class ScalaPort[P <: PortType](positive: Boolean,
     if (!subs.isEmpty) {
       if (hasMatchingHandler(event)) {
         owner.eventReceived(this, event, wid);
-        this.eventQueue.offer(event);
         return true;
       }
     }
@@ -474,7 +473,7 @@ class ScalaPort[P <: PortType](positive: Boolean,
 
   override def enqueue(event: KompicsEvent): Unit = {
     //Kompics.logger.trace("Queuing up event {}", event);
-    //eventQueue.offer(event);
+    eventQueue.offer(event);
   }
 
   def ++(component: Component): Channel[P] = {
