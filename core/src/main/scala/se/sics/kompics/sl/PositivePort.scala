@@ -37,10 +37,9 @@ import se.sics.kompics.{
 import se.sics.kompics.{Handler => JHandler}
 
 /**
-  * The <code>PositivePort</code> trait.
+  * Scala trait for a Positive port
   *
   * @author Lars Kroll {@literal <lkroll@kth.se>}
-  * @version $Id: $
   */
 trait PositivePort[P <: PortType] extends Positive[P] with AnyPort {
 
@@ -61,10 +60,9 @@ trait PositivePort[P <: PortType] extends Positive[P] with AnyPort {
 }
 
 /**
-  * The <code>PositiveWrapper</code> class.
+  * A wrapper for java ports to implement [[PositivePort]]
   *
   * @author Lars Kroll <lkroll@kth.se>
-  * @version $Id: $
   */
 class PositiveWrapper[P <: PortType](original: PortCore[P]) extends PositivePort[P] {
 
@@ -141,11 +139,14 @@ class PositiveWrapper[P <: PortType](original: PortCore[P]) extends PositivePort
 }
 
 /**
-  * The <code>PositivePort</code> object.
+  * Companion object providing utilities to create a [[PositivePort]] from a [[se.sics.kompics.PortCore]]
   *
   * @author Lars Kroll <lkroll@kth.se>
-  * @version $Id: $
   */
 object PositivePort {
+
+  /**
+    * Create a [[PositivePort]] from a [[se.sics.kompics.PortCore]] using a [[PositiveWrapper]]
+    */
   implicit def port2positive[P <: PortType](x: PortCore[P]): PositivePort[P] = new PositiveWrapper[P](x);
 }

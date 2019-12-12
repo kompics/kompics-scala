@@ -30,10 +30,9 @@ import org.slf4j.{Logger => JLogger, MDC};
 import com.typesafe.scalalogging.Logger
 
 /**
-  * The <code>ComponentDefinition</code> class.
+  * A Component Definition
   *
   * @author Lars Kroll {@literal <lkroll@kth.se>}
-  * @version $Id: ComponentDefinition.scala 4036 2011-07-19 15:50:01Z lars $
   */
 abstract class ComponentDefinition extends se.sics.kompics.ComponentDefinition(classOf[ScalaComponent]) {
 
@@ -157,11 +156,11 @@ abstract class ComponentDefinition extends se.sics.kompics.ComponentDefinition(c
     case None    => loggerMemo = Some(Logger(this.logger)); loggerMemo.get
   }
   override protected[sl] def setMDC(): Unit = super.setMDC();
-  protected def logCtxPut(p: Tuple2[String, String]): Unit = super.loggingCtxPut(p._1, p._2);
-  protected def logCtxPutAlways(p: Tuple2[String, String]): Unit = super.loggingCtxPutAlways(p._1, p._2);
-  protected def logCtxRemove(key: String): Unit = super.loggingCtxRemove(key);
-  protected def logCtxGet(key: String): Unit = super.loggingCtxGet(key);
-  protected def logCtxReset(): Unit = super.loggingCtxReset();
+  protected def logContextPut(p: Tuple2[String, String]): Unit = super.loggingContextPut(p._1, p._2);
+  protected def logContextPutAlways(p: Tuple2[String, String]): Unit = super.loggingContextPutAlways(p._1, p._2);
+  protected def logContextRemove(key: String): Unit = super.loggingContextRemove(key);
+  protected def logContextGet(key: String): Unit = super.loggingContextGet(key);
+  protected def logContextReset(): Unit = super.loggingContextReset();
 
   protected def loopbck: NegativePort[LoopbackPort] = {
     loopback match {

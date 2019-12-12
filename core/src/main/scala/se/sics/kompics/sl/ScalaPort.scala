@@ -20,7 +20,9 @@
  */
 package se.sics.kompics.sl
 
+import com.github.ghik.silencer.silent
 import scala.collection.JavaConverters._
+//import scala.jdk.CollectionConverters._
 import scala.language.existentials
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import se.sics.kompics.ComponentCore
@@ -45,10 +47,9 @@ import scala.reflect.Manifest
 import java.lang.reflect.Method
 
 /**
-  * The <code>ScalaPort</code> class.
+  * A Scala implementation of the [[se.sics.kompics.PortCore]]
   *
   * @author Lars Kroll {@literal <lkroll@kth.se>}
-  * @version $Id: $
   */
 class ScalaPort[P <: PortType](positive: Boolean,
                                pType: P,
@@ -348,6 +349,7 @@ class ScalaPort[P <: PortType](positive: Boolean,
       }
       delivered = true;
     }
+    @silent("deprecated")
     val channels = selectorChannels.get(event).asScala;
     channels.foreach { channel =>
       if (isPositive) {
@@ -455,6 +457,7 @@ class ScalaPort[P <: PortType](positive: Boolean,
         }
       }
     }
+    @silent("deprecated")
     val sChannels = selectorChannels.iterator().asScala;
     sChannels.foreach {
       case channel: ChannelCore[P] =>
@@ -468,7 +471,9 @@ class ScalaPort[P <: PortType](positive: Boolean,
           }
         }
     }
-    return channels.result().asJava;
+    @silent("deprecated")
+    val res = channels.result().asJava;
+    return res;
   }
 
   override def enqueue(event: KompicsEvent): Unit = {
@@ -523,6 +528,11 @@ class ScalaPort[P <: PortType](positive: Boolean,
   }
 }
 
+/**
+  * Companion utilities for the [[ScalaPort]]
+  *
+  * @author Lars Kroll {@literal <lkroll@kth.se>}
+  */
 object ScalaPort {
 
   def apply[P <: PortType](positive: Boolean, pType: P, parent: ComponentCore): ScalaPort[P] = {

@@ -23,13 +23,27 @@ package se.sics.kompics.sl
 import se.sics.kompics.config.{Conversions, Converter}
 import scala.reflect.runtime.universe._
 
+/**
+  * A Scala converter variant of [[se.sics.kompics.config.Converter]]
+  *
+  * @tparam T the target type of the converter
+  */
 abstract class SConv[T: TypeTag] extends Converter[T] {
+
+  /**
+    * Provide the Java runtime [[java.lang.Class]] for `T`
+    *
+    * @return the Java class instance for `T`
+    */
   override def `type`: Class[T] = {
     val tType = typeOf[T];
     asJavaClass(tType);
   }
 }
 
+/**
+  * A collection of converters for Scala primitives for use with the configuration utilities of Kompics
+  */
 object PrimitiveConverters {
 
   Conversions.register(BooleanConv);

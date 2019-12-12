@@ -39,7 +39,7 @@ class MatcherTestScala extends sl.KompicsUnitSuite {
       Kompics.createAndStart(cd, init);
     }
     ew { event =>
-      event should equal(Start.event);
+      event should equal(Start.EVENT);
     }
     ew { event =>
       event shouldBe a[DataContainer];

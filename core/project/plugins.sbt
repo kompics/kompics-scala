@@ -1,3 +1,10 @@
-addSbtPlugin("org.foundweekends" % "sbt-bintray" % "0.5.4")
+addSbtPlugin("org.foundweekends" % "sbt-bintray" % "latest.release")
 
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.3.0")
+
+addSbtPlugin("com.thoughtworks.sbt-api-mappings" % "sbt-api-mappings" % "latest.release")
+
+addSbtPlugin("com.typesafe.sbt" % "sbt-site" % "latest.release")
+addSbtPlugin("com.lightbend.paradox" % "sbt-paradox" % "latest.release")
+
+addSbtPlugin("com.typesafe.sbt" % "sbt-ghpages" % "latest.release")

@@ -21,27 +21,38 @@
 package se.sics.kompics.sl
 
 /**
-  * The <code>Init</code> case class.
+  * A convenient case class for matchable init events
+  *
+  * To assign values of the init instance to fields in a component use, for example:
+  * {{{
+  * val (field1: String, field2: Int) = init;
+  * }}}
+  *
+  * @tparam T the type of the component definition the init event is supposed to be used in
+  * @param params all init arguments for the component
   *
   * @author Lars Kroll {@literal <lkroll@kth.se>}
-  * @version $Id: $
   */
 case class Init[T <: ComponentDefinition](params: Any*) extends se.sics.kompics.Init[T]
 
+/**
+  * Provides access to variants of empty init events.
+  */
 object Init {
 
   /**
-    * Reference to se.sics.kompics.Init.NONE.
+    * Reference to [[se.sics.kompics.Init.NONE]].
     *
-    * Use in <code>create</code> calls.
+    * Use in `create` calls.
     */
   val NONE = se.sics.kompics.Init.NONE;
 
   /**
-    * Cast reference to <code>se.sics.kompics.Init.NONE</code>.
+    * Cast reference to [[se.sics.kompics.Init.NONE]].
     *
-    * Use in abstractions that expect an instance of <code>se.sics.kompics.Init[T]</code>.
+    * Use in abstractions that expect an instance of [[se.sics.kompics.Init]].
     *
+    * @tparam T the type of the component definition the init event is supposed to be used in
     */
   def none[T <: se.sics.kompics.ComponentDefinition]: se.sics.kompics.Init[T] =
     se.sics.kompics.Init.NONE.asInstanceOf[se.sics.kompics.Init[T]];

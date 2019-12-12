@@ -20,6 +20,23 @@
  */
 package se.sics.kompics.sl
 
+/**
+  * Methods for any kind of port no matter the direction
+  */
 trait AnyPort {
+
+  /**
+    * Subscribe an event handler
+    *
+    * @example {{{
+    * val handler = myPort uponEvent {
+    *   case AnEvent(field) => println(field)
+    * };
+    * }}}
+    *
+    * @param handler the handler to be subscribed
+    *
+    * @return the subscribed event handler
+    */
   def uponEvent(handler: Handler): Handler;
 }

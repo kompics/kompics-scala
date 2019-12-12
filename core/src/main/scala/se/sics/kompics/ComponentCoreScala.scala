@@ -23,7 +23,7 @@ package se.sics.kompics
 import se.sics.kompics.config.ConfigUpdate
 
 /**
-  * A small adapter class for Java -> Scala
+  * A small ''internal'' adapter class for Java -> Scala.
   *
   * @author Lars Kroll {@literal <lkroll@kth.se>}
   */

@@ -24,31 +24,59 @@ import se.sics.kompics.{Kompics => JKompics, Scheduler, FaultHandler, Init => JI
 import se.sics.kompics.config.{Config => JConfig}
 
 /**
-  * Convenient object to forward static members of `se.sics.kompics.Kompics`.
+  * Convenient object to forward static members of [[se.sics.kompics.Kompics]].
   *
   * @author Lars Kroll {@literal <lkroll@kth.se>}
   */
 object Kompics {
+
   val SHUTDOWN_TIMEOUT = JKompics.SHUTDOWN_TIMEOUT;
   val logger = JKompics.logger;
   val maxNumOfExecutedEvents = JKompics.maxNumOfExecutedEvents;
 
+  /**
+    * @see [[se.sics.kompics.Kompics.setScheduler*]]
+    */
   def scheduler_=(sched: Scheduler): Unit = JKompics.setScheduler(sched);
 
+  /**
+    * @see [[se.sics.kompics.Kompics.getScheduler*]]
+    */
   def scheduler: Scheduler = JKompics.getScheduler;
 
+  /**
+    * @see [[se.sics.kompics.Kompics.setFaultHandler*]]
+    */
   def faultHandler_=(fh: FaultHandler): Unit = JKompics.setFaultHandler(fh);
 
+  /**
+    * @see [[se.sics.kompics.Kompics.resetFaultHandler*]]
+    */
   def resetFaultHandler(): Unit = JKompics.resetFaultHandler();
 
+  /**
+    * @see [[se.sics.kompics.Kompics.getFaultHandler*]]
+    */
   def faultHandler: FaultHandler = JKompics.getFaultHandler;
 
+  /**
+    * @see [[se.sics.kompics.Kompics.setConfig*]]
+    */
   def config_=(conf: JConfig): Unit = JKompics.setConfig(conf);
 
+  /**
+    * @see [[se.sics.kompics.Kompics.resetConfig*]]
+    */
   def resetConfig(): Unit = JKompics.resetConfig();
 
+  /**
+    * @see [[se.sics.kompics.Kompics.getConfig*]]
+    */
   def config: JConfig = JKompics.getConfig;
 
+  /**
+    * @see [[se.sics.kompics.Kompics.isOn*]]
+    */
   def isOn: Boolean = JKompics.isOn();
 
   def createAndStart[C <: ComponentDefinition](main: Class[C]): Unit = JKompics.createAndStart[C](main);
@@ -71,14 +99,24 @@ object Kompics {
                                                maxEventExecuteNumber: Int): Unit =
     JKompics.createAndStart[C](main, init, workers, maxEventExecuteNumber);
 
+  /**
+    * @see [[se.sics.kompics.Kompics.asyncShutdown*]]
+    */
   def asyncShutdown(): Unit = JKompics.asyncShutdown();
 
+  /**
+    * @see [[se.sics.kompics.Kompics.shutdown*]]
+    */
   def shutdown(): Unit = JKompics.shutdown();
 
+  /**
+    * @see [[se.sics.kompics.Kompics.forceShutdown*]]
+    */
   def forceShutdown(): Unit = JKompics.forceShutdown();
 
+  /**
+    * @see [[se.sics.kompics.Kompics.waitForTermination*]]
+    */
   @throws(classOf[InterruptedException])
   def waitForTermination(): Unit = JKompics.waitForTermination();
-
-  def logStats(): Unit = JKompics.logStats();
 }

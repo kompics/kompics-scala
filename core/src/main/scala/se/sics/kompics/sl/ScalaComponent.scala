@@ -20,7 +20,9 @@
  */
 package se.sics.kompics.sl
 
+import com.github.ghik.silencer.silent
 import scala.collection.JavaConverters._
+//import scala.jdk.CollectionConverters._
 import scala.language.implicitConversions
 import util.control.Breaks._
 import se.sics.kompics.PortType
@@ -52,10 +54,9 @@ import java.util.Optional;
 import scala.compat.java8.OptionConverters._
 
 /**
-  * The <code>ScalaComponent</code> class.
+  * The Scala implementation of [[se.sics.kompics.Component]]
   *
   * @author Lars Kroll {@literal <lkroll@kth.se>}
-  * @version $Id: $
   */
 protected[sl] class ScalaComponent(val component: ComponentDefinition) extends ComponentCoreScala {
 
@@ -406,6 +407,8 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
   private def confImpl = conf.asInstanceOf[JConfig.Impl];
 
   private var childrenMemo: Option[scala.collection.mutable.Buffer[ComponentCore]] = None;
+
+  @silent("deprecated")
   private def childrenS = childrenMemo match {
     case Some(s) => s
     case None    => childrenMemo = Some(children.asScala); childrenMemo.get // use deprecated api for compat with 2.12/2.11
@@ -727,12 +730,33 @@ protected[sl] class ScalaComponent(val component: ComponentDefinition) extends C
   }
 }
 
+/**
+  * A wrapper to augment java component with Scala DSL
+  *
+  * An implicit converion is available in the companion object.
+  */
 class ScalaComponentWrapper(component: Component) {
 
+  /**
+    * Get a positive port instance
+    *
+    * @tparam P the port type of the port instance
+    * @param port the instance object of the port
+    *
+    * @return a positive port instance of the requested type
+    */
   def ++[P <: PortType](port: P): PositivePort[_ <: P] = {
     this ++ port.getClass();
   }
 
+  /**
+    * Get a positive port instance
+    *
+    * @tparam P the port type of the port instance
+    * @param portType a class instance of the port type
+    *
+    * @return a positive port instance of the requested type
+    */
   def ++[P <: PortType](portType: Class[P]): PositivePort[_ <: P] = {
     val port = component.provided(portType);
     port match {
@@ -741,10 +765,26 @@ class ScalaComponentWrapper(component: Component) {
     }
   }
 
+  /**
+    * Get a negative port instance
+    *
+    * @tparam P the port type of the port instance
+    * @param port the instance object of the port
+    *
+    * @return a negative port instance of the requested type
+    */
   def --[P <: PortType](port: P): NegativePort[_ <: P] = {
     this -- (port.getClass());
   }
 
+  /**
+    * Get a negative port instance
+    *
+    * @tparam P the port type of the port instance
+    * @param portType a class instance of the port type
+    *
+    * @return a negative port instance of the requested type
+    */
   def --[P <: PortType](portType: Class[P]): NegativePort[_ <: P] = {
     val port = component.required(portType);
     port match {
@@ -755,11 +795,16 @@ class ScalaComponentWrapper(component: Component) {
 }
 
 /**
-  * The <code>ScalaComponent</code> object.
+  * A companion with utilities.
   *
-  * @author Lars Kroll <lkr@lars-kroll.com>
-  * @version $Id: $
+  * @author Lars Kroll <lkroll@kth.se>
   */
 object ScalaComponent {
+
+  /**
+    * An implicit conversion to turn a java component into something providing Scala DSL functions.
+    *
+    * @param cc the component to be wrapped
+    */
   implicit def component2Scala(cc: Component): ScalaComponentWrapper = new ScalaComponentWrapper(cc);
 }

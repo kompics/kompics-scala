@@ -37,15 +37,15 @@ import se.sics.kompics.{
 import se.sics.kompics.{Handler => JHandler}
 
 /**
-  * The <code>NegativePort</code> trait.
+  * Scala trait for a Negative port
   *
   * @author Lars Kroll {@literal <lkroll@kth.se>}
-  * @version $Id: $
   */
 trait NegativePort[P <: PortType] extends Negative[P] with AnyPort {
 
   /**
     * Create a bidirectional channel to the `component`.
+    *
     */
   def ++(component: Component): Channel[P];
 
@@ -61,10 +61,9 @@ trait NegativePort[P <: PortType] extends Negative[P] with AnyPort {
 }
 
 /**
-  * The <code>NegativeWrapper</code> class.
+  * A wrapper for java ports to implement [[NegativePort]]
   *
   * @author Lars Kroll <lkroll@kth.se>
-  * @version $Id: $
   */
 class NegativeWrapper[P <: PortType](original: PortCore[P]) extends NegativePort[P] {
 
@@ -141,11 +140,14 @@ class NegativeWrapper[P <: PortType](original: PortCore[P]) extends NegativePort
 }
 
 /**
-  * The <code>NegativePort</code> object.
+  * Companion object providing utilities to create a [[NegativePort]] from a [[se.sics.kompics.PortCore]]
   *
   * @author Lars Kroll <lkroll@kth.se>
-  * @version $Id: $
   */
 object NegativePort {
+
+  /**
+    * Create a [[NegativePort]] from a [[se.sics.kompics.PortCore]] using a [[NegativeWrapper]]
+    */
   implicit def port2negative[P <: PortType](x: PortCore[P]): NegativePort[P] = new NegativeWrapper[P](x);
 }

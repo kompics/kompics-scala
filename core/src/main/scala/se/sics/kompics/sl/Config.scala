@@ -24,17 +24,37 @@ import scala.language.implicitConversions
 import scala.reflect.runtime.universe._
 import scala.compat.java8.OptionConverters._
 
+/**
+  * A convenience DSL wrapper around [[se.sics.kompics.config.Config]]
+  */
 class Config(val original: se.sics.kompics.config.Config) {
   import Config._
 
-  val _conv = PrimitiveConverters; // force the object to be loaded and do it's registration
+  private val _conv = PrimitiveConverters; // force the object to be loaded and do it's registration
 
+  /**
+    * Read the value at the key and convert it into the requested type
+    *
+    * @tparam T target type for the value
+    * @param key the key for which the value is to be fetched
+    *
+    * @return `Some[T]` if there is a value and it can be cast to `T`, `None` otherwise
+    */
   def readValue[T: TypeTag](key: String): Option[T] = {
     val valueType = typeOf[T];
     val valueClass = asJavaClass[T](valueType);
     original.readValue(key, valueClass).asScala;
   }
 
+  /**
+    * Read the value at the key and convert it into the requested type
+    *
+    * @tparam T target type for the value
+    * @param key the key for which the value is to be fetched
+    *
+    * @return `T` if there is a value and it can be cast to `T`
+    * @throws java.lang.ClassCastException if the conversion to `T` fails
+    */
   @throws(classOf[ClassCastException])
   def getValue[T: TypeTag](key: String): T = {
     val valueType = typeOf[T];
@@ -45,5 +65,8 @@ class Config(val original: se.sics.kompics.config.Config) {
 
 object Config {
 
+  /**
+    * Implicit conversion from [[se.sics.kompics.config.Config]] to [[Config]]
+    */
   implicit def jconf2SConf(c: se.sics.kompics.config.Config): Config = new Config(c);
 }

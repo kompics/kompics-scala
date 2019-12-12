@@ -21,10 +21,12 @@
 package se.sics.kompics.sl
 
 import org.scalatest._
+import org.scalatest.flatspec.FixtureAnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 import se.sics.kompics.config.TypesafeConfig
 import se.sics.kompics.config.Conversions
 
-class ConfigTestSuite extends fixture.FlatSpec with Matchers {
+class ConfigTestSuite extends FixtureAnyFlatSpec with Matchers {
 
   case class FixtureParam(conf: Config)
 
