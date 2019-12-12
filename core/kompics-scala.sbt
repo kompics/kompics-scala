@@ -22,8 +22,8 @@ libraryDependencies += "se.sics.kompics" % "kompics-core" % kompicsV
 libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.9.+"
 libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value
 libraryDependencies += "org.scala-lang.modules" %% "scala-java8-compat" % "0.9.+"
-libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.8" % "test"
-libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.8" % "test"
+libraryDependencies += "org.scalactic" %% "scalactic" % "3.1.0" % "test"
+libraryDependencies += "org.scalatest" %% "scalatest" % "3.1.0" % "test"
 libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.+" % "test"
 
 parallelExecution in Test := false
