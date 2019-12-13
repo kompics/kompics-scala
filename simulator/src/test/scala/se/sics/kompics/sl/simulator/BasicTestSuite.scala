@@ -49,9 +49,7 @@ object TestMain extends Runnable {
 
   override def run(): Unit = {
     val test: String = "Test";
-    // Will fail when loading predef on jdk9+
-    // println(test);
-    System.out.println(test);
+    println(test);
   }
 }
 
