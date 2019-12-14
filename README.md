@@ -7,9 +7,7 @@ A Scala DSL for the [Kompics](http://kompics.sics.se/) message-passing component
 See the [documentation](http://kompics.sics.se/current/scala/index.html) for more information.
 
 ### Current Version
-`1.1.0` for Scala 2.11 and 2.12
-
-Note that simulations require jdk8 exactly at this point. See [kompics/kompics-simulator#14](https://github.com/kompics/kompics-simulator/issues/14) for tracking this issue.
+`2.0.0` for Scala 2.11, 2.12, and 2.13
 
 #### SBT Dependency
 To add Kompics Scala to your project use:
@@ -17,11 +15,11 @@ To add Kompics Scala to your project use:
 resolvers += Resolver.jcenterRepo
 resolvers += Resolver.bintrayRepo("kompics", "Maven")
 
-libraryDependencies += "se.sics.kompics" %% "kompics-scala" % "1.1.+"
+libraryDependencies += "se.sics.kompics" %% "kompics-scala" % "2.0.+"
 ```
 
 For the simulation scala DSL also add:
 [ ![Download](https://api.bintray.com/packages/kompics/Maven/kompics-scala-simulator/images/download.svg) ](https://bintray.com/kompics/Maven/kompics-scala-simulator/_latestVersion)
 ```scala
-libraryDependencies += "se.sics.kompics" %% "kompics-scala-simulator" % "1.1.+" // probably % "test" as well
+libraryDependencies += "se.sics.kompics" %% "kompics-scala-simulator" % "2.0.x" // probably % "test" as well
 ```
