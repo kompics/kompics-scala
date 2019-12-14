@@ -4,7 +4,7 @@
 
 A Scala DSL for the [Kompics](http://kompics.sics.se/) message-passing component model for building distributed systems
 
-See the [documentation](http://kompics.sics.se/current/scala/index.html) for more information.
+See the [documentation](http://kompics.sics.se/current/scala/index.html) or [API docs](https://kompics.github.io/kompics-scala/api/se/sics/kompics/sl/index.html) for more information.
 
 ### Current Version
 `2.0.0` for Scala 2.11, 2.12, and 2.13
