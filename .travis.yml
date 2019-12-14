@@ -26,6 +26,6 @@ matrix:
     - os: osx
       jdk: oraclejdk11
 
-  allow_failures:
-    - jdk: oraclejdk9
-    - jdk: oraclejdk11
+  #allow_failures:
+  #  - jdk: oraclejdk9
+  #  - jdk: oraclejdk11
