@@ -84,7 +84,7 @@ abstract class KompicsUnitSuite extends AnyFunSuite with Matchers with Waiters {
   import org.scalatest.concurrent.PatienceConfiguration._
   import time.{Nanoseconds, Seconds, Span}
 
-  implicit override def patienceConfig = PatienceConfig(scaled(Span(5, Seconds)))
+  implicit override def patienceConfig = PatienceConfig(scaled(Span(30, Seconds)))
 
   def setup(configure: Conf, checker: EventChecker): Tuple2[Class[SetupDefinition], Init[SetupDefinition]] =
     (classOf[SetupDefinition], Init(configure, checker))
