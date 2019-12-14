@@ -21,6 +21,8 @@
 package se.sics.kompics.sl.simulator
 
 import org.scalatest._
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.matchers.should.Matchers
 
 import se.sics.kompics.sl._
 
@@ -39,6 +41,7 @@ import se.sics.kompics.network.{Address, Header, Msg, Network, Transport};
 import se.sics.kompics.timer.{CancelPeriodicTimeout, SchedulePeriodicTimeout, Timeout, Timer}
 import se.sics.kompics.Start
 import scala.concurrent.duration._
+import scala.util.Success
 import java.util.UUID
 
 object TestMain extends Runnable {
@@ -53,7 +56,9 @@ object TestMain extends Runnable {
   }
 }
 
-class BasicTestSuite extends FunSuite with Matchers {
+case object TestResultValue;
+
+class BasicTestSuite extends AnyFunSuite with Matchers {
 
   //import KompicsUnitSuite._
   //import ScalaComponent._
@@ -108,12 +113,15 @@ class BasicTestSuite extends FunSuite with Matchers {
   }
 
   test("Simulation with result shouldn't fail") {
+    import scala.reflect.runtime.universe._;
     val seed = 1234L;
     JSimulationScenario.setSeed(seed);
-    SimulationResult += ("test", 1);
+    SimulationResult += ("test" -> 1);
     SimpleSimulation.scenario.simulate(classOf[LauncherComp]);
     SimulationResult[Int]("test") should be(1);
     SimulationResult[Int]("test2") should be(2);
+    SimulationResult.get[Int]("test2") should be(Some(2));
+    SimulationResult.convert[TestResultValue.type]("test3") should be(Success(TestResultValue));
   }
 
 }
@@ -168,6 +176,7 @@ class ResultSetter(init: Init[ResultSetter]) extends ComponentDefinition {
   ctrl uponEvent {
     case _: Start => {
       SimulationResult += ("test2", 2);
+      SimulationResult += ("test3", TestResultValue);
     }
   }
 }

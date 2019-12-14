@@ -1,5 +1,5 @@
 
-val kompicsV = "1.2.1-SNAPSHOT";
+val kompicsV = "1.2.1";
 val silencerV = "1.4.4";
 
 val commonSettings = Seq(

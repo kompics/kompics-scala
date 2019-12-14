@@ -21,9 +21,9 @@
 package se.sics.kompics.sl
 
 import org.scalatest._
-
-import concurrent.Waiters
-import se.sics.kompics.KompicsEvent
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.concurrent.Waiters
 import se.sics.kompics.Component
 import se.sics.kompics.config.ConfigUpdate
 
@@ -75,7 +75,7 @@ object KompicsUnitSuite {
 
 }
 
-abstract class KompicsUnitSuite extends FunSuite with Matchers with Waiters {
+abstract class KompicsUnitSuite extends AnyFunSuite with Matchers with Waiters {
 
   import KompicsUnitSuite._
 
