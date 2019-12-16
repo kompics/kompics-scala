@@ -21,5 +21,5 @@ libraryDependencies += "se.sics.kompics" %% "kompics-scala" % "2.0.+"
 For the simulation scala DSL also add:
 [ ![Download](https://api.bintray.com/packages/kompics/Maven/kompics-scala-simulator/images/download.svg) ](https://bintray.com/kompics/Maven/kompics-scala-simulator/_latestVersion)
 ```scala
-libraryDependencies += "se.sics.kompics" %% "kompics-scala-simulator" % "2.0.x" // probably % "test" as well
+libraryDependencies += "se.sics.kompics" %% "kompics-scala-simulator" % "2.0.+" // probably % "test" as well
 ```
