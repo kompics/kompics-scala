@@ -10,6 +10,7 @@ val commonSettings = Seq(
   scalaVersion := "2.13.1",
   crossScalaVersions := Seq("2.11.12", "2.12.10", "2.13.1"),
   scalacOptions ++= Seq("-deprecation", "-feature"), // doesn't with in 2.11 and 2.12 of course "-P:silencer:checkUnused")
+  scalacOptions in (Compile,doc) ++= Seq("-groups", "-implicits"),
   libraryDependencies ++= Seq(
     "se.sics.kompics" % "kompics-core" % kompicsV,
     "com.typesafe.scala-logging" %% "scala-logging" % "3.9.+",
@@ -46,8 +47,27 @@ lazy val docs = (project in file("docs"))
     ghpagesNoJekyll := true,
     siteSubdirName in ScalaUnidoc := "api",
     addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in ScalaUnidoc),
-    paradoxProperties += ("scaladoc.base_url" -> "api"),
-    paradoxTheme := Some(builtinParadoxTheme("generic"))
+    paradoxProperties ++= Map(
+      "javadoc.link_style" -> "direct",
+      "scaladoc.base_url" -> "api",
+      "javadoc.java.base_url" -> "https://docs.oracle.com/en/java/javase/11/docs/api",
+      "javadoc.io.netty.base_url" -> "https://netty.io/4.1/api",
+      "javadoc.io.netty.link_style" -> "frames",
+      "javadoc.se.sics.kompics.base_url" -> "https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1",
+      "javadoc.se.sics.kompics.timer.base_url" -> "https://javadoc.io/doc/se.sics.kompics.basic/kompics-port-timer/1.2.1",
+      "javadoc.se.sics.kompics.timer.java.base_url" -> "https://javadoc.io/doc/se.sics.kompics.basic/kompics-component-java-timer/1.2.1"
+    ),
+    paradoxTheme := Some(builtinParadoxTheme("generic")),
+    paradoxProperties += ("project.description" -> "Tutorial and documentation for the Kompics Scala component framework."),
+    paradoxProperties ++= Map(
+      "kompics.version" -> kompicsV
+    ),
+    paradoxGroups := Map("Language" -> Seq("Scala", "Java")),
+    libraryDependencies ++= Seq(
+      "se.sics.kompics.basic" % "kompics-port-timer"  % kompicsV,
+      "se.sics.kompics.basic" % "kompics-component-java-timer"  % kompicsV,
+      "ch.qos.logback" % "logback-classic" % "1.2.+"
+    )
   )
   .dependsOn(core, simulator);
 

@@ -1,3 +1,10 @@
+
+@@@ index
+* [Introduction](introduction/index.md)
+* [Tutorial](tutorial/index.md)
+* [Reference](reference.md)
+@@@
+
 # Kompics Scala
 
 The Scala DSL for the [Kompics](https://kompics.sics.se) component framework.
@@ -12,7 +19,4 @@ libraryDependencies += "se.sics.kompics" %% "kompics-scala" % "$project.version$
 ~~~
 @@@
 
-@@@ index
-* [Getting Started](getting-started.md)
-* [Reference](reference.md)
-@@@
+

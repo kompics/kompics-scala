@@ -65,6 +65,14 @@ abstract class ComponentDefinition extends se.sics.kompics.ComponentDefinition(c
     }
   }
 
+  /**
+    * Create a required port instance
+    *
+    * @tparam P the type of the port
+    * @param port a port object of type `P`
+    *
+    * @return a required (positive) port instance
+    */
   protected def requires[P <: PortType](port: P): PositivePort[P] = {
     val javaPortType = port.getClass;
     val oldport = requires(javaPortType);
