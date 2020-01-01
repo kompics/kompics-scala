@@ -1,4 +1,6 @@
 /bin/
+/lib/
+/docs/lib/
 
 .classpath
 .project

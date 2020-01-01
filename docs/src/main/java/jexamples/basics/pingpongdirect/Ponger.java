@@ -9,7 +9,7 @@ public class Ponger extends ComponentDefinition {
   Negative<PingPongPort> ppp = provides(PingPongPort.class);
 
   private long counter = 0;
-// #ping-handler
+  // #ping-handler
   Handler<Ping> pingHandler =
       new Handler<Ping>() {
         public void handle(Ping event) {
@@ -18,7 +18,7 @@ public class Ponger extends ComponentDefinition {
           answer(event, new Pong());
         }
       };
-// #ping-handler
+  // #ping-handler
   {
     subscribe(pingHandler, ppp);
   }

@@ -14,7 +14,7 @@ Request-Response Events
 In the previous section we described how Kompics events are broadcasted along all connected channels of their respective ports. We also showed a *PingPong*  application that was already sending messages back and forth. So in a sense we were using the `Ping` like a request for a `Pong`-response. However, imagine we add a second ``Ponger`` component which we connect in the same way as the first one. Now every `Ping` would get two `Pong`s, one from each `Ponger` component, and our counters would be totally confused. And the same is true the other way around. Imagine we add a second `Pinger` component. Now there would be two `Ping`s going out in parallel, being answered by two `Pong`s which get broadcasted to each `Pinger` component, which then answers each of those `Pong`s with another `Ping` resulting in four `Ping`s arriving at the `Ponger` the next time, and so on. While the first type of behaviour might often in fact be what we want, clearly, the second type is rarely going to be the desired.
 
 @@@ note
-If the first type of behaviour is not desired then @ref:[Channel Selectors](networking/virtual/virtual.md#channel-selectors) might provide a solution.
+If the first type of behaviour is not desired then @ref:[Channel Selectors](networking/virtual/index.md#channel-selectors) might provide a solution.
 @@@
 
 In order to get around the second type of behaviour (two `Pinger` -- one `Ponger`) where it is necessary, Kompics supports two types of request-response patterns: 

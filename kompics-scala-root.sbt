@@ -25,8 +25,15 @@ val commonSettings = Seq(
   bintrayOrganization := Some("kompics"),
   bintrayRepository := "Maven",
   licenses += ("GPL-2.0", url("http://www.opensource.org/licenses/gpl-2.0.php")),
+  scmInfo := Some(
+    ScmInfo(
+      url("https://github.com/kompics/kompics-scala"),
+      "scm:git:git@github.com:kompics/kompics-scala.git"
+    )
+  ),
   autoAPIMappings := true,
-  apiURL := Some(url("https://kompics.github.io/kompics-scala/api/"))
+  apiURL := Some(url("https://kompics.github.io/kompics-scala/api/")),
+  fork := true
 );
 
 lazy val root = (project in file("."))
@@ -48,14 +55,18 @@ lazy val docs = (project in file("docs"))
     siteSubdirName in ScalaUnidoc := "api",
     addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in ScalaUnidoc),
     paradoxProperties ++= Map(
+      //"github.base_url" -> "https://github.com/kompics/kompics-scala/tree/master",
+      //"github.root.base_dir" -> ".",
       "javadoc.link_style" -> "direct",
       "scaladoc.base_url" -> "api",
       "javadoc.java.base_url" -> "https://docs.oracle.com/en/java/javase/11/docs/api",
       "javadoc.io.netty.base_url" -> "https://netty.io/4.1/api",
       "javadoc.io.netty.link_style" -> "frames",
-      "javadoc.se.sics.kompics.base_url" -> "https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1",
-      "javadoc.se.sics.kompics.timer.base_url" -> "https://javadoc.io/doc/se.sics.kompics.basic/kompics-port-timer/1.2.1",
-      "javadoc.se.sics.kompics.timer.java.base_url" -> "https://javadoc.io/doc/se.sics.kompics.basic/kompics-component-java-timer/1.2.1"
+      "javadoc.se.sics.kompics.base_url" -> s"https://javadoc.io/static/se.sics.kompics/kompics-core/${kompicsV}",
+      "javadoc.se.sics.kompics.timer.base_url" -> s"https://javadoc.io/doc/se.sics.kompics.basic/kompics-port-timer/${kompicsV}",
+      "javadoc.se.sics.kompics.timer.java.base_url" -> s"https://javadoc.io/doc/se.sics.kompics.basic/kompics-component-java-timer/${kompicsV}",
+      "javadoc.se.sics.kompics.network.base_url" -> s"https://javadoc.io/doc/se.sics.kompics.basic/kompics-port-network/${kompicsV}",
+      "javadoc.se.sics.kompics.network.netty.base_url" -> s"https://javadoc.io/doc/se.sics.kompics.basic/kompics-component-netty-network/${kompicsV}"
     ),
     paradoxTheme := Some(builtinParadoxTheme("generic")),
     paradoxProperties += ("project.description" -> "Tutorial and documentation for the Kompics Scala component framework."),
@@ -66,6 +77,8 @@ lazy val docs = (project in file("docs"))
     libraryDependencies ++= Seq(
       "se.sics.kompics.basic" % "kompics-port-timer"  % kompicsV,
       "se.sics.kompics.basic" % "kompics-component-java-timer"  % kompicsV,
+      "se.sics.kompics.basic" % "kompics-port-network"  % kompicsV,
+      "se.sics.kompics.basic" % "kompics-component-netty-network"  % kompicsV,
       "ch.qos.logback" % "logback-classic" % "1.2.+"
     )
   )
