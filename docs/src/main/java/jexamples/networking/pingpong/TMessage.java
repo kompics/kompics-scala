@@ -18,16 +18,19 @@ public abstract class TMessage implements Msg<TAddress, THeader> {
     return this.header;
   }
 
+  @SuppressWarnings("deprecation")
   @Override
   public TAddress getSource() {
     return this.header.src;
   }
 
+  @SuppressWarnings("deprecation")
   @Override
   public TAddress getDestination() {
     return this.header.dst;
   }
 
+  @SuppressWarnings("deprecation")
   @Override
   public Transport getProtocol() {
     return this.header.proto;

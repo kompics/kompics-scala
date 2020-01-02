@@ -25,7 +25,7 @@ object Main {
       Kompics.createAndStart(classOf[PongerParent], Init[PongerParent](self), 2);
       println(s"Starting Ponger at $self");
       Kompics.waitForTermination();
-        // will never actually terminate...act like a server and keep running until externally exited
+      // will never actually terminate...act like a server and keep running until externally exited
     } else if (args.length == 4) {
       val ip = InetAddress.getByName(args(0));
       val port = Integer.parseInt(args(1));
