@@ -15,7 +15,7 @@ The best way to include Kompics is to use a build tool, such as @link:[SBT](http
 Kompics is very modular and consists of several sub-projects, containing different features, ports, and components.
 
 #### Kompics Core
-The `kompics-core` module contains Kompics' Java runtime and the basic definitions. It is the minimum requiremed dependency in Kompics Java.
+The `kompics-core` module contains Kompics' Java runtime and the basic definitions. It is the minimum required dependency in Kompics Java.
 
 @@dependency[sbt,Maven,Gradle] {
   group="se.sics.kompics"

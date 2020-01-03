@@ -11,7 +11,7 @@ val commonSettings = Seq(
   crossScalaVersions := Seq("2.11.12", "2.12.10", "2.13.1"),
   scalacOptions ++= Seq("-deprecation", "-feature"), // doesn't with in 2.11 and 2.12 of course "-P:silencer:checkUnused")
   scalacOptions in (Compile,doc) ++= Seq("-groups", "-implicits"),
-  javacOptions ++= Seq("-Xlint:deprecation"),
+  javacOptions ++= Seq("-Xlint:deprecation", "-Xlint:unchecked"),
   libraryDependencies ++= Seq(
     "se.sics.kompics" % "kompics-core" % kompicsV,
     "com.typesafe.scala-logging" %% "scala-logging" % "3.9.+",
@@ -69,6 +69,7 @@ lazy val docs = (project in file("docs"))
       "javadoc.se.sics.kompics.network.base_url" -> s"https://javadoc.io/doc/se.sics.kompics.basic/kompics-port-network/${kompicsV}",
       "javadoc.se.sics.kompics.network.netty.base_url" -> s"https://javadoc.io/doc/se.sics.kompics.basic/kompics-component-netty-network/${kompicsV}",
       "javadoc.se.sics.kompics.network.virtual.base_url" -> s"https://javadoc.io/doc/se.sics.kompics.basic/kompics-port-virtual-network/${kompicsV}",
+      "javadoc.se.sics.kompics.simulator.base_url" -> s"https://javadoc.io/doc/se.sics.kompics.simulator/core/${kompicsV}"
     ),
     paradoxTheme := Some(builtinParadoxTheme("generic")),
     paradoxProperties += ("project.description" -> "Tutorial and documentation for the Kompics component framework."),
