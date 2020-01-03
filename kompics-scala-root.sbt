@@ -67,7 +67,8 @@ lazy val docs = (project in file("docs"))
       "javadoc.se.sics.kompics.timer.base_url" -> s"https://javadoc.io/doc/se.sics.kompics.basic/kompics-port-timer/${kompicsV}",
       "javadoc.se.sics.kompics.timer.java.base_url" -> s"https://javadoc.io/doc/se.sics.kompics.basic/kompics-component-java-timer/${kompicsV}",
       "javadoc.se.sics.kompics.network.base_url" -> s"https://javadoc.io/doc/se.sics.kompics.basic/kompics-port-network/${kompicsV}",
-      "javadoc.se.sics.kompics.network.netty.base_url" -> s"https://javadoc.io/doc/se.sics.kompics.basic/kompics-component-netty-network/${kompicsV}"
+      "javadoc.se.sics.kompics.network.netty.base_url" -> s"https://javadoc.io/doc/se.sics.kompics.basic/kompics-component-netty-network/${kompicsV}",
+      "javadoc.se.sics.kompics.network.virtual.base_url" -> s"https://javadoc.io/doc/se.sics.kompics.basic/kompics-port-virtual-network/${kompicsV}",
     ),
     paradoxTheme := Some(builtinParadoxTheme("generic")),
     paradoxProperties += ("project.description" -> "Tutorial and documentation for the Kompics component framework."),
@@ -79,6 +80,7 @@ lazy val docs = (project in file("docs"))
       "se.sics.kompics.basic" % "kompics-port-timer"  % kompicsV,
       "se.sics.kompics.basic" % "kompics-component-java-timer"  % kompicsV,
       "se.sics.kompics.basic" % "kompics-port-network"  % kompicsV,
+      "se.sics.kompics.basic" % "kompics-port-virtual-network"  % kompicsV,
       "se.sics.kompics.basic" % "kompics-component-netty-network"  % kompicsV,
       "ch.qos.logback" % "logback-classic" % "1.2.+"
     )

@@ -10,7 +10,7 @@ If you prefer a different configuration library, you may add support for it, by 
 
 For the tutorial we are going to stick to *Typesafe Config* as a baseline. We are thus going to add a `src/main/resources/reference.conf` file, where we describe default values for all our config options. This is not strictly speaking necessary, but it is generally a good idea to have one place your users can look at where all possible config values are outlined. While we are at it, we also make the timeout period configurable.
 
-@@snip[reference.conf](/docs/src/main/resources/reference.conf) { type=hocon }
+@@snip[reference.conf](/docs/src/main/resources/reference.conf) { #no-num type=hocon }
 
 Now that we have a configuration file, we can simply throw away all the `Init` @java[classes]@scala[instances] we created before, and pull out the desired values from the config in the `Pinger` and `Ponger` constructors. Something along the lines of:
 
