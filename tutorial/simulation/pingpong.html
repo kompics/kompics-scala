@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+<title>PingPong Simulation · Kompics</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content='Kompics-Scala-Docs'/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:100normal,100italic,300normal,300italic,400normal,400italic,500normal,500italic,700normal,700italic,900normal,900italicc" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../lib/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="../../js/page.js"></script>
+<script type="text/javascript" src="../../js/warnOldVersion.js"></script>
+<script type="text/javascript" src="../../js/groups.js"></script>
+<link rel="stylesheet" type="text/css" href="../../lib/foundation/dist/foundation.min.css"/>
+<link rel="stylesheet" type="text/css" href="../../css/page.css"/>
+
+<!--
+<link rel="shortcut icon" href="../../images/favicon.ico" />
+-->
+</head>
+
+<body>
+<div class="off-canvas-wrapper">
+<div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+
+<div class="off-canvas position-left" id="off-canvas-menu" data-off-canvas>
+<nav class="off-canvas-nav">
+<div class="nav-home">
+<a href="../../index.html" >
+<span class="home-icon">⌂</span>Kompics
+</a>
+<div class="version-number">
+2.0.0
+</div>
+</div>
+<select class="supergroup" name="Language"><option class="group" value="group-scala">Scala</option><option class="group" value="group-java">Java</option></select>
+<div class="nav-toc">
+<ul>
+  <li><a href="../../introduction/index.html" class="page">Introduction</a>
+  <ul>
+    <li><a href="../../introduction/whatiskompics.html" class="page">What is Kompics?</a></li>
+    <li><a href="../../introduction/gettingstarted.html" class="page">Getting Started</a></li>
+    <li><a href="../../introduction/helloworld.html" class="page">Hello World in Kompics</a></li>
+  </ul></li>
+  <li><a href="../../tutorial/index.html" class="page">Kompics Tutorial</a>
+  <ul>
+    <li><a href="../../tutorial/basics.html" class="page">Kompics Basics</a></li>
+    <li><a href="../../tutorial/timers.html" class="page">Timers</a></li>
+    <li><a href="../../tutorial/networking/index.html" class="page">Networking</a></li>
+    <li><a href="../../tutorial/simulation/index.html" class="page">Simulation</a></li>
+  </ul></li>
+  <li><a href="../../reference.html" class="page">Reference</a></li>
+</ul>
+</div>
+
+</nav>
+</div>
+
+<div class="off-canvas-content" data-off-canvas-content>
+
+<header class="site-header expanded row">
+<div class="small-12 column">
+<a href="#" class="off-canvas-toggle hide-for-medium" data-toggle="off-canvas-menu"><svg class="svg-icon svg-icon-menu" version="1.1" id="Menu" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 20 20" enable-background="new 0 0 20 20" xml:space="preserve"> <path class="svg-icon-menu-path" fill="#53CDEC" d="M16.4,9H3.6C3.048,9,3,9.447,3,10c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,9.447,16.952,9,16.4,9z M16.4,13
+H3.6C3.048,13,3,13.447,3,14c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,13.447,16.952,13,16.4,13z M3.6,7H16.4
+C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.048,7,3.6,7z"/></svg>
+</a>
+<div class="title"><a href="../../index.html">Kompics</a></div>
+
+<!--
+<a href="https://www.example.com" class="logo show-for-medium">logo</a>
+-->
+</div>
+</header>
+
+<div class="expanded row">
+
+<div class="medium-3 large-2 show-for-medium column">
+<nav class="site-nav">
+<div class="nav-home">
+<a href="../../index.html" >
+<span class="home-icon">⌂</span>Kompics
+</a>
+<div class="version-number">
+2.0.0
+</div>
+</div>
+<select class="supergroup" name="Language"><option class="group" value="group-scala">Scala</option><option class="group" value="group-java">Java</option></select>
+<div class="nav-toc">
+<ul>
+  <li><a href="../../introduction/index.html" class="page">Introduction</a>
+  <ul>
+    <li><a href="../../introduction/whatiskompics.html" class="page">What is Kompics?</a></li>
+    <li><a href="../../introduction/gettingstarted.html" class="page">Getting Started</a></li>
+    <li><a href="../../introduction/helloworld.html" class="page">Hello World in Kompics</a></li>
+  </ul></li>
+  <li><a href="../../tutorial/index.html" class="page">Kompics Tutorial</a>
+  <ul>
+    <li><a href="../../tutorial/basics.html" class="page">Kompics Basics</a></li>
+    <li><a href="../../tutorial/timers.html" class="page">Timers</a></li>
+    <li><a href="../../tutorial/networking/index.html" class="page">Networking</a></li>
+    <li><a href="../../tutorial/simulation/index.html" class="page">Simulation</a></li>
+  </ul></li>
+  <li><a href="../../reference.html" class="page">Reference</a></li>
+</ul>
+</div>
+
+</nav>
+</div>
+
+<div class="small-12 medium-9 large-10 column">
+<section class="site-content">
+
+<span id="version-warning"></span>
+
+<div class="page-header row">
+<div class="medium-12 show-for-medium column">
+<div class="nav-breadcrumbs">
+<ul>
+  <li><a href="../../index.html">Kompics</a></li>
+  <li><a href="../../tutorial/index.html">Kompics Tutorial</a></li>
+  <li><a href="../../tutorial/simulation/index.html">Simulation</a></li>
+  <li>PingPong Simulation</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="page-content row">
+<div class="small-12 large-9 column" id="docs">
+<h2><a href="#pingpong-simulation" name="pingpong-simulation" class="anchor"><span class="anchor-link"></span></a>PingPong Simulation</h2>
+<p>Starting from the <a href="../networking/basic/cleanup.html">Distributed PingPong</a> example, in this section we will see how we can run the pinger/ponger configuration as a simulation.</p>
+<h3><a href="#parent-vs-host" name="parent-vs-host" class="anchor"><span class="anchor-link"></span></a>Parent vs. Host</h3>
+<p>The first change we want to do in order to be able to use the deploy code in simulation (with minimal changes), is use a <code>Parent</code> and <code>Host</code> division. The <code>Parent</code> will connect all subcomponents of the system between themselves and to a <a href="https://javadoc.io/doc/se.sics.kompics.basic/kompics-port-network/1.2.1/se/sics/kompics/network/Network.html" title="se.sics.kompics.network.Network"><code>Network</code></a> and <a href="https://javadoc.io/doc/se.sics.kompics.basic/kompics-port-timer/1.2.1/se/sics/kompics/timer/Timer.html" title="se.sics.kompics.timer.Timer"><code>Timer</code></a> port. </p>
+<p>In deployment, the <code>Host</code> will create the <a href="https://javadoc.io/doc/se.sics.kompics.basic/kompics-port-timer/1.2.1/se/sics/kompics/timer/Timer.html" title="se.sics.kompics.timer.Timer"><code>Timer</code></a> and <a href="https://javadoc.io/doc/se.sics.kompics.basic/kompics-port-network/1.2.1/se/sics/kompics/network/Network.html" title="se.sics.kompics.network.Network"><code>Network</code></a> instances and connect them to the <code>Parent</code>, while in simulation, the <em>simulator</em> will provide the <a href="https://javadoc.io/doc/se.sics.kompics.basic/kompics-port-timer/1.2.1/se/sics/kompics/timer/Timer.html" title="se.sics.kompics.timer.Timer"><code>Timer</code></a> and <a href="https://javadoc.io/doc/se.sics.kompics.basic/kompics-port-network/1.2.1/se/sics/kompics/network/Network.html" title="se.sics.kompics.network.Network"><code>Network</code></a>, instead, and will connect them to the <code>Parent</code>.</p>
+<h4><a href="#pingerparent" name="pingerparent" class="anchor"><span class="anchor-link"></span></a>PingerParent</h4>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/simulation/pingpong/PingerParent.java" target="_blank" title="Go to snippet source"></a><code class="language-java">package jexamples.simulation.pingpong;
+
+import se.sics.kompics.Channel;
+import se.sics.kompics.Component;
+import se.sics.kompics.ComponentDefinition;
+import se.sics.kompics.Init;
+import se.sics.kompics.Positive;
+import se.sics.kompics.network.Network;
+import se.sics.kompics.network.netty.NettyInit;
+import se.sics.kompics.network.netty.NettyNetwork;
+import se.sics.kompics.timer.Timer;
+import se.sics.kompics.timer.java.JavaTimer;
+
+public class PingerParent extends ComponentDefinition {
+
+  Positive&lt;Network&gt; network = requires(Network.class);
+  Positive&lt;Timer&gt; timer = requires(Timer.class);
+
+  public PingerParent() {
+    // create all components except timer and network
+    Component pinger = create(Pinger.class, Init.NONE);
+
+    // connect required internal components to network and timer
+    connect(pinger.getNegative(Timer.class), timer, Channel.TWO_WAY);
+    connect(pinger.getNegative(Network.class), network, Channel.TWO_WAY);
+  }
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/simulation/pingpong/Parent.scala#L40-L49" target="_blank" title="Go to snippet source"></a><code class="language-scala">class PingerParent extends ComponentDefinition {
+
+  val timer = requires[Timer];
+  val network = requires[Network];
+
+  val pinger = create[Pinger];
+
+  connect[Timer](timer -&gt; pinger);
+  connect[Network](network -&gt; pinger);
+}</code></pre></dd>
+</dl>
+<h4><a href="#pingerhost" name="pingerhost" class="anchor"><span class="anchor-link"></span></a>PingerHost</h4>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/simulation/pingpong/PingerHost.java" target="_blank" title="Go to snippet source"></a><code class="language-java">package jexamples.simulation.pingpong;
+
+import se.sics.kompics.Channel;
+import se.sics.kompics.Component;
+import se.sics.kompics.ComponentDefinition;
+import se.sics.kompics.Init;
+import se.sics.kompics.network.Network;
+import se.sics.kompics.network.netty.NettyInit;
+import se.sics.kompics.network.netty.NettyNetwork;
+import se.sics.kompics.timer.Timer;
+import se.sics.kompics.timer.java.JavaTimer;
+
+public class PingerHost extends ComponentDefinition {
+
+  public PingerHost() {
+    TAddress self = config().getValue(&quot;pingpong.pinger.addr&quot;, TAddress.class);
+
+    Component network = create(NettyNetwork.class, new NettyInit(self));
+    Component timer = create(JavaTimer.class, Init.NONE);
+    Component pingerParent = create(PingerParent.class, Init.NONE);
+
+    connect(
+        pingerParent.getNegative(Network.class),
+        network.getPositive(Network.class),
+        Channel.TWO_WAY);
+    connect(pingerParent.getNegative(Timer.class), timer.getPositive(Timer.class), Channel.TWO_WAY);
+  }
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/simulation/pingpong/Parent.scala#L10-L21" target="_blank" title="Go to snippet source"></a><code class="language-scala">class PingerHost extends ComponentDefinition {
+  val self = cfg.getValue[TAddress](&quot;pingpong.pinger.addr&quot;);
+
+  val timer = create[JavaTimer];
+  val network = create[NettyNetwork](new NettyInit(self));
+
+  val pingerParent = create[PingerParent];
+
+  connect[Timer](timer -&gt; pingerParent);
+  connect[Network](network -&gt; pingerParent);
+
+}</code></pre></dd>
+</dl>
+<h4><a href="#pongerparent" name="pongerparent" class="anchor"><span class="anchor-link"></span></a>PongerParent</h4>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/simulation/pingpong/PongerParent.java" target="_blank" title="Go to snippet source"></a><code class="language-java">package jexamples.simulation.pingpong;
+
+import se.sics.kompics.Channel;
+import se.sics.kompics.Component;
+import se.sics.kompics.ComponentDefinition;
+import se.sics.kompics.Init;
+import se.sics.kompics.Positive;
+import se.sics.kompics.network.Network;
+import se.sics.kompics.timer.Timer;
+
+public class PongerParent extends ComponentDefinition {
+
+  Positive&lt;Network&gt; network = requires(Network.class);
+  Positive&lt;Timer&gt; timer = requires(Timer.class);
+
+  public PongerParent() {
+    // create all components except timer and network
+    Component ponger = create(Ponger.class, Init.NONE);
+
+    // connect required internal components to network and timer
+    connect(ponger.getNegative(Network.class), network, Channel.TWO_WAY);
+  }
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/simulation/pingpong/Parent.scala#L53-L61" target="_blank" title="Go to snippet source"></a><code class="language-scala">class PongerParent extends ComponentDefinition {
+
+  val timer = requires[Timer];
+  val network = requires[Network];
+
+  val ponger = create[Ponger];
+
+  connect[Network](network -&gt; ponger);
+}</code></pre></dd>
+</dl>
+<h4><a href="#pongerhost" name="pongerhost" class="anchor"><span class="anchor-link"></span></a>PongerHost</h4>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/simulation/pingpong/PongerHost.java" target="_blank" title="Go to snippet source"></a><code class="language-java">package jexamples.simulation.pingpong;
+
+import se.sics.kompics.Channel;
+import se.sics.kompics.Component;
+import se.sics.kompics.ComponentDefinition;
+import se.sics.kompics.Init;
+import se.sics.kompics.network.Network;
+import se.sics.kompics.network.netty.NettyInit;
+import se.sics.kompics.network.netty.NettyNetwork;
+import se.sics.kompics.timer.Timer;
+import se.sics.kompics.timer.java.JavaTimer;
+
+public class PongerHost extends ComponentDefinition {
+
+  public PongerHost() {
+    TAddress self = config().getValue(&quot;pingpong.ponger.addr&quot;, TAddress.class);
+
+    Component network = create(NettyNetwork.class, new NettyInit(self));
+    Component timer = create(JavaTimer.class, Init.NONE);
+    Component pongerParent = create(PongerParent.class, Init.NONE);
+
+    connect(
+        pongerParent.getNegative(Network.class),
+        network.getPositive(Network.class),
+        Channel.TWO_WAY);
+    connect(pongerParent.getNegative(Timer.class), timer.getPositive(Timer.class), Channel.TWO_WAY);
+  }
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/simulation/pingpong/Parent.scala#L25-L36" target="_blank" title="Go to snippet source"></a><code class="language-scala">class PongerHost extends ComponentDefinition {
+  val self = cfg.getValue[TAddress](&quot;pingpong.ponger.addr&quot;);
+
+  val timer = create[JavaTimer];
+  val network = create[NettyNetwork](new NettyInit(self));
+
+  val pongerParent = create[PongerParent];
+
+  connect[Timer](timer -&gt; pongerParent);
+  connect[Network](network -&gt; pongerParent);
+
+}</code></pre></dd>
+</dl>
+<h3><a href="#simulation-scenario" name="simulation-scenario" class="anchor"><span class="anchor-link"></span></a>Simulation Scenario</h3>
+<p>In the simulation scenario we define two types of <span class="group-java"><a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/events/system/StartNodeEvent.html" title="se.sics.kompics.simulator.events.system.StartNodeEvent"><code>StartNodeEvent</code></a></span><span class="group-scala"><a href="https://kompics.github.io/kompics-scala/api/se/sics/kompics/sl/simulator/StartNode$.html" title="se.sics.kompics.sl.simulator.StartNode"><code>StartNode</code></a></span> events for <code>PongerParent</code> and <code>PingerParent</code>. <span class="group-java">The methods that are required to be overridden are very simple, as they are getter methods for the class of the respective parent, an <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/Init.html" title="se.sics.kompics.Init"><code>Init</code></a> event for it, and the node&rsquo;s <code>TAddress</code></span><span class="group-scala">Similar to direct component creation, we must specify the type of the component to be created, its <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/Init.html" title="se.sics.kompics.Init"><code>Init</code></a> event, and also an address for it</span>. We are going to pass addresses in the config as a simple map, which the simulator will convert into a config update instance, when creating the components.</p>
+<p>The scenario is set to start 5 ponger nodes and 5 pinger nodes. The sequential distributions will give IPs ending in x={1,2,3,4,5} to the pongers and IPs ending in y={6,7,8,9,10} to pingers and the &lt;x,y&gt; relation is: {&lt;1,6&gt;, &lt;2, 7&gt;, &lt;3,8&gt;, &lt;4,9&gt;, &lt;5,10&gt;} (or simply y = x+5).</p>
+<h4><a href="#simulationgen" name="simulationgen" class="anchor"><span class="anchor-link"></span></a>SimulationGen</h4>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/simulation/pingpong/ScenarioGen.java" target="_blank" title="Go to snippet source"></a><code class="language-java">package jexamples.simulation.pingpong;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.HashMap;
+import java.util.Map;
+import se.sics.kompics.Init;
+import se.sics.kompics.network.Address;
+import se.sics.kompics.simulator.SimulationScenario;
+import se.sics.kompics.simulator.adaptor.Operation1;
+import se.sics.kompics.simulator.adaptor.Operation2;
+import se.sics.kompics.simulator.adaptor.distributions.extra.BasicIntSequentialDistribution;
+import se.sics.kompics.simulator.events.system.StartNodeEvent;
+
+public class ScenarioGen {
+
+  public static final int PORT = 12345;
+  public static final String IP_PREFIX = &quot;192.193.0.&quot;;
+
+  static Operation1&lt;StartNodeEvent, Integer&gt; startPongerOp =
+      new Operation1&lt;StartNodeEvent, Integer&gt;() {
+
+        @Override
+        public StartNodeEvent generate(final Integer self) {
+          return new StartNodeEvent() {
+            TAddress selfAdr;
+
+            {
+              try {
+                selfAdr = new TAddress(InetAddress.getByName(IP_PREFIX + self), PORT);
+              } catch (UnknownHostException ex) {
+                throw new RuntimeException(ex);
+              }
+            }
+
+            @Override
+            public Map&lt;String, Object&gt; initConfigUpdate() {
+              HashMap&lt;String, Object&gt; config = new HashMap&lt;&gt;();
+              config.put(&quot;pingpong.ponger.addr&quot;, selfAdr);
+              return config;
+            }
+
+            @Override
+            public Address getNodeAddress() {
+              return selfAdr;
+            }
+
+            @Override
+            public Class&lt;PongerParent&gt; getComponentDefinition() {
+              return PongerParent.class;
+            }
+
+            @Override
+            public Init getComponentInit() {
+              return Init.NONE;
+            }
+
+            @Override
+            public String toString() {
+              return &quot;StartPonger&lt;&quot; + selfAdr.toString() + &quot;&gt;&quot;;
+            }
+          };
+        }
+      };
+
+  static Operation2&lt;StartNodeEvent, Integer, Integer&gt; startPingerOp =
+      new Operation2&lt;StartNodeEvent, Integer, Integer&gt;() {
+
+        @Override
+        public StartNodeEvent generate(final Integer self, final Integer ponger) {
+          return new StartNodeEvent() {
+            TAddress selfAdr;
+            TAddress pongerAdr;
+
+            {
+              try {
+                selfAdr = new TAddress(InetAddress.getByName(IP_PREFIX + self), PORT);
+                pongerAdr = new TAddress(InetAddress.getByName(IP_PREFIX + ponger), PORT);
+              } catch (UnknownHostException ex) {
+                throw new RuntimeException(ex);
+              }
+            }
+
+            @Override
+            public Map&lt;String, Object&gt; initConfigUpdate() {
+              HashMap&lt;String, Object&gt; config = new HashMap&lt;&gt;();
+              config.put(&quot;pingpong.pinger.addr&quot;, selfAdr);
+              config.put(&quot;pingpong.pinger.pongeraddr&quot;, pongerAdr);
+              return config;
+            }
+
+            @Override
+            public Address getNodeAddress() {
+              return selfAdr;
+            }
+
+            @Override
+            public Class&lt;PingerParent&gt; getComponentDefinition() {
+              return PingerParent.class;
+            }
+
+            @Override
+            public Init getComponentInit() {
+              return Init.NONE;
+            }
+
+            @Override
+            public String toString() {
+              return &quot;StartPinger&lt;&quot; + selfAdr.toString() + &quot;&gt;&quot;;
+            }
+          };
+        }
+      };
+
+  public static SimulationScenario simplePing() {
+    SimulationScenario scen =
+        new SimulationScenario() {
+          {
+            SimulationScenario.StochasticProcess ponger =
+                new SimulationScenario.StochasticProcess() {
+                  {
+                    eventInterarrivalTime(constant(1000));
+                    raise(5, startPongerOp, new BasicIntSequentialDistribution(1));
+                  }
+                };
+
+            SimulationScenario.StochasticProcess pinger =
+                new SimulationScenario.StochasticProcess() {
+                  {
+                    eventInterarrivalTime(constant(1000));
+                    raise(
+                        5,
+                        startPingerOp,
+                        new BasicIntSequentialDistribution(6),
+                        new BasicIntSequentialDistribution(1));
+                  }
+                };
+
+            ponger.start();
+            pinger.startAfterTerminationOf(1000, ponger);
+            terminateAfterTerminationOf(10000, pinger);
+          }
+        };
+
+    return scen;
+  }
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/simulation/pingpong/ScenarioGen.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package sexamples.simulation.pingpong
+
+import se.sics.kompics.sl._
+import se.sics.kompics.sl.simulator._
+import se.sics.kompics.simulator.{SimulationScenario =&gt; JSimulationScenario}
+import scala.concurrent.duration._
+import java.net.InetAddress;
+
+object ScenarioGen {
+  import Distributions._
+  // needed for the distributions, but needs to be initialised after setting the seed
+  implicit val random = JSimulationScenario.getRandom();
+
+  val PORT = 12345;
+  val IP_PREFIX = &quot;192.193.0.&quot;;
+
+  def makeAddress(num: Int): TAddress = {
+    TAddress(InetAddress.getByName(s&quot;${IP_PREFIX}${num}&quot;), PORT);
+  }
+
+  val startPongerOp = Op { (self: java.lang.Integer) =&gt;
+    StartNode[PongerParent, TAddress](makeAddress(self),
+                                      Init.none[PongerParent],
+                                      Map(&quot;pingpong.ponger.addr&quot; -&gt; makeAddress(self)))
+  };
+  val startPingerOp = Op { (self: java.lang.Integer, ponger: java.lang.Integer) =&gt;
+    StartNode[PingerParent, TAddress](makeAddress(self),
+                                      Init.none[PingerParent],
+                                      Map(
+                                        &quot;pingpong.pinger.addr&quot; -&gt; makeAddress(self),
+                                        &quot;pingpong.pinger.pongeraddr&quot; -&gt; makeAddress(ponger)
+                                      ))
+  };
+
+  val scenario = raise(5, startPongerOp, 1.toN)
+    .arrival(constant(1.second))
+    .andThen(1.second)
+    .afterTermination(
+      raise(5, startPingerOp, 6.toN, 1.toN).arrival(constant(1.second))
+    )
+    .andThen(10.seconds)
+    .afterTermination(Terminate);
+}</code></pre></dd>
+</dl>
+<h4><a href="#main" name="main" class="anchor"><span class="anchor-link"></span></a>Main</h4>
+<p>In order to start our simulation, we are going to add another branch to our <code>Main</code> <span class="group-java">class</span><span class="group-scala">object</span>, allowing us to specify <code>simulation</code> as a command line parameter, as well.</p>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/simulation/pingpong/Main.java#L45-L51" target="_blank" title="Go to snippet source"></a><code class="language-java">} else if (args[0].equalsIgnoreCase(&quot;simulation&quot;)) {
+  long seed = 123;
+  SimulationScenario.setSeed(seed);
+  SimulationScenario simpleBootScenario = ScenarioGen.simplePing();
+  System.out.println(&quot;Starting a Simulation&quot;);
+  simpleBootScenario.simulate(LauncherComp.class);
+} else {</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/simulation/pingpong/Main.scala#L38-L43" target="_blank" title="Go to snippet source"></a><code class="language-scala">} else if (args(0).equalsIgnoreCase(&quot;simulation&quot;)) {
+  val seed = 123;
+  SimulationScenario.setSeed(seed);
+  System.out.println(&quot;Starting a Simulation&quot;);
+  ScenarioGen.scenario.simulate(classOf[LauncherComp]);
+} else {</code></pre></dd>
+</dl>
+<h3><a href="#execution" name="execution" class="anchor"><span class="anchor-link"></span></a>Execution</h3>
+<p>Now we can simply run out simulation from within sbt as before with:</p><div class="group-java">
+<pre class="prettyprint"><code class="language-bash">runMain jexamples.simulation.pingpong.Main simulation
+</code></pre></div><div class="group-scala">
+<pre class="prettyprint"><code class="language-bash">runMain sexamples.simulation.pingpong.Main simulation
+</code></pre></div>
+<div class="source-github">
+The source code for this page can be found <a href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/paradox/tutorial/simulation/pingpong.md">here</a>.
+</div>
+
+<div class="nav-next">
+<p><strong>Next:</strong> <a href="../../tutorial/simulation/globalview.html">Global View</a></p>
+</div>
+</div>
+<div class="large-3 show-for-large column" data-sticky-container>
+<nav class="sidebar sticky" data-sticky data-anchor="docs" data-sticky-on="large">
+<div class="page-nav">
+<div class="nav-title">On this page:</div>
+<div class="nav-toc">
+<ul>
+  <li><a href="../../tutorial/simulation/pingpong.html#pingpong-simulation" class="header">PingPong Simulation</a>
+  <ul>
+    <li><a href="../../tutorial/simulation/pingpong.html#parent-vs-host" class="header">Parent vs. Host</a></li>
+    <li><a href="../../tutorial/simulation/pingpong.html#simulation-scenario" class="header">Simulation Scenario</a></li>
+    <li><a href="../../tutorial/simulation/pingpong.html#execution" class="header">Execution</a></li>
+  </ul></li>
+</ul>
+</div>
+</div>
+</nav>
+</div>
+</div>
+
+</section>
+</div>
+
+</div>
+
+<footer class="site-footer">
+
+<section class="site-footer-nav">
+<div class="expanded row">
+<div class="small-12 large-offset-2 large-10 column">
+<div class="row site-footer-content">
+
+<div class="small-12 medium-4 large-3 text-center column">
+<div class="nav-links">
+<ul>
+<!-- <li><a href="https://www.example.com/products/">Products</a> -->
+</ul>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</section>
+
+<section class="site-footer-base">
+<div class="expanded row">
+<div class="small-12 large-offset-2 large-10 column">
+<div class="row site-footer-content">
+
+<div class="small-12 text-center large-9 column">
+
+<!--
+<div class="copyright">
+<span class="text">&copy; 2020</span>
+<a href="https://www.example.com" class="logo">logo</a>
+</div>
+-->
+</div>
+
+</div>
+</div>
+</div>
+</section>
+</footer>
+
+</div>
+</div>
+</div>
+</body>
+
+<script type="text/javascript" src="../../lib/foundation/dist/foundation.min.js"></script>
+<script type="text/javascript">jQuery(document).foundation();</script>
+<script type="text/javascript" src="../../js/magellan.js"></script>
+
+<style type="text/css">@import "../../lib/prettify/prettify.css";</style>
+<script type="text/javascript" src="../../lib/prettify/prettify.js"></script>
+<script type="text/javascript" src="../../lib/prettify/lang-scala.js"></script>
+<script type="text/javascript">jQuery(function(){window.prettyPrint && prettyPrint()});</script>
+<script type="text/javascript">jQuery(function(jq){initOldVersionWarnings(jq, '2.0.0', '')});</script>
+
+
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+<title>Simulation Scenarios Reference · Kompics</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content='Kompics-Scala-Docs'/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:100normal,100italic,300normal,300italic,400normal,400italic,500normal,500italic,700normal,700italic,900normal,900italicc" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../lib/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="../../js/page.js"></script>
+<script type="text/javascript" src="../../js/warnOldVersion.js"></script>
+<script type="text/javascript" src="../../js/groups.js"></script>
+<link rel="stylesheet" type="text/css" href="../../lib/foundation/dist/foundation.min.css"/>
+<link rel="stylesheet" type="text/css" href="../../css/page.css"/>
+
+<!--
+<link rel="shortcut icon" href="../../images/favicon.ico" />
+-->
+</head>
+
+<body>
+<div class="off-canvas-wrapper">
+<div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+
+<div class="off-canvas position-left" id="off-canvas-menu" data-off-canvas>
+<nav class="off-canvas-nav">
+<div class="nav-home">
+<a href="../../index.html" >
+<span class="home-icon">⌂</span>Kompics
+</a>
+<div class="version-number">
+2.0.0
+</div>
+</div>
+<select class="supergroup" name="Language"><option class="group" value="group-scala">Scala</option><option class="group" value="group-java">Java</option></select>
+<div class="nav-toc">
+<ul>
+  <li><a href="../../introduction/index.html" class="page">Introduction</a>
+  <ul>
+    <li><a href="../../introduction/whatiskompics.html" class="page">What is Kompics?</a></li>
+    <li><a href="../../introduction/gettingstarted.html" class="page">Getting Started</a></li>
+    <li><a href="../../introduction/helloworld.html" class="page">Hello World in Kompics</a></li>
+  </ul></li>
+  <li><a href="../../tutorial/index.html" class="page">Kompics Tutorial</a>
+  <ul>
+    <li><a href="../../tutorial/basics.html" class="page">Kompics Basics</a></li>
+    <li><a href="../../tutorial/timers.html" class="page">Timers</a></li>
+    <li><a href="../../tutorial/networking/index.html" class="page">Networking</a></li>
+    <li><a href="../../tutorial/simulation/index.html" class="page">Simulation</a></li>
+  </ul></li>
+  <li><a href="../../reference.html" class="page">Reference</a></li>
+</ul>
+</div>
+
+</nav>
+</div>
+
+<div class="off-canvas-content" data-off-canvas-content>
+
+<header class="site-header expanded row">
+<div class="small-12 column">
+<a href="#" class="off-canvas-toggle hide-for-medium" data-toggle="off-canvas-menu"><svg class="svg-icon svg-icon-menu" version="1.1" id="Menu" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 20 20" enable-background="new 0 0 20 20" xml:space="preserve"> <path class="svg-icon-menu-path" fill="#53CDEC" d="M16.4,9H3.6C3.048,9,3,9.447,3,10c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,9.447,16.952,9,16.4,9z M16.4,13
+H3.6C3.048,13,3,13.447,3,14c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,13.447,16.952,13,16.4,13z M3.6,7H16.4
+C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.048,7,3.6,7z"/></svg>
+</a>
+<div class="title"><a href="../../index.html">Kompics</a></div>
+
+<!--
+<a href="https://www.example.com" class="logo show-for-medium">logo</a>
+-->
+</div>
+</header>
+
+<div class="expanded row">
+
+<div class="medium-3 large-2 show-for-medium column">
+<nav class="site-nav">
+<div class="nav-home">
+<a href="../../index.html" >
+<span class="home-icon">⌂</span>Kompics
+</a>
+<div class="version-number">
+2.0.0
+</div>
+</div>
+<select class="supergroup" name="Language"><option class="group" value="group-scala">Scala</option><option class="group" value="group-java">Java</option></select>
+<div class="nav-toc">
+<ul>
+  <li><a href="../../introduction/index.html" class="page">Introduction</a>
+  <ul>
+    <li><a href="../../introduction/whatiskompics.html" class="page">What is Kompics?</a></li>
+    <li><a href="../../introduction/gettingstarted.html" class="page">Getting Started</a></li>
+    <li><a href="../../introduction/helloworld.html" class="page">Hello World in Kompics</a></li>
+  </ul></li>
+  <li><a href="../../tutorial/index.html" class="page">Kompics Tutorial</a>
+  <ul>
+    <li><a href="../../tutorial/basics.html" class="page">Kompics Basics</a></li>
+    <li><a href="../../tutorial/timers.html" class="page">Timers</a></li>
+    <li><a href="../../tutorial/networking/index.html" class="page">Networking</a></li>
+    <li><a href="../../tutorial/simulation/index.html" class="page">Simulation</a></li>
+  </ul></li>
+  <li><a href="../../reference.html" class="page">Reference</a></li>
+</ul>
+</div>
+
+</nav>
+</div>
+
+<div class="small-12 medium-9 large-10 column">
+<section class="site-content">
+
+<span id="version-warning"></span>
+
+<div class="page-header row">
+<div class="medium-12 show-for-medium column">
+<div class="nav-breadcrumbs">
+<ul>
+  <li><a href="../../index.html">Kompics</a></li>
+  <li><a href="../../tutorial/index.html">Kompics Tutorial</a></li>
+  <li><a href="../../tutorial/simulation/index.html">Simulation</a></li>
+  <li>Simulation Scenarios Reference</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="page-content row">
+<div class="small-12 large-9 column" id="docs">
+<h1><a href="#simulation-scenarios-reference" name="simulation-scenarios-reference" class="anchor"><span class="anchor-link"></span></a>Simulation Scenarios Reference</h1>
+<p>The simulator comes with quite a number of classes and helper methods for controlling how simulation is run. In this section we will simply list them, to give the reader an idea of what is available.</p>
+<h2><a href="#simulation-events" name="simulation-events" class="anchor"><span class="anchor-link"></span></a>Simulation Events</h2>
+<p>As already mentioned before, the only events interpreted by the simulator are the following.</p>
+<ol>
+  <li><a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/events/SetupEvent.html" title="se.sics.kompics.simulator.events.SetupEvent"><code>SetupEvent</code></a> &ndash; alter global simulation settings</li>
+  <li><a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/events/system/StartNodeEvent.html" title="se.sics.kompics.simulator.events.system.StartNodeEvent"><code>StartNodeEvent</code></a> &ndash; start a node</li>
+  <li><a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/events/system/KillNodeEvent.html" title="se.sics.kompics.simulator.events.system.KillNodeEvent"><code>KillNodeEvent</code></a> &ndash; kill a node</li>
+  <li><a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/events/TerminateExperiment.html" title="se.sics.kompics.simulator.events.TerminateExperiment"><code>TerminateExperiment</code></a> &ndash; terminate the experiment</li>
+  <li><a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/events/system/ChangeNetworkModelEvent.html" title="se.sics.kompics.simulator.events.system.ChangeNetworkModelEvent"><code>ChangeNetworkModelEvent</code></a> &ndash; change the network model</li>
+</ol>
+<p>Creating an operation that produces any other kind of event, will result in a runtime exception.</p>
+<h2><a href="#distributions" name="distributions" class="anchor"><span class="anchor-link"></span></a>Distributions</h2>
+<p>The main class in this package is <a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/adaptor/distributions/Distribution.html" title="se.sics.kompics.simulator.adaptor.distributions.Distribution"><code>Distribution</code></a>. There are a number of distributions defined in the simulator module:</p>
+<ol>
+  <li><a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/adaptor/distributions/ConstantDistribution.html" title="se.sics.kompics.simulator.adaptor.distributions.ConstantDistribution"><code>ConstantDistribution</code></a> &ndash; pass a fixed custom parameter to all events</li>
+  <li><a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/adaptor/distributions/IntegerUniformDistribution.html" title="se.sics.kompics.simulator.adaptor.distributions.IntegerUniformDistribution"><code>IntegerUniformDistribution</code></a> &ndash; generate uniformly distributed integers</li>
+  <li><a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/adaptor/distributions/DoubleUniformDistribution.html" title="se.sics.kompics.simulator.adaptor.distributions.DoubleUniformDistribution"><code>DoubleUniformDistribution</code></a> &ndash; generate uniformly distributed doubles</li>
+  <li><a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/adaptor/distributions/LongUniformDistribution.html" title="se.sics.kompics.simulator.adaptor.distributions.LongUniformDistribution"><code>LongUniformDistribution</code></a> &ndash; generate uniformly distributed longs</li>
+  <li><a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/adaptor/distributions/BigIntegerUniformDistribution.html" title="se.sics.kompics.simulator.adaptor.distributions.BigIntegerUniformDistribution"><code>BigIntegerUniformDistribution</code></a> &ndash; generate uniformly distributed big integers</li>
+  <li><a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/adaptor/distributions/IntegerNormalDistribution.html" title="se.sics.kompics.simulator.adaptor.distributions.IntegerNormalDistribution"><code>IntegerNormalDistribution</code></a> &ndash; generate normally distributed integers</li>
+  <li><a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/adaptor/distributions/DoubleNormalDistribution.html" title="se.sics.kompics.simulator.adaptor.distributions.DoubleNormalDistribution"><code>DoubleNormalDistribution</code></a> &ndash; generate normally distributed doubles</li>
+  <li><a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/adaptor/distributions/LongNormalDistribution.html" title="se.sics.kompics.simulator.adaptor.distributions.LongNormalDistribution"><code>LongNormalDistribution</code></a> &ndash; generate normally distributed longs</li>
+  <li><a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/adaptor/distributions/BigIntegerNormalDistribution.html" title="se.sics.kompics.simulator.adaptor.distributions.BigIntegerNormalDistribution"><code>BigIntegerNormalDistribution</code></a> &ndash; generate normally distributed big integers</li>
+  <li><a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/adaptor/distributions/IntegerExponentialDistribution.html" title="se.sics.kompics.simulator.adaptor.distributions.IntegerExponentialDistribution"><code>IntegerExponentialDistribution</code></a> &ndash; generate exponentially distributed integers</li>
+  <li><a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/adaptor/distributions/DoubleExponentialDistribution.html" title="se.sics.kompics.simulator.adaptor.distributions.DoubleExponentialDistribution"><code>DoubleExponentialDistribution</code></a> &ndash; generate exponentially distributed doubles</li>
+  <li><a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/adaptor/distributions/LongExponentialDistribution.html" title="se.sics.kompics.simulator.adaptor.distributions.LongExponentialDistribution"><code>LongExponentialDistribution</code></a> &ndash; generate exponentially distributed longs</li>
+  <li><a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/adaptor/distributions/BigIntegerExponentialDistribution.html" title="se.sics.kompics.simulator.adaptor.distributions.BigIntegerExponentialDistribution"><code>BigIntegerExponentialDistribution</code></a> &ndash; generate exponentially distributed big integers</li>
+  <li><a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/adaptor/distributions/extra/BasicIntSequentialDistribution.html" title="se.sics.kompics.simulator.adaptor.distributions.extra.BasicIntSequentialDistribution"><code>BasicIntSequentialDistribution</code></a> &ndash; generate a predefined sequence <code>N, N+1, N+2, ...</code> for parameter <code>N</code></li>
+  <li><a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/adaptor/distributions/extra/GenIntSequentialDistribution.html" title="se.sics.kompics.simulator.adaptor.distributions.extra.GenIntSequentialDistribution"><code>GenIntSequentialDistribution</code></a> &ndash; genrate a predefined sequence as given in the constructor. Make sure you do not try to raise more events than the size of the provided sequence, as once all the numbers in the sequence have been drawn, <code>null</code> values will be returned.</li>
+</ol>
+<p><span class="group-java">Many of these distributions have convenience methods within a <a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/SimulationScenario.html" title="se.sics.kompics.simulator.SimulationScenario"><code>SimulationScenario</code></a> subclass.</span><span class="group-scala">All these distributions have convenient helpers in <a href="https://kompics.github.io/kompics-scala/api/se/sics/kompics/sl/simulator/Distributions$.html" title="se.sics.kompics.sl.simulator.Distributions"><code>Distributions</code></a>.</span></p>
+<p>In case these distributions to not fit your needs, you can define your own by extending the <a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/adaptor/distributions/Distribution.html" title="se.sics.kompics.simulator.adaptor.distributions.Distribution"><code>Distribution</code></a> class</p>
+<h2><a href="#operations" name="operations" class="anchor"><span class="anchor-link"></span></a>Operations</h2>
+<p>Depending on the amount of customisation you need for the simulation events, there are 6 types of operations allowing between 0 and 5 generated parameters. Each parameter is generated using some distribution you must provide. You can choose among the distributions presented above or create your own parameter distribution, which fits your needs better.</p>
+<ol>
+  <li><a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/adaptor/Operation.html" title="se.sics.kompics.simulator.adaptor.Operation"><code>Operation</code></a> <span class="group-scala">&ndash; created via <a href="https://kompics.github.io/kompics-scala/api/se/sics/kompics/sl/simulator/Op$.html" title="se.sics.kompics.sl.simulator.Op"><code>Op{(_: Unit) =&gt; SomeEvent}</code></a></span></li>
+  <li><a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/adaptor/Operation1.html" title="se.sics.kompics.simulator.adaptor.Operation1"><code>Operation1</code></a> <span class="group-scala">&ndash; created via <a href="https://kompics.github.io/kompics-scala/api/se/sics/kompics/sl/simulator/Op$.html" title="se.sics.kompics.sl.simulator.Op"><code>Op{(param: DistributionOutputType) =&gt; SomeEvent}</code></a></span></li>
+  <li><a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/adaptor/Operation2.html" title="se.sics.kompics.simulator.adaptor.Operation2"><code>Operation2</code></a> <span class="group-scala">&ndash; created via <a href="https://kompics.github.io/kompics-scala/api/se/sics/kompics/sl/simulator/Op$.html" title="se.sics.kompics.sl.simulator.Op"><code>Op{(param1: Distribution1OutputType, param2: Distribution2OutputType) =&gt; SomeEvent}</code></a></span></li>
+  <li><a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/adaptor/Operation3.html" title="se.sics.kompics.simulator.adaptor.Operation3"><code>Operation3</code></a> <span class="group-scala">&ndash; and so on&hellip;</span></li>
+  <li><a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/adaptor/Operation4.html" title="se.sics.kompics.simulator.adaptor.Operation4"><code>Operation4</code></a></li>
+  <li><a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/adaptor/Operation5.html" title="se.sics.kompics.simulator.adaptor.Operation5"><code>Operation5</code></a></li>
+</ol>
+<h2><a href="#stochasticprocesses" name="stochasticprocesses" class="anchor"><span class="anchor-link"></span></a>StochasticProcesses</h2><div class="group-java">
+<p>Event generation related methods:</p>
+<ol>
+  <li><a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/SimulationScenario.StochasticProcess.html#eventInterarrivalTime(se.sics.kompics.simulator.adaptor.distributions.Distribution)" title="se.sics.kompics.simulator.SimulationScenario.StochasticProcess"><code>eventInterarrivalTime</code></a></li>
+  <li><a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/SimulationScenario.StochasticProcess.html#raise(int,se.sics.kompics.simulator.adaptor.Operation)" title="se.sics.kompics.simulator.SimulationScenario.StochasticProcess"><code>raise</code></a></li>
+</ol>
+<p>Process order related methods: <a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/SimulationScenario.StochasticProcess.html#start()" title="se.sics.kompics.simulator.SimulationScenario.StochasticProcess"><code>start</code></a>, <a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/SimulationScenario.html#terminateAt(long)" title="se.sics.kompics.simulator.SimulationScenario"><code>terminate</code></a>.</p></div><div class="group-scala">
+<p>The DSL methods for creating stochastic processes from operations and then combining them into simulation scenarios can be found in <a href="https://github.com/kompics/kompics-scala/tree/v2.0.0/simulator/src/main/scala/se/sics/kompics/sl/simulator/StochasticProcess.scala">StochasticProcess.scala</a>.</p></div>
+<div class="source-github">
+The source code for this page can be found <a href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/paradox/tutorial/simulation/scenarios.md">here</a>.
+</div>
+
+<div class="nav-next">
+<p><strong>Next:</strong> <a href="../../reference.html">Reference</a></p>
+</div>
+</div>
+<div class="large-3 show-for-large column" data-sticky-container>
+<nav class="sidebar sticky" data-sticky data-anchor="docs" data-sticky-on="large">
+<div class="page-nav">
+<div class="nav-title">On this page:</div>
+<div class="nav-toc">
+<ul>
+  <li><a href="../../tutorial/simulation/scenarios.html#simulation-scenarios-reference" class="header">Simulation Scenarios Reference</a>
+  <ul>
+    <li><a href="../../tutorial/simulation/scenarios.html#simulation-events" class="header">Simulation Events</a></li>
+    <li><a href="../../tutorial/simulation/scenarios.html#distributions" class="header">Distributions</a></li>
+    <li><a href="../../tutorial/simulation/scenarios.html#operations" class="header">Operations</a></li>
+    <li><a href="../../tutorial/simulation/scenarios.html#stochasticprocesses" class="header">StochasticProcesses</a></li>
+  </ul></li>
+</ul>
+</div>
+</div>
+</nav>
+</div>
+</div>
+
+</section>
+</div>
+
+</div>
+
+<footer class="site-footer">
+
+<section class="site-footer-nav">
+<div class="expanded row">
+<div class="small-12 large-offset-2 large-10 column">
+<div class="row site-footer-content">
+
+<div class="small-12 medium-4 large-3 text-center column">
+<div class="nav-links">
+<ul>
+<!-- <li><a href="https://www.example.com/products/">Products</a> -->
+</ul>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</section>
+
+<section class="site-footer-base">
+<div class="expanded row">
+<div class="small-12 large-offset-2 large-10 column">
+<div class="row site-footer-content">
+
+<div class="small-12 text-center large-9 column">
+
+<!--
+<div class="copyright">
+<span class="text">&copy; 2020</span>
+<a href="https://www.example.com" class="logo">logo</a>
+</div>
+-->
+</div>
+
+</div>
+</div>
+</div>
+</section>
+</footer>
+
+</div>
+</div>
+</div>
+</body>
+
+<script type="text/javascript" src="../../lib/foundation/dist/foundation.min.js"></script>
+<script type="text/javascript">jQuery(document).foundation();</script>
+<script type="text/javascript" src="../../js/magellan.js"></script>
+
+<style type="text/css">@import "../../lib/prettify/prettify.css";</style>
+<script type="text/javascript" src="../../lib/prettify/prettify.js"></script>
+<script type="text/javascript" src="../../lib/prettify/lang-scala.js"></script>
+<script type="text/javascript">jQuery(function(){window.prettyPrint && prettyPrint()});</script>
+<script type="text/javascript">jQuery(function(jq){initOldVersionWarnings(jq, '2.0.0', '')});</script>
+
+
+</html>

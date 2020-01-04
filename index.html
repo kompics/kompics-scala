@@ -2,7 +2,7 @@
 <html class="no-js" lang="en">
 
 <head>
-<title>Kompics Scala</title>
+<title>Kompics</title>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta name="description" content='Kompics-Scala-Docs'/>
@@ -27,15 +27,28 @@
 <nav class="off-canvas-nav">
 <div class="nav-home">
 <a href="index.html" class="active">
-<span class="home-icon">⌂</span>Kompics Scala
+<span class="home-icon">⌂</span>Kompics
 </a>
 <div class="version-number">
 2.0.0
 </div>
 </div>
+<select class="supergroup" name="Language"><option class="group" value="group-scala">Scala</option><option class="group" value="group-java">Java</option></select>
 <div class="nav-toc">
 <ul>
-  <li><a href="getting-started.html" class="page">Getting Started</a></li>
+  <li><a href="introduction/index.html" class="page">Introduction</a>
+  <ul>
+    <li><a href="introduction/whatiskompics.html" class="page">What is Kompics?</a></li>
+    <li><a href="introduction/gettingstarted.html" class="page">Getting Started</a></li>
+    <li><a href="introduction/helloworld.html" class="page">Hello World in Kompics</a></li>
+  </ul></li>
+  <li><a href="tutorial/index.html" class="page">Kompics Tutorial</a>
+  <ul>
+    <li><a href="tutorial/basics.html" class="page">Kompics Basics</a></li>
+    <li><a href="tutorial/timers.html" class="page">Timers</a></li>
+    <li><a href="tutorial/networking/index.html" class="page">Networking</a></li>
+    <li><a href="tutorial/simulation/index.html" class="page">Simulation</a></li>
+  </ul></li>
   <li><a href="reference.html" class="page">Reference</a></li>
 </ul>
 </div>
@@ -51,7 +64,7 @@
 H3.6C3.048,13,3,13.447,3,14c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,13.447,16.952,13,16.4,13z M3.6,7H16.4
 C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.048,7,3.6,7z"/></svg>
 </a>
-<div class="title"><a href="index.html" class="active">Kompics Scala</a></div>
+<div class="title"><a href="index.html" class="active">Kompics</a></div>
 
 <!--
 <a href="https://www.example.com" class="logo show-for-medium">logo</a>
@@ -65,15 +78,28 @@ C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.
 <nav class="site-nav">
 <div class="nav-home">
 <a href="index.html" class="active">
-<span class="home-icon">⌂</span>Kompics Scala
+<span class="home-icon">⌂</span>Kompics
 </a>
 <div class="version-number">
 2.0.0
 </div>
 </div>
+<select class="supergroup" name="Language"><option class="group" value="group-scala">Scala</option><option class="group" value="group-java">Java</option></select>
 <div class="nav-toc">
 <ul>
-  <li><a href="getting-started.html" class="page">Getting Started</a></li>
+  <li><a href="introduction/index.html" class="page">Introduction</a>
+  <ul>
+    <li><a href="introduction/whatiskompics.html" class="page">What is Kompics?</a></li>
+    <li><a href="introduction/gettingstarted.html" class="page">Getting Started</a></li>
+    <li><a href="introduction/helloworld.html" class="page">Hello World in Kompics</a></li>
+  </ul></li>
+  <li><a href="tutorial/index.html" class="page">Kompics Tutorial</a>
+  <ul>
+    <li><a href="tutorial/basics.html" class="page">Kompics Basics</a></li>
+    <li><a href="tutorial/timers.html" class="page">Timers</a></li>
+    <li><a href="tutorial/networking/index.html" class="page">Networking</a></li>
+    <li><a href="tutorial/simulation/index.html" class="page">Simulation</a></li>
+  </ul></li>
   <li><a href="reference.html" class="page">Reference</a></li>
 </ul>
 </div>
@@ -93,18 +119,58 @@ C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.
 
 <div class="page-content row">
 <div class="small-12 large-9 column" id="docs">
-<h1><a href="#kompics-scala" name="kompics-scala" class="anchor"><span class="anchor-link"></span></a>Kompics Scala</h1>
-<p>The Scala DSL for the <a href="https://kompics.sics.se">Kompics</a> component framework.</p>
-<h2><a href="#setup" name="setup" class="anchor"><span class="anchor-link"></span></a>Setup</h2>
-<p>Add the following dependency to your <code>build.sbt</code> file:</p>
-<pre class="prettyprint"><code class="language-scala">libraryDependencies += &quot;se.sics.kompics&quot; %% &quot;kompics-scala&quot; % &quot;2.0.0&quot;
+<h1><a href="#kompics" name="kompics" class="anchor"><span class="anchor-link"></span></a>Kompics</h1>
+<p>In this document we will describe how to use the <strong>Kompics</strong> component framework. Wherever applicable, we will present all examples both in Scala and in Java. For features that are exclusively available in Kompics Java, the reader is redirected to the <a href="https://kompics.sics.se">old documentation page</a>.</p>
+<h2><a href="#kompics-scala-quickstart" name="kompics-scala-quickstart" class="anchor"><span class="anchor-link"></span></a>Kompics Scala Quickstart</h2>
+<p>If you just want to get set up quickly with Kompics Scala, instead of reading throught the whole documentation, follow the following steps. These assume that are using <a href="https://www.scala-sbt.org/">sbt</a> as your build tool. Otherwise, substitute as appropriate.</p>
+<ol>
+  <li>Start a new sbt project</li>
+  <li>Add the following dependency to your <code>build.sbt</code> file:<dl class="dependency"><dt>sbt</dt><dd><pre class="prettyprint"><code class="language-scala">libraryDependencies += "se.sics.kompics" %% "kompics-scala" % "2.0.0"</code></pre></dd><dt>Maven</dt><dd><pre class="prettyprint"><code class="language-xml">&lt;dependency&gt;
+  &lt;groupId&gt;se.sics.kompics&lt;/groupId&gt;
+  &lt;artifactId&gt;kompics-scala_2.13&lt;/artifactId&gt;
+  &lt;version&gt;2.0.0&lt;/version&gt;
+&lt;/dependency&gt;</code></pre></dd><dt>Gradle</dt><dd><pre class="prettyprint"><code class="language-gradle">dependencies {
+  compile group: 'se.sics.kompics', name: 'kompics-scala_2.13', version: '2.0.0'
+}</code></pre></dd></dl>
+  </li>
+  <li>
+    <p>Write a component:</p>
+    <pre class="prettyprint"><code class="language-scala">package mypackage
+import se.sics.kompics.sl._
+class MyComponent(init: Init[MyComponent]) extends ComponentDefinition {
+  val Init(/* init paramters */) = init;
+  /* add ports */
+  /* add internal state */
+  ctrl uponEvent {
+    case _: Start =&gt; {
+       /* Do something when component is started */
+    }
+  }
+  /* add all your custom handlers */
+}
 </code></pre>
+  </li>
+  <li>
+    <p>Start the component and wait for it to complete, if it ever does:</p>
+    <pre class="prettyprint"><code class="language-scala">package mypackage
+import se.sics.kompics.sl._
+object Main {
+  def main(args: Array[String]): Unit = {
+    Kompics.createAndStart(classOf[MyComponent], Init[MyComponent](/* init paramters */), NUM_THREADS);
+    Kompics.waitForTermination();
+  }
+}
+</code></pre>
+  </li>
+  <li>
+  <p>Run from within sbt with <code>runMain mypackage.Main</code></p></li>
+</ol>
 <div class="source-github">
 The source code for this page can be found <a href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/paradox/index.md">here</a>.
 </div>
 
 <div class="nav-next">
-<p><strong>Next:</strong> <a href="getting-started.html">Getting Started</a></p>
+<p><strong>Next:</strong> <a href="introduction/index.html">Introduction</a></p>
 </div>
 </div>
 <div class="large-3 show-for-large column" data-sticky-container>
@@ -113,9 +179,9 @@ The source code for this page can be found <a href="https://github.com/kompics/k
 <div class="nav-title">On this page:</div>
 <div class="nav-toc">
 <ul>
-  <li><a href="index.html#kompics-scala" class="header">Kompics Scala</a>
+  <li><a href="index.html#kompics" class="header">Kompics</a>
   <ul>
-    <li><a href="index.html#setup" class="header">Setup</a></li>
+    <li><a href="index.html#kompics-scala-quickstart" class="header">Kompics Scala Quickstart</a></li>
   </ul></li>
 </ul>
 </div>
@@ -158,7 +224,7 @@ The source code for this page can be found <a href="https://github.com/kompics/k
 
 <!--
 <div class="copyright">
-<span class="text">&copy; 2019</span>
+<span class="text">&copy; 2020</span>
 <a href="https://www.example.com" class="logo">logo</a>
 </div>
 -->

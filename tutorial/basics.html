@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+<title>Kompics Basics · Kompics</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content='Kompics-Scala-Docs'/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:100normal,100italic,300normal,300italic,400normal,400italic,500normal,500italic,700normal,700italic,900normal,900italicc" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../lib/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="../js/page.js"></script>
+<script type="text/javascript" src="../js/warnOldVersion.js"></script>
+<script type="text/javascript" src="../js/groups.js"></script>
+<link rel="stylesheet" type="text/css" href="../lib/foundation/dist/foundation.min.css"/>
+<link rel="stylesheet" type="text/css" href="../css/page.css"/>
+
+<!--
+<link rel="shortcut icon" href="../images/favicon.ico" />
+-->
+</head>
+
+<body>
+<div class="off-canvas-wrapper">
+<div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+
+<div class="off-canvas position-left" id="off-canvas-menu" data-off-canvas>
+<nav class="off-canvas-nav">
+<div class="nav-home">
+<a href="../index.html" >
+<span class="home-icon">⌂</span>Kompics
+</a>
+<div class="version-number">
+2.0.0
+</div>
+</div>
+<select class="supergroup" name="Language"><option class="group" value="group-scala">Scala</option><option class="group" value="group-java">Java</option></select>
+<div class="nav-toc">
+<ul>
+  <li><a href="../introduction/index.html" class="page">Introduction</a>
+  <ul>
+    <li><a href="../introduction/whatiskompics.html" class="page">What is Kompics?</a></li>
+    <li><a href="../introduction/gettingstarted.html" class="page">Getting Started</a></li>
+    <li><a href="../introduction/helloworld.html" class="page">Hello World in Kompics</a></li>
+  </ul></li>
+  <li><a href="../tutorial/index.html" class="page">Kompics Tutorial</a>
+  <ul>
+    <li><a href="../tutorial/basics.html" class="active page">Kompics Basics</a></li>
+    <li><a href="../tutorial/timers.html" class="page">Timers</a></li>
+    <li><a href="../tutorial/networking/index.html" class="page">Networking</a></li>
+    <li><a href="../tutorial/simulation/index.html" class="page">Simulation</a></li>
+  </ul></li>
+  <li><a href="../reference.html" class="page">Reference</a></li>
+</ul>
+</div>
+
+</nav>
+</div>
+
+<div class="off-canvas-content" data-off-canvas-content>
+
+<header class="site-header expanded row">
+<div class="small-12 column">
+<a href="#" class="off-canvas-toggle hide-for-medium" data-toggle="off-canvas-menu"><svg class="svg-icon svg-icon-menu" version="1.1" id="Menu" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 20 20" enable-background="new 0 0 20 20" xml:space="preserve"> <path class="svg-icon-menu-path" fill="#53CDEC" d="M16.4,9H3.6C3.048,9,3,9.447,3,10c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,9.447,16.952,9,16.4,9z M16.4,13
+H3.6C3.048,13,3,13.447,3,14c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,13.447,16.952,13,16.4,13z M3.6,7H16.4
+C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.048,7,3.6,7z"/></svg>
+</a>
+<div class="title"><a href="../index.html">Kompics</a></div>
+
+<!--
+<a href="https://www.example.com" class="logo show-for-medium">logo</a>
+-->
+</div>
+</header>
+
+<div class="expanded row">
+
+<div class="medium-3 large-2 show-for-medium column">
+<nav class="site-nav">
+<div class="nav-home">
+<a href="../index.html" >
+<span class="home-icon">⌂</span>Kompics
+</a>
+<div class="version-number">
+2.0.0
+</div>
+</div>
+<select class="supergroup" name="Language"><option class="group" value="group-scala">Scala</option><option class="group" value="group-java">Java</option></select>
+<div class="nav-toc">
+<ul>
+  <li><a href="../introduction/index.html" class="page">Introduction</a>
+  <ul>
+    <li><a href="../introduction/whatiskompics.html" class="page">What is Kompics?</a></li>
+    <li><a href="../introduction/gettingstarted.html" class="page">Getting Started</a></li>
+    <li><a href="../introduction/helloworld.html" class="page">Hello World in Kompics</a></li>
+  </ul></li>
+  <li><a href="../tutorial/index.html" class="page">Kompics Tutorial</a>
+  <ul>
+    <li><a href="../tutorial/basics.html" class="active page">Kompics Basics</a></li>
+    <li><a href="../tutorial/timers.html" class="page">Timers</a></li>
+    <li><a href="../tutorial/networking/index.html" class="page">Networking</a></li>
+    <li><a href="../tutorial/simulation/index.html" class="page">Simulation</a></li>
+  </ul></li>
+  <li><a href="../reference.html" class="page">Reference</a></li>
+</ul>
+</div>
+
+</nav>
+</div>
+
+<div class="small-12 medium-9 large-10 column">
+<section class="site-content">
+
+<span id="version-warning"></span>
+
+<div class="page-header row">
+<div class="medium-12 show-for-medium column">
+<div class="nav-breadcrumbs">
+<ul>
+  <li><a href="../index.html">Kompics</a></li>
+  <li><a href="../tutorial/index.html">Kompics Tutorial</a></li>
+  <li>Kompics Basics</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="page-content row">
+<div class="small-12 large-9 column" id="docs">
+<h1><a href="#kompics-basics" name="kompics-basics" class="anchor"><span class="anchor-link"></span></a>Kompics Basics</h1>
+<p>This section of the tutorial will properly introduce the basic concepts in Kompics, namely <em>components</em>, <em>ports</em>, <em>handlers</em>, and <em>channels</em>.</p>
+<p>The example application we will use is a simple <em>Ping Pong</em> application, with two components that send messages back and forth between them.</p>
+<h2><a href="#components" name="components" class="anchor"><span class="anchor-link"></span></a>Components</h2>
+<p>A <em>component</em> in Kompics is a stateful object that can be scheduled and can access its own state without need for synchronisation. Typically, components encapsulate some kind of functionality, by providing certain services and possibly requiring others. Components can also have <em>child</em> components <em>created</em> within. These <em>parent</em>-*child* relations form a supervision hierarchy tree.</p>
+<p>In programming language terms, a component is a class that extends <span class="group-java"><a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/ComponentDefinition.html" title="se.sics.kompics.ComponentDefinition"><code>ComponentDefinition</code></a></span><span class="group-scala"><a href="https://kompics.github.io/kompics-scala/api/se/sics/kompics/sl/ComponentDefinition.html" title="se.sics.kompics.sl.ComponentDefinition"><code>ComponentDefinition</code></a></span>. If a component needs any additional parameters upon creation, a constructor that takes an implementation of <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/Init.html" title="se.sics.kompics.Init"><code>Init</code></a> can be used and an instance passed on creation. Otherwise simply pass <span class="group-java"><a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/Init.html#NONE" title="se.sics.kompics.Init"><code>NONE</code></a></span><span class="group-scala"><a href="https://kompics.github.io/kompics-scala/api/se/sics/kompics/sl/Init$.html#NONE" title="se.sics.kompics.sl.Init"><code>None</code></a></span>.</p>
+<p>For this example we need three components, two to do the work, and a parent that handles setup:</p>
+<h4><a href="#pinger" name="pinger" class="anchor"><span class="anchor-link"></span></a>Pinger</h4>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/basics/pingpong/Pinger.java#L13-L39" target="_blank" title="Go to snippet source"></a><code class="language-java">public class Pinger extends ComponentDefinition {
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/basics/pingpong/Pinger.scala#L7-L27" target="_blank" title="Go to snippet source"></a><code class="language-scala">class Pinger extends ComponentDefinition {
+}</code></pre></dd>
+</dl>
+<h4><a href="#ponger" name="ponger" class="anchor"><span class="anchor-link"></span></a>Ponger</h4>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/basics/pingpong/Ponger.java#L11-L30" target="_blank" title="Go to snippet source"></a><code class="language-java">public class Ponger extends ComponentDefinition {
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/basics/pingpong/Ponger.scala#L7-L21" target="_blank" title="Go to snippet source"></a><code class="language-scala">class Ponger extends ComponentDefinition {
+}</code></pre></dd>
+</dl>
+<h4><a href="#parent" name="parent" class="anchor"><span class="anchor-link"></span></a>Parent</h4>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/basics/pingpong/Parent.java#L9-L20" target="_blank" title="Go to snippet source"></a><code class="language-java">public class Parent extends ComponentDefinition {
+  Component pinger = create(Pinger.class, Init.NONE);
+  Component ponger = create(Ponger.class, Init.NONE);
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/basics/pingpong/Parent.scala#L6-L14" target="_blank" title="Go to snippet source"></a><code class="language-scala">class Parent extends ComponentDefinition {
+  val pinger = create[Pinger];
+  val ponger = create[Ponger];
+}</code></pre></dd>
+</dl>
+<h2><a href="#ports-and-events" name="ports-and-events" class="anchor"><span class="anchor-link"></span></a>Ports and Events</h2>
+<p>A <em>port type</em> in Kompics is a bit like a service interface. It defines what kind of <em>events</em> (you may think of <em>messages</em>, although in Kompics we typically reserve that term for events that are addressable via the network) may pass through the port and in which direction. Events may be declared in a port type in either <em>indication</em> ( <em>positive</em> ) or <em>request</em> ( <em>negative</em> ) direction. In a similar fashion a component either <em>requires</em> or <em>provides</em> a <em>port</em> (think of a port type instance).</p><div class="callout note "><div class="callout-title">Analogies</div>
+<p>The closest analogy to the Kompics terminology in this respect might be electric charge carriers and electrodes in some kind of conductive medium. Think of the events as charge carriers (indications carry positive charge, and requests carry negative charge). Every port has both an anode and a cathode side. If a component requires port <em>A</em> then inside the component you have access to <em>A</em>&rsquo;s positive (cathode) side where indications (positive charge carriers) come out of, and outside the component you have access to <em>A</em> negative (anode) side where requests (negative charge carriers) come out of. Conversely if a component provides <em>A</em> then inside the component the negative (anode) side spits out requests (negative charge carriers) and the outside is positive (cathode) and indications (positive charge carriers) come out this way. In both cases the charge that is not going out is the one that is going in.</p>
+<p>An alternative analogy, that is a bit more limited but usually easier to keep in mind, is that of service providers and consumers. Consider a port <em>A</em> to be a service contract. A component that provides service <em>A</em> handles events that are specified as requests in <em>A</em> and sends out events that are specified as indications in <em>A</em>. Conversely a component that requires service <em>A</em> sends out events that are specified as requests in <em>A</em> and handles events that are specified as indications in <em>A</em> (thus are in a sense replies to its own requests).</p></div>
+<p>In programming language terms an event is a class that is a subtype of <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/KompicsEvent.html" title="se.sics.kompics.KompicsEvent"><code>KompicsEvent</code></a>, which is only a marker interface with no required methods). A port type is a singleton that extends <span class="group-java"><a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/PortType.html" title="se.sics.kompics.PortType"><code>PortType</code></a></span><span class="group-scala"><a href="https://kompics.github.io/kompics-scala/api/se/sics/kompics/sl/Port.html" title="se.sics.kompics.sl.Port"><code>Port</code></a></span> and registers its types with their direction during loading. Port instances fall in the two categeories:</p>
+<ol>
+  <li>Those that implement <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/Positive.html" title="se.sics.kompics.Positive"><code>Positive</code></a> over the port type, which are the result of a call to <span class="group-java"><a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/ComponentDefinition.html#requires" title="se.sics.kompics.ComponentDefinition"><code>requires</code></a></span><span class="group-scala"><a href="https://kompics.github.io/kompics-scala/api/se/sics/kompics/sl/ComponentDefinition.html#requires(P)" title="se.sics.kompics.sl.ComponentDefinition"><code>requires</code></a></span>, and</li>
+  <li>those that implement <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/Negative.html" title="se.sics.kompics.Negative"><code>Negative</code></a> of the port type, which are the result of a call to <span class="group-java"><a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/ComponentDefinition.html#provides" title="se.sics.kompics.ComponentDefinition"><code>provides</code></a></span><span class="group-scala"><a href="https://kompics.github.io/kompics-scala/api/se/sics/kompics/sl/ComponentDefinition.html#provides" title="se.sics.kompics.sl.ComponentDefinition"><code>provides</code></a></span>.</li>
+</ol>
+<p>Internally ports are binary linked with both a positive and a negative side.</p>
+<p>For this example we need two events and one port type:</p>
+<h4><a href="#ping" name="ping" class="anchor"><span class="anchor-link"></span></a>Ping</h4>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/basics/pingpong/Ping.java" target="_blank" title="Go to snippet source"></a><code class="language-java">package jexamples.basics.pingpong;
+
+import se.sics.kompics.KompicsEvent;
+
+public class Ping implements KompicsEvent {}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/basics/pingpong/PingPongPort.scala#L6" target="_blank" title="Go to snippet source"></a><code class="language-scala">object Ping extends KompicsEvent;</code></pre></dd>
+</dl>
+<h4><a href="#pong" name="pong" class="anchor"><span class="anchor-link"></span></a>Pong</h4>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/basics/pingpong/Pong.java" target="_blank" title="Go to snippet source"></a><code class="language-java">package jexamples.basics.pingpong;
+
+import se.sics.kompics.KompicsEvent;
+
+public class Pong implements KompicsEvent {}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/basics/pingpong/PingPongPort.scala#L9" target="_blank" title="Go to snippet source"></a><code class="language-scala">object Pong extends KompicsEvent;</code></pre></dd>
+</dl>
+<h4><a href="#pingpongport" name="pingpongport" class="anchor"><span class="anchor-link"></span></a>PingPongPort</h4>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/basics/pingpong/PingPongPort.java" target="_blank" title="Go to snippet source"></a><code class="language-java">package jexamples.basics.pingpong;
+
+import se.sics.kompics.PortType;
+
+public class PingPongPort extends PortType {
+  {
+    request(Ping.class);
+    indication(Pong.class);
+  }
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/basics/pingpong/PingPongPort.scala#L13-L16" target="_blank" title="Go to snippet source"></a><code class="language-scala">object PingPongPort extends Port {
+  request(Ping);
+  indication(Pong);
+}</code></pre></dd>
+</dl><div class="callout note "><div class="callout-title">Note</div>
+<p>It is highly recommended to only write completely immutable events. Since Kompics will deliver the same event instance to all subscribed handlers in all connected components, writing mutable events can lead to some nasty and difficult to find bugs.</p>
+<p><span class="group-java">For encapsulating collections in a safe manner, the reader is referred Google&rsquo;s excellent <a href="https://github.com/google/guava/wiki" title="Guava">Guava</a> library (which is already a dependency of Kompics core anyway) and its immutable collection types.</span></p></div>
+<p>We also want to add the ports to the two components such that <code>Pinger</code> sends <code>Ping</code>\s and <code>Ponger</code> sends <code>Pong</code>\s, which is hopefully somewhat intuitive:</p>
+<h4><a href="#pinger-with-port" name="pinger-with-port" class="anchor"><span class="anchor-link"></span></a>Pinger with Port</h4>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/basics/pingpong/Pinger.java#L13-L39" target="_blank" title="Go to snippet source"></a><code class="language-java">public class Pinger extends ComponentDefinition {
+
+  Positive&lt;PingPongPort&gt; ppp = requires(PingPongPort.class);
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/basics/pingpong/Pinger.scala#L7-L27" target="_blank" title="Go to snippet source"></a><code class="language-scala">class Pinger extends ComponentDefinition {
+
+  val ppp = requires(PingPongPort);
+}</code></pre></dd>
+</dl>
+<h4><a href="#ponger-with-port" name="ponger-with-port" class="anchor"><span class="anchor-link"></span></a>Ponger with Port</h4>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/basics/pingpong/Ponger.java#L11-L30" target="_blank" title="Go to snippet source"></a><code class="language-java">public class Ponger extends ComponentDefinition {
+
+  Negative&lt;PingPongPort&gt; ppp = provides(PingPongPort.class);
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/basics/pingpong/Ponger.scala#L7-L21" target="_blank" title="Go to snippet source"></a><code class="language-scala">class Ponger extends ComponentDefinition {
+
+  val ppp = provides(PingPongPort);
+}</code></pre></dd>
+</dl>
+<h2><a href="#event-handlers" name="event-handlers" class="anchor"><span class="anchor-link"></span></a>Event Handlers</h2>
+<p>In order for components to actually get scheduled and process events, a <em>handler</em> for a specific event type must be <em>subscribed</em> to a port that spits out that kind of event. If an event arrives at a component&rsquo;s port and no handler is subscribed for its type, then the event is simply silently dropped.</p>
+<p><span class="group-java">In Java terms the most common way of working with handlers is to assign an anonymous class that extends <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/Handler.html" title="se.sics.kompics.Handler"><code>Handler</code></a> of the desired event type to either a class field or a block variable and then call <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/ComponentDefinition.html#subscribe" title="se.sics.kompics.ComponentDefinition"><code>subscribe</code></a> with that variable and the target port.</span><span class="group-scala">In Scala terms, a handler is a partial function <code>f: Any =&gt; Unit</code>, which is <em>subscribed</em> to a port instance <code>p</code> by calling <code>p uponEvent f</code>. Within <code>f</code>, the event types that are supposed to be handled can be pattern-matched for and then the appropriate code for each event invoked.</span></p>
+<p>In our example we want the <code>Pinger</code> to send the first <code>Ping</code> when it received the <code>Start</code> event (which we saw in the <a href="../introduction/helloworld.html">helloworld</a> example already), and then reply to every <code>Pong</code> event it receives with a new <code>Ping</code>. The <code>Ponger</code> simply waits for a <code>Ping</code> and replies with a <code>Pong</code>. We also log something so we can see it working on the console.</p>
+<h4><a href="#pinger-final-" name="pinger-final-" class="anchor"><span class="anchor-link"></span></a>Pinger (final)</h4>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/basics/pingpong/Pinger.java" target="_blank" title="Go to snippet source"></a><code class="language-java">package jexamples.basics.pingpong;
+
+import se.sics.kompics.Kompics;
+import se.sics.kompics.ComponentDefinition;
+import se.sics.kompics.Positive;
+import se.sics.kompics.Handler;
+import se.sics.kompics.Start;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class Pinger extends ComponentDefinition {
+
+  Positive&lt;PingPongPort&gt; ppp = requires(PingPongPort.class);
+
+  Handler&lt;Start&gt; startHandler =
+      new Handler&lt;Start&gt;() {
+        public void handle(Start event) {
+          trigger(new Ping(), ppp);
+        }
+      };
+  Handler&lt;Pong&gt; pongHandler =
+      new Handler&lt;Pong&gt;() {
+        public void handle(Pong event) {
+          logger.info(&quot;Got Pong!&quot;);
+          trigger(new Ping(), ppp);
+        }
+      };
+
+  {
+    subscribe(startHandler, control);
+    subscribe(pongHandler, ppp);
+  }
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/basics/pingpong/Pinger.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package sexamples.basics.pingpong;
+
+import se.sics.kompics.sl._
+
+class Pinger extends ComponentDefinition {
+
+  val ppp = requires(PingPongPort);
+
+  ctrl uponEvent {
+    case _: Start =&gt; {
+      trigger(Ping -&gt; ppp);
+    }
+  }
+
+  ppp uponEvent {
+    case Pong =&gt; {
+      log.info(s&quot;Got Pong!&quot;);
+      trigger(Ping -&gt; ppp);
+    }
+  }
+}</code></pre></dd>
+</dl>
+<h4><a href="#ponger-final-" name="ponger-final-" class="anchor"><span class="anchor-link"></span></a>Ponger (final)</h4>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/basics/pingpong/Ponger.java" target="_blank" title="Go to snippet source"></a><code class="language-java">package jexamples.basics.pingpong;
+
+import se.sics.kompics.ComponentDefinition;
+import se.sics.kompics.Negative;
+import se.sics.kompics.Handler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class Ponger extends ComponentDefinition {
+
+  Negative&lt;PingPongPort&gt; ppp = provides(PingPongPort.class);
+
+  Handler&lt;Ping&gt; pingHandler =
+      new Handler&lt;Ping&gt;() {
+        public void handle(Ping event) {
+          logger.info(&quot;Got Ping!&quot;);
+          trigger(new Pong(), ppp);
+        }
+      };
+
+  {
+    subscribe(pingHandler, ppp);
+  }
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/basics/pingpong/Ponger.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package sexamples.basics.pingpong;
+
+import se.sics.kompics.sl._
+
+class Ponger extends ComponentDefinition {
+
+  val ppp = provides(PingPongPort);
+
+  ppp uponEvent {
+    case Ping =&gt; {
+      log.info(s&quot;Got Ping!&quot;);
+      trigger(Pong -&gt; ppp);
+    }
+  }
+}</code></pre></dd>
+</dl>
+<h2><a href="#channels" name="channels" class="anchor"><span class="anchor-link"></span></a>Channels</h2>
+<p>Since normal events in Kompics are not addressed, we need to tell the system somehow where a triggered event is supposed to go. The method for this is by connecting <em>channels</em>. A single channel connects exactly two ports of opposite polarity (or direction, if you prefer). You can connect both ports that are inside and outside of a component. The normal way is to connect the outside of a required port of a component <em>A</em> to the outside of a required port of another component <em>B</em>. In this setup <em>B</em> provides the port&rsquo;s service to <em>A</em>, so to speak. The alternative setup is to connect the inside of required port of <em>A</em> to the outside of a required port of <em>B</em> (remember that insides and outsides are of opposite types, so this actually works). This setup is called <em>chaining</em> and it has both <em>A</em> and <em>B</em> share the service of whatever component connects to the outside of <em>A</em>&rsquo;s port. Alternatively, <em>A</em> (or its parent) could pass on the outside of the port that <em>A</em> is connected to directly to <em>B</em>. This has the same effect, but is a bit more efficient (fewer method invocations while travelling along channel chains). However, it might also break abstraction in some cases. The decision of which method is appropriate under certain conditions is left up to the programmer.</p>
+<p>In <span class="group-java">Java</span><span class="group-scala">Scala</span> channels are created with the <span class="group-java"><a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/ComponentDefinition.html#connect" title="se.sics.kompics.ComponentDefinition"><code>connect</code></a></span><span class="group-scala"><a href="https://kompics.github.io/kompics-scala/api/se/sics/kompics/sl/ComponentDefinition.html#connect" title="se.sics.kompics.sl.ComponentDefinition"><code>connect</code></a></span> method. <span class="group-scala">The directionality of the arrow (<code>-&gt;</code>) is <strong>from</strong> the component which <strong>provides</strong> the port, <strong>to</strong> the component which <strong>requires</strong> the port.</span></p>
+<h4><a href="#parent-final-" name="parent-final-" class="anchor"><span class="anchor-link"></span></a>Parent (final)</h4>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/basics/pingpong/Parent.java" target="_blank" title="Go to snippet source"></a><code class="language-java">package jexamples.basics.pingpong;
+
+import se.sics.kompics.Channel;
+import se.sics.kompics.ComponentDefinition;
+import se.sics.kompics.Component;
+import se.sics.kompics.Init;
+
+public class Parent extends ComponentDefinition {
+  Component pinger = create(Pinger.class, Init.NONE);
+  Component ponger = create(Ponger.class, Init.NONE);
+  {
+    connect(
+        pinger.getNegative(PingPongPort.class),
+        ponger.getPositive(PingPongPort.class),
+        Channel.TWO_WAY);
+  }
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/basics/pingpong/Parent.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package sexamples.basics.pingpong;
+
+import se.sics.kompics.sl._
+
+class Parent extends ComponentDefinition {
+  val pinger = create[Pinger];
+  val ponger = create[Ponger];
+
+  connect(PingPongPort)(ponger -&gt; pinger);
+
+}</code></pre></dd>
+</dl>
+<h2><a href="#kompics-runtime" name="kompics-runtime" class="anchor"><span class="anchor-link"></span></a>Kompics Runtime</h2>
+<p>The runtime itself is responsible for starting and stopping the scheduler and initialising the component hierarchy. The entry point to start Kompics is <span class="group-java"><a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/Kompics.html#createAndStart(java.lang.Class)" title="se.sics.kompics.Kompics"><code>Kompics.createAndStart</code></a></span><span class="group-scala"><a href="https://kompics.github.io/kompics-scala/api/se/sics/kompics/sl/Kompics$.html#createAndStart" title="se.sics.kompics.sl.Kompics"><code>Kompics.createAndStart</code></a></span> which comes in several variants for tuning and parameters. The most basic one simply takes the top-level component&rsquo;s class instance.</p>
+<p>For our example we want to start Kompics with the <code>Parent</code> top-level component and since it would ping-pong forever on its own, we also want to stop it again after waiting for some time, say ten seconds:</p>
+<h4><a href="#main" name="main" class="anchor"><span class="anchor-link"></span></a>Main</h4>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/basics/pingpong/Main.java" target="_blank" title="Go to snippet source"></a><code class="language-java">package jexamples.basics.pingpong;
+
+import se.sics.kompics.Kompics;
+
+public class Main {
+  public static void main(String[] args) {
+    Kompics.createAndStart(Parent.class);
+    try {
+      Thread.sleep(10_000);
+      Kompics.shutdown();
+    } catch (InterruptedException ex) {
+      System.err.println(ex);
+    }
+  }
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/basics/pingpong/Main.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package sexamples.basics.pingpong
+
+import se.sics.kompics.sl._
+
+object Main {
+  def main(args: Array[String]): Unit = {
+    Kompics.createAndStart(classOf[Parent]);
+    try {
+      Thread.sleep(10000);
+      Kompics.shutdown();
+    } catch {
+      case ex: InterruptedException =&gt; Console.err.println(ex)
+    }
+  }
+}</code></pre></dd>
+</dl>
+<p>Now finally compile with:</p>
+<pre class="prettyprint"><code class="language-bash">sbt compile
+</code></pre>
+<p>To run the project from within sbt, execute:</p><div class="group-java">
+<pre class="prettyprint"><code class="language-bash">runMain jexamples.basics.pingpong.Main
+</code></pre></div><div class="group-scala">
+<pre class="prettyprint"><code class="language-bash">runMain sexamples.basics.pingpong.Main
+</code></pre></div>
+<h2><a href="#component-state" name="component-state" class="anchor"><span class="anchor-link"></span></a>Component State</h2>
+<p>So far the Kompics components we used haven&rsquo;t really used any state. To show a simple example we are going to introduce a <code>counter</code> variable in both <code>Pinger</code> and <code>Pinger</code> and print the sequence number of the current <code>Ping</code> or <code>Pong</code> to the console. To show that this works correctly even in multi-threaded execution we&rsquo;ll also add a second thread to the Kompics runtime.</p>
+<h4><a href="#wainting-main" name="wainting-main" class="anchor"><span class="anchor-link"></span></a>Wainting Main</h4>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/basics/pingpongstate/Main.java" target="_blank" title="Go to snippet source"></a><code class="language-java">package jexamples.basics.pingpongstate;
+
+import se.sics.kompics.Kompics;
+
+public class Main {
+  public static void main(String[] args) throws InterruptedException {
+    Kompics.createAndStart(Parent.class, 2);
+    Kompics.waitForTermination();
+  }
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/basics/pingpongstate/Main.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package sexamples.basics.pingpongstate
+
+import se.sics.kompics.sl._
+
+object Main {
+  def main(args: Array[String]): Unit = {
+    Kompics.createAndStart(classOf[Parent], 2);
+    Kompics.waitForTermination();
+  }
+}</code></pre></dd>
+</dl>
+<h4><a href="#pinger-with-state" name="pinger-with-state" class="anchor"><span class="anchor-link"></span></a>Pinger with State</h4>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/basics/pingpongstate/Pinger.java" target="_blank" title="Go to snippet source"></a><code class="language-java">package jexamples.basics.pingpongstate;
+
+import se.sics.kompics.Kompics;
+import se.sics.kompics.ComponentDefinition;
+import se.sics.kompics.Positive;
+import se.sics.kompics.Handler;
+import se.sics.kompics.Start;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class Pinger extends ComponentDefinition {
+
+  Positive&lt;PingPongPort&gt; ppp = requires(PingPongPort.class);
+  private long counter = 0;
+
+  Handler&lt;Start&gt; startHandler =
+      new Handler&lt;Start&gt;() {
+        public void handle(Start event) {
+          trigger(new Ping(), ppp);
+        }
+      };
+  Handler&lt;Pong&gt; pongHandler =
+      new Handler&lt;Pong&gt;() {
+        public void handle(Pong event) {
+          counter++;
+          logger.info(&quot;Got Pong #{}!&quot;, counter);
+          if (counter &lt; 100) {
+            trigger(new Ping(), ppp);
+          } else {
+            Kompics.asyncShutdown();
+          }
+        }
+      };
+
+  {
+    subscribe(startHandler, control);
+    subscribe(pongHandler, ppp);
+  }
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/basics/pingpongstate/Pinger.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package sexamples.basics.pingpongstate
+
+import se.sics.kompics.sl._
+
+class Pinger extends ComponentDefinition {
+
+  val ppp = requires(PingPongPort);
+
+  private var counter: Long = 0L;
+
+  ctrl uponEvent {
+    case _: Start =&gt; {
+      trigger(Ping -&gt; ppp);
+    }
+  }
+
+  ppp uponEvent {
+    case Pong =&gt; {
+      counter += 1L;
+      log.info(s&quot;Got Pong #${counter}!&quot;);
+      if (counter &lt; 100L) {
+        trigger(Ping -&gt; ppp);
+      } else {
+        Kompics.asyncShutdown();
+      }
+    }
+  }
+}</code></pre></dd>
+</dl>
+<h4><a href="#ponger-with-state" name="ponger-with-state" class="anchor"><span class="anchor-link"></span></a>Ponger with State</h4>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/basics/pingpongstate/Ponger.java" target="_blank" title="Go to snippet source"></a><code class="language-java">package jexamples.basics.pingpongstate;
+
+import se.sics.kompics.ComponentDefinition;
+import se.sics.kompics.Negative;
+import se.sics.kompics.Handler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class Ponger extends ComponentDefinition {
+
+  Negative&lt;PingPongPort&gt; ppp = provides(PingPongPort.class);
+
+  private long counter = 0;
+
+  Handler&lt;Ping&gt; pingHandler =
+      new Handler&lt;Ping&gt;() {
+        public void handle(Ping event) {
+          counter++;
+          logger.info(&quot;Got Ping #{}!&quot;, counter);
+          trigger(new Pong(), ppp);
+        }
+      };
+
+  {
+    subscribe(pingHandler, ppp);
+  }
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/basics/pingpongstate/Ponger.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package sexamples.basics.pingpongstate
+
+import se.sics.kompics.sl._
+
+class Ponger extends ComponentDefinition {
+
+  val ppp = provides(PingPongPort);
+
+  private var counter: Long = 0L;
+
+  ppp uponEvent {
+    case Ping =&gt; {
+      counter += 1L;
+      log.info(s&quot;Got Ping #${counter}!&quot;);
+      trigger(Pong -&gt; ppp);
+    }
+  }
+}</code></pre></dd>
+</dl>
+<p>Compile and run from within sbt in the same way as before:</p><div class="group-java">
+<pre class="prettyprint"><code class="language-bash">runMain jexamples.basics.pingpongstate.Main
+</code></pre></div><div class="group-scala">
+<pre class="prettyprint"><code class="language-bash">runMain sexamples.basics.pingpongstate.Main
+</code></pre></div>
+<div class="source-github">
+The source code for this page can be found <a href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/paradox/tutorial/basics.md">here</a>.
+</div>
+
+<div class="nav-next">
+<p><strong>Next:</strong> <a href="../tutorial/timers.html">Timers</a></p>
+</div>
+</div>
+<div class="large-3 show-for-large column" data-sticky-container>
+<nav class="sidebar sticky" data-sticky data-anchor="docs" data-sticky-on="large">
+<div class="page-nav">
+<div class="nav-title">On this page:</div>
+<div class="nav-toc">
+<ul>
+  <li><a href="../tutorial/basics.html#kompics-basics" class="header">Kompics Basics</a>
+  <ul>
+    <li><a href="../tutorial/basics.html#components" class="header">Components</a></li>
+    <li><a href="../tutorial/basics.html#ports-and-events" class="header">Ports and Events</a></li>
+    <li><a href="../tutorial/basics.html#event-handlers" class="header">Event Handlers</a></li>
+    <li><a href="../tutorial/basics.html#channels" class="header">Channels</a></li>
+    <li><a href="../tutorial/basics.html#kompics-runtime" class="header">Kompics Runtime</a></li>
+    <li><a href="../tutorial/basics.html#component-state" class="header">Component State</a></li>
+  </ul></li>
+</ul>
+</div>
+</div>
+</nav>
+</div>
+</div>
+
+</section>
+</div>
+
+</div>
+
+<footer class="site-footer">
+
+<section class="site-footer-nav">
+<div class="expanded row">
+<div class="small-12 large-offset-2 large-10 column">
+<div class="row site-footer-content">
+
+<div class="small-12 medium-4 large-3 text-center column">
+<div class="nav-links">
+<ul>
+<!-- <li><a href="https://www.example.com/products/">Products</a> -->
+</ul>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</section>
+
+<section class="site-footer-base">
+<div class="expanded row">
+<div class="small-12 large-offset-2 large-10 column">
+<div class="row site-footer-content">
+
+<div class="small-12 text-center large-9 column">
+
+<!--
+<div class="copyright">
+<span class="text">&copy; 2020</span>
+<a href="https://www.example.com" class="logo">logo</a>
+</div>
+-->
+</div>
+
+</div>
+</div>
+</div>
+</section>
+</footer>
+
+</div>
+</div>
+</div>
+</body>
+
+<script type="text/javascript" src="../lib/foundation/dist/foundation.min.js"></script>
+<script type="text/javascript">jQuery(document).foundation();</script>
+<script type="text/javascript" src="../js/magellan.js"></script>
+
+<style type="text/css">@import "../lib/prettify/prettify.css";</style>
+<script type="text/javascript" src="../lib/prettify/prettify.js"></script>
+<script type="text/javascript" src="../lib/prettify/lang-scala.js"></script>
+<script type="text/javascript">jQuery(function(){window.prettyPrint && prettyPrint()});</script>
+<script type="text/javascript">jQuery(function(jq){initOldVersionWarnings(jq, '2.0.0', '')});</script>
+
+
+</html>

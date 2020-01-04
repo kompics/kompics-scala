@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+<title>Global View · Kompics</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content='Kompics-Scala-Docs'/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:100normal,100italic,300normal,300italic,400normal,400italic,500normal,500italic,700normal,700italic,900normal,900italicc" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../lib/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="../../js/page.js"></script>
+<script type="text/javascript" src="../../js/warnOldVersion.js"></script>
+<script type="text/javascript" src="../../js/groups.js"></script>
+<link rel="stylesheet" type="text/css" href="../../lib/foundation/dist/foundation.min.css"/>
+<link rel="stylesheet" type="text/css" href="../../css/page.css"/>
+
+<!--
+<link rel="shortcut icon" href="../../images/favicon.ico" />
+-->
+</head>
+
+<body>
+<div class="off-canvas-wrapper">
+<div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+
+<div class="off-canvas position-left" id="off-canvas-menu" data-off-canvas>
+<nav class="off-canvas-nav">
+<div class="nav-home">
+<a href="../../index.html" >
+<span class="home-icon">⌂</span>Kompics
+</a>
+<div class="version-number">
+2.0.0
+</div>
+</div>
+<select class="supergroup" name="Language"><option class="group" value="group-scala">Scala</option><option class="group" value="group-java">Java</option></select>
+<div class="nav-toc">
+<ul>
+  <li><a href="../../introduction/index.html" class="page">Introduction</a>
+  <ul>
+    <li><a href="../../introduction/whatiskompics.html" class="page">What is Kompics?</a></li>
+    <li><a href="../../introduction/gettingstarted.html" class="page">Getting Started</a></li>
+    <li><a href="../../introduction/helloworld.html" class="page">Hello World in Kompics</a></li>
+  </ul></li>
+  <li><a href="../../tutorial/index.html" class="page">Kompics Tutorial</a>
+  <ul>
+    <li><a href="../../tutorial/basics.html" class="page">Kompics Basics</a></li>
+    <li><a href="../../tutorial/timers.html" class="page">Timers</a></li>
+    <li><a href="../../tutorial/networking/index.html" class="page">Networking</a></li>
+    <li><a href="../../tutorial/simulation/index.html" class="page">Simulation</a></li>
+  </ul></li>
+  <li><a href="../../reference.html" class="page">Reference</a></li>
+</ul>
+</div>
+
+</nav>
+</div>
+
+<div class="off-canvas-content" data-off-canvas-content>
+
+<header class="site-header expanded row">
+<div class="small-12 column">
+<a href="#" class="off-canvas-toggle hide-for-medium" data-toggle="off-canvas-menu"><svg class="svg-icon svg-icon-menu" version="1.1" id="Menu" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 20 20" enable-background="new 0 0 20 20" xml:space="preserve"> <path class="svg-icon-menu-path" fill="#53CDEC" d="M16.4,9H3.6C3.048,9,3,9.447,3,10c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,9.447,16.952,9,16.4,9z M16.4,13
+H3.6C3.048,13,3,13.447,3,14c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,13.447,16.952,13,16.4,13z M3.6,7H16.4
+C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.048,7,3.6,7z"/></svg>
+</a>
+<div class="title"><a href="../../index.html">Kompics</a></div>
+
+<!--
+<a href="https://www.example.com" class="logo show-for-medium">logo</a>
+-->
+</div>
+</header>
+
+<div class="expanded row">
+
+<div class="medium-3 large-2 show-for-medium column">
+<nav class="site-nav">
+<div class="nav-home">
+<a href="../../index.html" >
+<span class="home-icon">⌂</span>Kompics
+</a>
+<div class="version-number">
+2.0.0
+</div>
+</div>
+<select class="supergroup" name="Language"><option class="group" value="group-scala">Scala</option><option class="group" value="group-java">Java</option></select>
+<div class="nav-toc">
+<ul>
+  <li><a href="../../introduction/index.html" class="page">Introduction</a>
+  <ul>
+    <li><a href="../../introduction/whatiskompics.html" class="page">What is Kompics?</a></li>
+    <li><a href="../../introduction/gettingstarted.html" class="page">Getting Started</a></li>
+    <li><a href="../../introduction/helloworld.html" class="page">Hello World in Kompics</a></li>
+  </ul></li>
+  <li><a href="../../tutorial/index.html" class="page">Kompics Tutorial</a>
+  <ul>
+    <li><a href="../../tutorial/basics.html" class="page">Kompics Basics</a></li>
+    <li><a href="../../tutorial/timers.html" class="page">Timers</a></li>
+    <li><a href="../../tutorial/networking/index.html" class="page">Networking</a></li>
+    <li><a href="../../tutorial/simulation/index.html" class="page">Simulation</a></li>
+  </ul></li>
+  <li><a href="../../reference.html" class="page">Reference</a></li>
+</ul>
+</div>
+
+</nav>
+</div>
+
+<div class="small-12 medium-9 large-10 column">
+<section class="site-content">
+
+<span id="version-warning"></span>
+
+<div class="page-header row">
+<div class="medium-12 show-for-medium column">
+<div class="nav-breadcrumbs">
+<ul>
+  <li><a href="../../index.html">Kompics</a></li>
+  <li><a href="../../tutorial/index.html">Kompics Tutorial</a></li>
+  <li><a href="../../tutorial/simulation/index.html">Simulation</a></li>
+  <li>Global View</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="page-content row">
+<div class="small-12 large-9 column" id="docs">
+<h2><a href="#global-view" name="global-view" class="anchor"><span class="anchor-link"></span></a>Global View</h2>
+<p>Sometimes you might want to observe some state and do something special (e.g., stop the simulation) in case the state matches a special condition that you have considered. For this purpose, the simulator offers a <a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/util/GlobalView.html" title="se.sics.kompics.simulator.util.GlobalView"><code>GlobalView</code></a>, which allows you to do three things:</p>
+<ol>
+  <li>Check which nodes are dead or alive,</li>
+  <li>set/get key-value-pairs shared globally, and</li>
+  <li>tell the simulator to terminate this simulation.</li>
+</ol>
+<p>You can access the <a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/util/GlobalView.html" title="se.sics.kompics.simulator.util.GlobalView"><code>GlobalView</code></a> from your config, using the key <code>&quot;simulation.globalview&quot;</code>, as in:</p><div class="group-java">
+<pre class="prettyprint"><code class="language-bash">GlobalView gv = config().getValue(&quot;simulation.globalview&quot;, GlobalView.class);
+</code></pre></div><div class="group-scala">
+<pre class="prettyprint"><code class="language-bash">val gv = cfg.getValue[GlobalView](&quot;simulation.globalview&quot;);
+</code></pre></div>
+<p>Obviously, this key is only available while actually running in simulation, so you must take care not access it wrongly when you are sharing code between simulation and deployment.</p>
+<h3><a href="#terminate-on-condition" name="terminate-on-condition" class="anchor"><span class="anchor-link"></span></a>Terminate on Condition</h3>
+<p>So far, all simulation scenarios have terminated at a specific time using <span class="group-java"><code>terminateAfterTerminationOf(10000, pinger)</code></span><span class="group-scala"><code>.andThen(10.seconds).afterTermination(Terminate)</code></span>. This time we want to check for certain conditions and terminate when one such condition occurs. In this section, we will to terminate the current simulation when at least 100 pongs have been received by the pingers or when at least 3 nodes have died. </p>
+<h4><a href="#simulationobserver" name="simulationobserver" class="anchor"><span class="anchor-link"></span></a>SimulationObserver</h4>
+<p>To do so, we write an observer that will periodically inspect the global state and check whether any conditions have been met.</p>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/simulation/pingpongglobal/SimulationObserver.java" target="_blank" title="Go to snippet source"></a><code class="language-java">package jexamples.simulation.pingpongglobal;
+
+import java.util.UUID;
+import se.sics.kompics.ComponentDefinition;
+import se.sics.kompics.Handler;
+import se.sics.kompics.Positive;
+import se.sics.kompics.Start;
+import se.sics.kompics.network.Network;
+import se.sics.kompics.simulator.util.GlobalView;
+import se.sics.kompics.timer.CancelPeriodicTimeout;
+import se.sics.kompics.timer.SchedulePeriodicTimeout;
+import se.sics.kompics.timer.Timeout;
+import se.sics.kompics.timer.Timer;
+
+public class SimulationObserver extends ComponentDefinition {
+
+  Positive&lt;Timer&gt; timer = requires(Timer.class);
+  Positive&lt;Network&gt; network = requires(Network.class);
+
+  private final int minPings;
+  private final int minDeadNodes;
+
+  private UUID timerId;
+
+  public SimulationObserver(Init init) {
+    minPings = init.minPings;
+    minDeadNodes = init.minDeadNodes;
+
+    subscribe(handleStart, control);
+    subscribe(handleCheck, timer);
+  }
+
+  Handler&lt;Start&gt; handleStart =
+      new Handler&lt;Start&gt;() {
+        @Override
+        public void handle(Start event) {
+          schedulePeriodicCheck();
+        }
+      };
+
+  @Override
+  public void tearDown() {
+    trigger(new CancelPeriodicTimeout(timerId), timer);
+  }
+
+  Handler&lt;CheckTimeout&gt; handleCheck =
+      new Handler&lt;CheckTimeout&gt;() {
+        @Override
+        public void handle(CheckTimeout event) {
+          GlobalView gv = config().getValue(&quot;simulation.globalview&quot;, GlobalView.class);
+
+          if (gv.getValue(&quot;simulation.pongs&quot;, Integer.class) &gt; minPings) {
+            logger.info(&quot;Terminating simulation as the minimum pings:{} is achieved&quot;, minPings);
+            gv.terminate();
+          }
+          if (gv.getDeadNodes().size() &gt; minDeadNodes) {
+            logger.info(
+                &quot;Terminating simulation as the min dead nodes:{} is achieved&quot;, minDeadNodes);
+            gv.terminate();
+          }
+        }
+      };
+
+  public static class Init extends se.sics.kompics.Init&lt;SimulationObserver&gt; {
+
+    public final int minPings;
+    public final int minDeadNodes;
+
+    public Init(int minPings, int minDeadNodes) {
+      this.minPings = minPings;
+      this.minDeadNodes = minDeadNodes;
+    }
+  }
+
+  private void schedulePeriodicCheck() {
+    long period = config().getValue(&quot;pingpong.simulation.checktimeout&quot;, Long.class);
+    SchedulePeriodicTimeout spt = new SchedulePeriodicTimeout(period, period);
+    CheckTimeout timeout = new CheckTimeout(spt);
+    spt.setTimeoutEvent(timeout);
+    trigger(spt, timer);
+    timerId = timeout.getTimeoutId();
+  }
+
+  public static class CheckTimeout extends Timeout {
+
+    public CheckTimeout(SchedulePeriodicTimeout spt) {
+      super(spt);
+    }
+  }
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/simulation/pingpongglobal/SimulationObserver.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package sexamples.simulation.pingpongglobal
+
+import se.sics.kompics.sl._
+import se.sics.kompics.simulator.util.GlobalView
+import se.sics.kompics.network.Network
+import se.sics.kompics.timer.{CancelPeriodicTimeout, SchedulePeriodicTimeout, Timeout, Timer}
+
+import java.util.UUID
+
+object SimulationObserver {
+  class CheckTimeout(_spt: SchedulePeriodicTimeout) extends Timeout(_spt);
+}
+class SimulationObserver(init: Init[SimulationObserver]) extends ComponentDefinition {
+  import SimulationObserver._;
+
+  val timer = requires[Timer];
+  val network = requires[Network];
+
+  val Init(minPings: Int, minDeadNodes: Int) = init;
+
+  private var timerId: Option[UUID] = None;
+
+  ctrl uponEvent {
+    case _: Start =&gt; {
+      val period = cfg.getValue[Long](&quot;pingpong.simulation.checktimeout&quot;);
+      val spt = new SchedulePeriodicTimeout(period, period);
+      val timeout = new CheckTimeout(spt);
+      spt.setTimeoutEvent(timeout);
+      trigger(spt -&gt; timer);
+      timerId = Some(timeout.getTimeoutId());
+    }
+  }
+
+  timer uponEvent {
+    case _: CheckTimeout =&gt; {
+      val gv = cfg.getValue[GlobalView](&quot;simulation.globalview&quot;);
+
+      // Java API only :(
+      if (gv.getValue(&quot;simulation.pongs&quot;, classOf[Integer]) &gt; minPings) {
+        log.info(s&quot;Terminating simulation as the minimum pings=$minPings is achieved&quot;);
+        gv.terminate();
+      }
+      if (gv.getDeadNodes().size() &gt; minDeadNodes) {
+        log.info(s&quot;Terminating simulation as the min dead nodes=$minDeadNodes is achieved&quot;);
+        gv.terminate();
+      }
+    }
+  }
+
+  override def tearDown(): Unit = {
+    timerId match {
+      case Some(id) =&gt; {
+        trigger(new CancelPeriodicTimeout(id) -&gt; timer);
+      }
+      case None =&gt; () // nothing to cancel
+    }
+
+  }
+
+}</code></pre></dd>
+</dl>
+<h4><a href="#pinger" name="pinger" class="anchor"><span class="anchor-link"></span></a>Pinger</h4>
+<p>We also add a small bit of code to the <code>Pinger</code> to record their pongs. We must be careful here, to only access the <a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/util/GlobalView.html" title="se.sics.kompics.simulator.util.GlobalView"><code>GlobalView</code></a> when we are actually in simulation mode, because otherwise our program will fail in deployment.</p>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/simulation/pingpongglobal/Pinger.java#L45-L80" target="_blank" title="Go to snippet source"></a><code class="language-java">ClassMatchedHandler&lt;Pong, TMessage&gt; pongHandler =
+    new ClassMatchedHandler&lt;Pong, TMessage&gt;() {
+
+      @Override
+      public void handle(Pong content, TMessage context) {
+        counter++;
+        logger.info(&quot;Got Pong #{}!&quot;, counter);
+        ponged();
+      }
+    };
+private void ponged() {
+  Optional&lt;GlobalView&gt; gvo = config().readValue(&quot;simulation.globalview&quot;, GlobalView.class);
+  if (gvo.isPresent()) { // only in simulation
+    GlobalView gv = gvo.get();
+    gv.setValue(&quot;simulation.pongs&quot;, gv.getValue(&quot;simulation.pongs&quot;, Integer.class) + 1);
+  }
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/simulation/pingpongglobal/Pinger.scala#L37-L71" target="_blank" title="Go to snippet source"></a><code class="language-scala">net uponEvent {
+  case TMessage(_, Pong) =&gt; {
+    counter += 1L;
+    log.info(s&quot;Got Pong #${counter}!&quot;);
+    ponged()
+  }
+}
+private def ponged(): Unit = {
+  val gvo: Option[GlobalView] = cfg.readValue[GlobalView](&quot;simulation.globalview&quot;);
+  gvo match {
+    case Some(gv: GlobalView) =&gt; {
+      // Java API only :(
+      gv.setValue(&quot;simulation.pongs&quot;, gv.getValue(&quot;simulation.pongs&quot;, classOf[Integer]) + 1);
+    }
+    case None =&gt; throw new RuntimeException(&quot;Why are we not in simulation?&quot;) // not in simulation
+  }
+}</code></pre></dd>
+</dl>
+<h4><a href="#scenariogen-setup" name="scenariogen-setup" class="anchor"><span class="anchor-link"></span></a>ScenarioGen Setup</h4>
+<p>Since we are using a custom key-value-pair from the <a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/util/GlobalView.html" title="se.sics.kompics.simulator.util.GlobalView"><code>GlobalView</code></a>, we need to initialize this value before we read it the first time. We can do this from <span class="group-java"><a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/events/system/SetupEvent.html" title="se.sics.kompics.simulator.events.system.SetupEvent"><code>SetupEvent</code></a>, by overriding the <code>setupGlobalView</code> method</span><span class="group-scala"><a href="https://kompics.github.io/kompics-scala/api/se/sics/kompics/sl/simulator/Setup$.html" title="se.sics.kompics.sl.simulator.Setup"><code>Setup</code></a>, by initiuating with a function that takes a <a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/util/GlobalView.html" title="se.sics.kompics.simulator.util.GlobalView"><code>GlobalView</code></a> instance and modifies it</span>: </p>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/simulation/pingpongglobal/ScenarioGen.java#L25-L36" target="_blank" title="Go to snippet source"></a><code class="language-java">static Operation&lt;SetupEvent&gt; setupOp =
+    new Operation&lt;SetupEvent&gt;() {
+      @Override
+      public SetupEvent generate() {
+        return new SetupEvent() {
+          @Override
+          public void setupGlobalView(GlobalView gv) {
+            gv.setValue(&quot;simulation.pongs&quot;, 0);
+          }
+        };
+      }
+    };</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/simulation/pingpongglobal/ScenarioGen.scala#L23-L27" target="_blank" title="Go to snippet source"></a><code class="language-scala">val setupOp = Op { (_: Unit) =&gt;
+  Setup { (gv: GlobalView) =&gt;
+    gv.setValue(&quot;simulation.pongs&quot;, 0)
+  }.build()
+};</code></pre></dd>
+</dl>
+<h4><a href="#scenariogen-killing-nodes" name="scenariogen-killing-nodes" class="anchor"><span class="anchor-link"></span></a>ScenarioGen Killing Nodes</h4>
+<p>We also want to be able to kill nodes, specifically <code>Ponger</code>s, so we also add an operation for a <span class="group-java"><a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/events/system/KillNodeEvent.html" title="se.sics.kompics.simulator.events.system.KillNodeEvent"><code>KillNodeEvent</code></a>, which requires overriding only the <code>getNodeAddress</code> method to identify the node we want to kill</span><span class="group-scala"><a href="https://kompics.github.io/kompics-scala/api/se/sics/kompics/sl/simulator/KillNode$.html" title="se.sics.kompics.sl.simulator.KillNode"><code>KillNode</code></a>, which requires us to pass in the address of the node we want to kill</span>:</p>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/simulation/pingpongglobal/ScenarioGen.java#L126-L152" target="_blank" title="Go to snippet source"></a><code class="language-java">static Operation1&lt;KillNodeEvent, Integer&gt; killPongerOp =
+    new Operation1&lt;KillNodeEvent, Integer&gt;() {
+      @Override
+      public KillNodeEvent generate(final Integer self) {
+        return new KillNodeEvent() {
+          TAddress selfAdr;
+
+          {
+            try {
+              selfAdr = new TAddress(InetAddress.getByName(IP_PREFIX + self), PORT);
+            } catch (UnknownHostException ex) {
+              throw new RuntimeException(ex);
+            }
+          }
+
+          @Override
+          public Address getNodeAddress() {
+            return selfAdr;
+          }
+
+          @Override
+          public String toString() {
+            return &quot;KillPonger&lt;&quot; + selfAdr.toString() + &quot;&gt;&quot;;
+          }
+        };
+      }
+    };</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/simulation/pingpongglobal/ScenarioGen.scala#L43-L45" target="_blank" title="Go to snippet source"></a><code class="language-scala">val killPongerOp = Op { (self: java.lang.Integer) =&gt;
+  KillNode(makeAddress(self))
+};</code></pre></dd>
+</dl>
+<h4><a href="#scenariogen-simple-ping-scenario" name="scenariogen-simple-ping-scenario" class="anchor"><span class="anchor-link"></span></a>ScenarioGen Simple Ping Scenario</h4>
+<p>We modify now the old scenario <code>simplePing</code>, that starts 5 pongers and 5 pingers and we expect the <code>SimulationObserver</code> to terminate it early, when at least 100 pongs have been received. In the case where our observer&rsquo;s termination conditions are not met, for example due to some bug, the simulation might not stop but run forever. To avoid this, we still want to keep the scenario termination time (a very high one) as a safety net. In this case, we added a 10.000s termination time, but the <code>SimulationObserver</code> <em>should</em> terminate the simulation within a couple of tens of seconds of simulated time.</p>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/simulation/pingpongglobal/ScenarioGen.java#L205-L252" target="_blank" title="Go to snippet source"></a><code class="language-java">public static SimulationScenario simplePing() {
+  SimulationScenario scen =
+      new SimulationScenario() {
+        {
+          SimulationScenario.StochasticProcess setup =
+              new SimulationScenario.StochasticProcess() {
+                {
+                  raise(1, setupOp);
+                }
+              };
+
+          SimulationScenario.StochasticProcess observer =
+              new SimulationScenario.StochasticProcess() {
+                {
+                  raise(1, startObserverOp);
+                }
+              };
+
+          SimulationScenario.StochasticProcess ponger =
+              new SimulationScenario.StochasticProcess() {
+                {
+                  eventInterarrivalTime(constant(1000));
+                  raise(5, startPongerOp, new BasicIntSequentialDistribution(1));
+                }
+              };
+
+          SimulationScenario.StochasticProcess pinger =
+              new SimulationScenario.StochasticProcess() {
+                {
+                  eventInterarrivalTime(constant(1000));
+                  raise(
+                      5,
+                      startPingerOp,
+                      new BasicIntSequentialDistribution(6),
+                      new BasicIntSequentialDistribution(1));
+                }
+              };
+
+          setup.start();
+          observer.startAfterTerminationOf(0, setup);
+          ponger.startAfterTerminationOf(1000, observer);
+          pinger.startAfterTerminationOf(1000, ponger);
+          terminateAfterTerminationOf(1000 * 10000, pinger);
+        }
+      };
+
+  return scen;
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/simulation/pingpongglobal/ScenarioGen.scala#L57-L73" target="_blank" title="Go to snippet source"></a><code class="language-scala">val simplePingScenario = raise(1, setupOp)
+  .arrival(constant(0.seconds))
+  .andThen(0.seconds)
+  .afterTermination(
+    raise(1, startObserverOp).arrival(constant(0.seconds))
+  )
+  .andThen(1.second)
+  .afterTermination(
+    raise(5, startPongerOp, 1.toN)
+      .arrival(constant(1.second))
+  )
+  .andThen(1.second)
+  .afterTermination(
+    raise(5, startPingerOp, 6.toN, 1.toN).arrival(constant(1.second))
+  )
+  .andThen(10000.seconds)
+  .afterTermination(Terminate);</code></pre></dd>
+</dl>
+<h4><a href="#scenariogen-kill-pongers-scenario" name="scenariogen-kill-pongers-scenario" class="anchor"><span class="anchor-link"></span></a>ScenarioGen Kill Pongers Scenario</h4>
+<p>The second scenario, <code>killPongers</code>, will start killing the pongers, which the observer should notice and then stop the simulation. In this case both conditions &ndash; number of pings and number of dead nodes &ndash; can be met, but for the given code (seed, timing conditions) the number of dead nodes will be met first.</p>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/simulation/pingpongglobal/ScenarioGen.java#L256-L312" target="_blank" title="Go to snippet source"></a><code class="language-java">public static SimulationScenario killPongers() {
+  SimulationScenario scen =
+      new SimulationScenario() {
+        {
+          SimulationScenario.StochasticProcess setup =
+              new SimulationScenario.StochasticProcess() {
+                {
+                  raise(1, setupOp);
+                }
+              };
+
+          SimulationScenario.StochasticProcess observer =
+              new SimulationScenario.StochasticProcess() {
+                {
+                  raise(1, startObserverOp);
+                }
+              };
+
+          SimulationScenario.StochasticProcess ponger =
+              new SimulationScenario.StochasticProcess() {
+                {
+                  eventInterarrivalTime(constant(1000));
+                  raise(5, startPongerOp, new BasicIntSequentialDistribution(1));
+                }
+              };
+
+          SimulationScenario.StochasticProcess pinger =
+              new SimulationScenario.StochasticProcess() {
+                {
+                  eventInterarrivalTime(constant(1000));
+                  raise(
+                      5,
+                      startPingerOp,
+                      new BasicIntSequentialDistribution(6),
+                      new BasicIntSequentialDistribution(1));
+                }
+              };
+
+          SimulationScenario.StochasticProcess killPonger =
+              new SimulationScenario.StochasticProcess() {
+                {
+                  eventInterarrivalTime(constant(0));
+                  raise(5, killPongerOp, new BasicIntSequentialDistribution(1));
+                }
+              };
+
+          setup.start();
+          observer.startAfterTerminationOf(0, setup);
+          ponger.startAfterTerminationOf(1000, observer);
+          pinger.startAfterTerminationOf(1000, ponger);
+          killPonger.startAfterTerminationOf(1000, pinger);
+          terminateAfterTerminationOf(1000 * 10000, pinger);
+        }
+      };
+
+  return scen;
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/simulation/pingpongglobal/ScenarioGen.scala#L77-L97" target="_blank" title="Go to snippet source"></a><code class="language-scala">val killPongersScenario = raise(1, setupOp)
+  .arrival(constant(0.seconds))
+  .andThen(0.seconds)
+  .afterTermination(
+    raise(1, startObserverOp).arrival(constant(0.seconds))
+  )
+  .andThen(1.second)
+  .afterTermination(
+    raise(5, startPongerOp, 1.toN)
+      .arrival(constant(1.second))
+  )
+  .andThen(1.second)
+  .afterTermination(
+    raise(5, startPingerOp, 6.toN, 1.toN).arrival(constant(1.second))
+  )
+  .andThen(1.second)
+  .afterTermination(
+    raise(5, killPongerOp, 1.toN).arrival(constant(0.seconds))
+  )
+  .andThen(10000.seconds)
+  .afterTermination(Terminate);</code></pre></dd>
+</dl>
+<h4><a href="#main" name="main" class="anchor"><span class="anchor-link"></span></a>Main</h4>
+<p>We extend our <code>Main</code> <span class="group-java">class</span><span class="group-scala">object</span> yet again, to differentiate the two simulation we want to run:</p>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/simulation/pingpongglobal/Main.java#L45-L63" target="_blank" title="Go to snippet source"></a><code class="language-java">} else if (args[0].equalsIgnoreCase(&quot;simulation&quot;)) {
+  long seed = 123;
+  SimulationScenario.setSeed(seed);
+  if (args.length &gt; 1) {
+    SimulationScenario scenario;
+    if (args[1].equalsIgnoreCase(&quot;simple&quot;)) {
+      scenario = ScenarioGen.simplePing();
+    } else if (args[1].equalsIgnoreCase(&quot;kill&quot;)) {
+      scenario = ScenarioGen.killPongers();
+    } else {
+      throw new RuntimeException(&quot;Invalid argument: &quot; + args[1]);
+    }
+    System.out.println(&quot;Starting a Simulation&quot;);
+    scenario.simulate(LauncherComp.class);
+  } else {
+    System.err.println(&quot;Invalid number of parameters&quot;);
+    System.exit(1);
+  }
+} else {</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/simulation/pingpongglobal/Main.scala#L38-L55" target="_blank" title="Go to snippet source"></a><code class="language-scala">} else if (args(0).equalsIgnoreCase(&quot;simulation&quot;)) {
+  val seed = 123;
+  SimulationScenario.setSeed(seed);
+  if (args.length &gt; 1) {
+    val scenario = if (args(1).equalsIgnoreCase(&quot;simple&quot;)) {
+      ScenarioGen.simplePingScenario
+    } else if (args(1).equalsIgnoreCase(&quot;kill&quot;)) {
+      ScenarioGen.killPongersScenario
+    } else {
+      throw new RuntimeException(s&quot;Invalid argument: ${args(1)}&quot;);
+    };
+    System.out.println(&quot;Starting a Simulation&quot;);
+    scenario.simulate(classOf[LauncherComp]);
+  } else {
+    System.err.println(&quot;Invalid number of parameters&quot;);
+    System.exit(1);
+  }
+} else {</code></pre></dd>
+</dl>
+<h3><a href="#execution" name="execution" class="anchor"><span class="anchor-link"></span></a>Execution</h3>
+<p>Now we can simply run out simulation from within sbt as before with:</p>
+<h4><a href="#simple-ping-scenario" name="simple-ping-scenario" class="anchor"><span class="anchor-link"></span></a>Simple Ping Scenario</h4><div class="group-java">
+<pre class="prettyprint"><code class="language-bash">runMain jexamples.simulation.pingpongglobal.Main simulation simple
+</code></pre></div><div class="group-scala">
+<pre class="prettyprint"><code class="language-bash">runMain sexamples.simulation.pingpongglobal.Main simulation simple
+</code></pre></div>
+<h4><a href="#kill-pongers-scenario" name="kill-pongers-scenario" class="anchor"><span class="anchor-link"></span></a>Kill Pongers Scenario</h4><div class="group-java">
+<pre class="prettyprint"><code class="language-bash">runMain jexamples.simulation.pingpongglobal.Main simulation kill
+</code></pre></div><div class="group-scala">
+<pre class="prettyprint"><code class="language-bash">runMain sexamples.simulation.pingpongglobal.Main simulation kill
+</code></pre></div>
+<div class="source-github">
+The source code for this page can be found <a href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/paradox/tutorial/simulation/globalview.md">here</a>.
+</div>
+
+<div class="nav-next">
+<p><strong>Next:</strong> <a href="../../tutorial/simulation/randsources.html">Sources of Randomness</a></p>
+</div>
+</div>
+<div class="large-3 show-for-large column" data-sticky-container>
+<nav class="sidebar sticky" data-sticky data-anchor="docs" data-sticky-on="large">
+<div class="page-nav">
+<div class="nav-title">On this page:</div>
+<div class="nav-toc">
+<ul>
+  <li><a href="../../tutorial/simulation/globalview.html#global-view" class="header">Global View</a>
+  <ul>
+    <li><a href="../../tutorial/simulation/globalview.html#terminate-on-condition" class="header">Terminate on Condition</a></li>
+    <li><a href="../../tutorial/simulation/globalview.html#execution" class="header">Execution</a></li>
+  </ul></li>
+</ul>
+</div>
+</div>
+</nav>
+</div>
+</div>
+
+</section>
+</div>
+
+</div>
+
+<footer class="site-footer">
+
+<section class="site-footer-nav">
+<div class="expanded row">
+<div class="small-12 large-offset-2 large-10 column">
+<div class="row site-footer-content">
+
+<div class="small-12 medium-4 large-3 text-center column">
+<div class="nav-links">
+<ul>
+<!-- <li><a href="https://www.example.com/products/">Products</a> -->
+</ul>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</section>
+
+<section class="site-footer-base">
+<div class="expanded row">
+<div class="small-12 large-offset-2 large-10 column">
+<div class="row site-footer-content">
+
+<div class="small-12 text-center large-9 column">
+
+<!--
+<div class="copyright">
+<span class="text">&copy; 2020</span>
+<a href="https://www.example.com" class="logo">logo</a>
+</div>
+-->
+</div>
+
+</div>
+</div>
+</div>
+</section>
+</footer>
+
+</div>
+</div>
+</div>
+</body>
+
+<script type="text/javascript" src="../../lib/foundation/dist/foundation.min.js"></script>
+<script type="text/javascript">jQuery(document).foundation();</script>
+<script type="text/javascript" src="../../js/magellan.js"></script>
+
+<style type="text/css">@import "../../lib/prettify/prettify.css";</style>
+<script type="text/javascript" src="../../lib/prettify/prettify.js"></script>
+<script type="text/javascript" src="../../lib/prettify/lang-scala.js"></script>
+<script type="text/javascript">jQuery(function(){window.prettyPrint && prettyPrint()});</script>
+<script type="text/javascript">jQuery(function(jq){initOldVersionWarnings(jq, '2.0.0', '')});</script>
+
+
+</html>

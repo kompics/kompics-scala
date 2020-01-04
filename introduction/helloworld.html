@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+<title>Hello World in Kompics · Kompics</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content='Kompics-Scala-Docs'/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:100normal,100italic,300normal,300italic,400normal,400italic,500normal,500italic,700normal,700italic,900normal,900italicc" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../lib/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="../js/page.js"></script>
+<script type="text/javascript" src="../js/warnOldVersion.js"></script>
+<script type="text/javascript" src="../js/groups.js"></script>
+<link rel="stylesheet" type="text/css" href="../lib/foundation/dist/foundation.min.css"/>
+<link rel="stylesheet" type="text/css" href="../css/page.css"/>
+
+<!--
+<link rel="shortcut icon" href="../images/favicon.ico" />
+-->
+</head>
+
+<body>
+<div class="off-canvas-wrapper">
+<div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+
+<div class="off-canvas position-left" id="off-canvas-menu" data-off-canvas>
+<nav class="off-canvas-nav">
+<div class="nav-home">
+<a href="../index.html" >
+<span class="home-icon">⌂</span>Kompics
+</a>
+<div class="version-number">
+2.0.0
+</div>
+</div>
+<select class="supergroup" name="Language"><option class="group" value="group-scala">Scala</option><option class="group" value="group-java">Java</option></select>
+<div class="nav-toc">
+<ul>
+  <li><a href="../introduction/index.html" class="page">Introduction</a>
+  <ul>
+    <li><a href="../introduction/whatiskompics.html" class="page">What is Kompics?</a></li>
+    <li><a href="../introduction/gettingstarted.html" class="page">Getting Started</a></li>
+    <li><a href="../introduction/helloworld.html" class="active page">Hello World in Kompics</a></li>
+  </ul></li>
+  <li><a href="../tutorial/index.html" class="page">Kompics Tutorial</a>
+  <ul>
+    <li><a href="../tutorial/basics.html" class="page">Kompics Basics</a></li>
+    <li><a href="../tutorial/timers.html" class="page">Timers</a></li>
+    <li><a href="../tutorial/networking/index.html" class="page">Networking</a></li>
+    <li><a href="../tutorial/simulation/index.html" class="page">Simulation</a></li>
+  </ul></li>
+  <li><a href="../reference.html" class="page">Reference</a></li>
+</ul>
+</div>
+
+</nav>
+</div>
+
+<div class="off-canvas-content" data-off-canvas-content>
+
+<header class="site-header expanded row">
+<div class="small-12 column">
+<a href="#" class="off-canvas-toggle hide-for-medium" data-toggle="off-canvas-menu"><svg class="svg-icon svg-icon-menu" version="1.1" id="Menu" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 20 20" enable-background="new 0 0 20 20" xml:space="preserve"> <path class="svg-icon-menu-path" fill="#53CDEC" d="M16.4,9H3.6C3.048,9,3,9.447,3,10c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,9.447,16.952,9,16.4,9z M16.4,13
+H3.6C3.048,13,3,13.447,3,14c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,13.447,16.952,13,16.4,13z M3.6,7H16.4
+C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.048,7,3.6,7z"/></svg>
+</a>
+<div class="title"><a href="../index.html">Kompics</a></div>
+
+<!--
+<a href="https://www.example.com" class="logo show-for-medium">logo</a>
+-->
+</div>
+</header>
+
+<div class="expanded row">
+
+<div class="medium-3 large-2 show-for-medium column">
+<nav class="site-nav">
+<div class="nav-home">
+<a href="../index.html" >
+<span class="home-icon">⌂</span>Kompics
+</a>
+<div class="version-number">
+2.0.0
+</div>
+</div>
+<select class="supergroup" name="Language"><option class="group" value="group-scala">Scala</option><option class="group" value="group-java">Java</option></select>
+<div class="nav-toc">
+<ul>
+  <li><a href="../introduction/index.html" class="page">Introduction</a>
+  <ul>
+    <li><a href="../introduction/whatiskompics.html" class="page">What is Kompics?</a></li>
+    <li><a href="../introduction/gettingstarted.html" class="page">Getting Started</a></li>
+    <li><a href="../introduction/helloworld.html" class="active page">Hello World in Kompics</a></li>
+  </ul></li>
+  <li><a href="../tutorial/index.html" class="page">Kompics Tutorial</a>
+  <ul>
+    <li><a href="../tutorial/basics.html" class="page">Kompics Basics</a></li>
+    <li><a href="../tutorial/timers.html" class="page">Timers</a></li>
+    <li><a href="../tutorial/networking/index.html" class="page">Networking</a></li>
+    <li><a href="../tutorial/simulation/index.html" class="page">Simulation</a></li>
+  </ul></li>
+  <li><a href="../reference.html" class="page">Reference</a></li>
+</ul>
+</div>
+
+</nav>
+</div>
+
+<div class="small-12 medium-9 large-10 column">
+<section class="site-content">
+
+<span id="version-warning"></span>
+
+<div class="page-header row">
+<div class="medium-12 show-for-medium column">
+<div class="nav-breadcrumbs">
+<ul>
+  <li><a href="../index.html">Kompics</a></li>
+  <li><a href="../introduction/index.html">Introduction</a></li>
+  <li>Hello World in Kompics</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="page-content row">
+<div class="small-12 large-9 column" id="docs">
+<h1><a href="#hello-world-in-kompics" name="hello-world-in-kompics" class="anchor"><span class="anchor-link"></span></a>Hello World in Kompics</h1>
+<p>This section describes the simplest possible Kompics program, the well-known <em>Hello World</em>.</p>
+<p>A proper introduction can be found in the <a href="../tutorial/index.html">Tutorial</a>.</p>
+<h2><a href="#setup" name="setup" class="anchor"><span class="anchor-link"></span></a>Setup</h2>
+<p>Set up a new sbt or maven project and follow the instructions in the <a href="gettingstarted.html#including-kompics">Getting Started</a> section to include the necessary dependencies. For this simple example the <code>kompics-core</code> or <code>kompics-scala</code> modules will be sufficient.</p>
+<h2><a href="#hello-world-component" name="hello-world-component" class="anchor"><span class="anchor-link"></span></a>Hello World Component</h2>
+<p>This very simple component contains but a single handler, which is executed when a <code>Start</code> event is triggered on the <code>control</code> port. <code>Start</code> events are part of Kompic&rsquo;s component lifecycle and always need to be triggered on a component exactly once to get it to handle events. A component that is never started is considered paused and will queue up events on its ports, but never execute them.</p>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/helloworld/HelloComponent.java" target="_blank" title="Go to snippet source"></a><code class="language-java">package jexamples.helloworld;
+
+import se.sics.kompics.ComponentDefinition;
+import se.sics.kompics.Handler;
+import se.sics.kompics.Start;
+import se.sics.kompics.Kompics;
+
+public class HelloComponent extends ComponentDefinition {
+  {
+    Handler&lt;Start&gt; startHandler =
+        new Handler&lt;Start&gt;() {
+          @Override
+          public void handle(Start event) {
+            System.out.println(&quot;Hello World!&quot;);
+            Kompics.asyncShutdown();
+          }
+        };
+    subscribe(startHandler, control);
+  }
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/helloworld/HelloComponent.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package sexamples.helloworld;
+
+import se.sics.kompics.sl._
+
+class HelloComponent extends ComponentDefinition {
+  ctrl uponEvent {
+    case _: Start =&gt; {
+      System.out.println(&quot;Hello World!&quot;);
+      Kompics.asyncShutdown();
+    }
+  }
+}</code></pre></dd>
+</dl><div class="callout warning "><div class="callout-title">Warning</div>
+<p>Do not forget to subscribe Kompics handlers to ports in the Java version! It is the most common mistake, and it is very easy to overlook when debugging. In the Scala version, this happens automatically with <code>uponEvent</code>, but if you use <code>handler</code> instead to create a handler without automatic subscription, it may still become an issue later.</p></div>
+<h2><a href="#main" name="main" class="anchor"><span class="anchor-link"></span></a>Main</h2>
+<p>The <code>main</code> method is very simple and only starts the Kompics framework by calling <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/Kompics.html#createAndStart(java.lang.Class)" title="se.sics.kompics.Kompics"><code>Kompics.createAndStart</code></a> with the class of the root component. It also automatically sends a <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/Start.html" title="se.sics.kompics.Start"><code>Start</code></a> event to the component once the constructor has finished.</p>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/helloworld/Main.java" target="_blank" title="Go to snippet source"></a><code class="language-java">package jexamples.helloworld;
+
+import se.sics.kompics.Kompics;
+
+public class Main {
+  public static void main(String[] args) throws InterruptedException {
+    Kompics.createAndStart(HelloComponent.class);
+    Kompics.waitForTermination();
+  }
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/helloworld/Main.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package sexamples.helloworld;
+
+import se.sics.kompics.sl._
+
+object Main {
+  def main(args: Array[String]): Unit = {
+    Kompics.createAndStart(classOf[HelloComponent]);
+    Kompics.waitForTermination();
+  }
+}</code></pre></dd>
+</dl>
+<h2><a href="#compiling-and-running" name="compiling-and-running" class="anchor"><span class="anchor-link"></span></a>Compiling and Running</h2>
+<p>To compile the source code use:</p>
+<pre class="prettyprint"><code class="language-bash">sbt compile
+</code></pre>
+<p>To run the project from within sbt, execute:</p><div class="group-java">
+<pre class="prettyprint"><code class="language-bash">runMain jexamples.helloworld.Main
+</code></pre></div><div class="group-scala">
+<pre class="prettyprint"><code class="language-bash">runMain sexamples.helloworld.Main
+</code></pre></div>
+<p>This is all. Say hello to Kompics ;)</p>
+<h2><a href="#logging" name="logging" class="anchor"><span class="anchor-link"></span></a>Logging</h2>
+<p>Kompics has built-in logging support, which adds context information to the logging output, such as what state the component is in and what its unique id is. You can access the provided <a href="https://www.slf4j.org/" title="SLF4J">SLF4J</a> logger via the <code>logger</code> field, or its <a href="https://github.com/lightbend/scala-logging" title="Scala Logging">Scala Logging</a> wrapper via the <code>log</code> field.</p>
+<p>In order to make use of these features, a mapped diagnostic context (MDC) capable logging backend is required, such as <a href="https://logback.qos.ch/manual/mdc.html" title="Logback Classic">Logback Classic</a>, for example.</p>
+<p>Logback requires a configuration file to work. Adding a simple <code>src/main/resources/logback.xml</code> file to the project will configure the logging system, in this case such that all MDC information is printed:</p>
+<pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/resources/logback.xml" target="_blank" title="Go to snippet source"></a><code class="language-xml">&lt;configuration&gt;
+
+  &lt;appender name=&quot;STDOUT&quot; class=&quot;ch.qos.logback.core.ConsoleAppender&quot;&gt;
+    &lt;!-- encoders are assigned the type
+         ch.qos.logback.classic.encoder.PatternLayoutEncoder by default --&gt;
+    &lt;encoder&gt;
+      &lt;pattern&gt;%d{HH:mm:ss.SSS} %highlight(%-5level) %logger{1} [%thread] %X %n    - %msg%n&lt;/pattern&gt;
+    &lt;/encoder&gt;
+  &lt;/appender&gt;
+
+  &lt;root level=&quot;debug&quot;&gt;
+    &lt;appender-ref ref=&quot;STDOUT&quot; /&gt;
+  &lt;/root&gt;
+&lt;/configuration&gt;</code></pre>
+<p>It is also possible to add custom context information to a particular component, by using either <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/ComponentDefinition.html#loggingContextPut(java.lang.String,java.lang.String)" title="se.sics.kompics.ComponentDefinition"><code>loggingContextPut</code></a> for potentially transient values, or <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/ComponentDefinition.html#loggingCtxPutAlways(java.lang.String,java.lang.String)" title="se.sics.kompics.ComponentDefinition"><code>loggingContextPutAlways</code></a> for context values that definitely span the life-time of the component.</p>
+<div class="source-github">
+The source code for this page can be found <a href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/paradox/introduction/helloworld.md">here</a>.
+</div>
+
+<div class="nav-next">
+<p><strong>Next:</strong> <a href="../tutorial/index.html">Kompics Tutorial</a></p>
+</div>
+</div>
+<div class="large-3 show-for-large column" data-sticky-container>
+<nav class="sidebar sticky" data-sticky data-anchor="docs" data-sticky-on="large">
+<div class="page-nav">
+<div class="nav-title">On this page:</div>
+<div class="nav-toc">
+<ul>
+  <li><a href="../introduction/helloworld.html#hello-world-in-kompics" class="header">Hello World in Kompics</a>
+  <ul>
+    <li><a href="../introduction/helloworld.html#setup" class="header">Setup</a></li>
+    <li><a href="../introduction/helloworld.html#hello-world-component" class="header">Hello World Component</a></li>
+    <li><a href="../introduction/helloworld.html#main" class="header">Main</a></li>
+    <li><a href="../introduction/helloworld.html#compiling-and-running" class="header">Compiling and Running</a></li>
+    <li><a href="../introduction/helloworld.html#logging" class="header">Logging</a></li>
+  </ul></li>
+</ul>
+</div>
+</div>
+</nav>
+</div>
+</div>
+
+</section>
+</div>
+
+</div>
+
+<footer class="site-footer">
+
+<section class="site-footer-nav">
+<div class="expanded row">
+<div class="small-12 large-offset-2 large-10 column">
+<div class="row site-footer-content">
+
+<div class="small-12 medium-4 large-3 text-center column">
+<div class="nav-links">
+<ul>
+<!-- <li><a href="https://www.example.com/products/">Products</a> -->
+</ul>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</section>
+
+<section class="site-footer-base">
+<div class="expanded row">
+<div class="small-12 large-offset-2 large-10 column">
+<div class="row site-footer-content">
+
+<div class="small-12 text-center large-9 column">
+
+<!--
+<div class="copyright">
+<span class="text">&copy; 2020</span>
+<a href="https://www.example.com" class="logo">logo</a>
+</div>
+-->
+</div>
+
+</div>
+</div>
+</div>
+</section>
+</footer>
+
+</div>
+</div>
+</div>
+</body>
+
+<script type="text/javascript" src="../lib/foundation/dist/foundation.min.js"></script>
+<script type="text/javascript">jQuery(document).foundation();</script>
+<script type="text/javascript" src="../js/magellan.js"></script>
+
+<style type="text/css">@import "../lib/prettify/prettify.css";</style>
+<script type="text/javascript" src="../lib/prettify/prettify.js"></script>
+<script type="text/javascript" src="../lib/prettify/lang-scala.js"></script>
+<script type="text/javascript">jQuery(function(){window.prettyPrint && prettyPrint()});</script>
+<script type="text/javascript">jQuery(function(jq){initOldVersionWarnings(jq, '2.0.0', '')});</script>
+
+
+</html>

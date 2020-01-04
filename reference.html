@@ -2,7 +2,7 @@
 <html class="no-js" lang="en">
 
 <head>
-<title>Reference · Kompics Scala</title>
+<title>Reference · Kompics</title>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta name="description" content='Kompics-Scala-Docs'/>
@@ -27,15 +27,28 @@
 <nav class="off-canvas-nav">
 <div class="nav-home">
 <a href="index.html" >
-<span class="home-icon">⌂</span>Kompics Scala
+<span class="home-icon">⌂</span>Kompics
 </a>
 <div class="version-number">
 2.0.0
 </div>
 </div>
+<select class="supergroup" name="Language"><option class="group" value="group-scala">Scala</option><option class="group" value="group-java">Java</option></select>
 <div class="nav-toc">
 <ul>
-  <li><a href="getting-started.html" class="page">Getting Started</a></li>
+  <li><a href="introduction/index.html" class="page">Introduction</a>
+  <ul>
+    <li><a href="introduction/whatiskompics.html" class="page">What is Kompics?</a></li>
+    <li><a href="introduction/gettingstarted.html" class="page">Getting Started</a></li>
+    <li><a href="introduction/helloworld.html" class="page">Hello World in Kompics</a></li>
+  </ul></li>
+  <li><a href="tutorial/index.html" class="page">Kompics Tutorial</a>
+  <ul>
+    <li><a href="tutorial/basics.html" class="page">Kompics Basics</a></li>
+    <li><a href="tutorial/timers.html" class="page">Timers</a></li>
+    <li><a href="tutorial/networking/index.html" class="page">Networking</a></li>
+    <li><a href="tutorial/simulation/index.html" class="page">Simulation</a></li>
+  </ul></li>
   <li><a href="reference.html" class="active page">Reference</a></li>
 </ul>
 </div>
@@ -51,7 +64,7 @@
 H3.6C3.048,13,3,13.447,3,14c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,13.447,16.952,13,16.4,13z M3.6,7H16.4
 C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.048,7,3.6,7z"/></svg>
 </a>
-<div class="title"><a href="index.html">Kompics Scala</a></div>
+<div class="title"><a href="index.html">Kompics</a></div>
 
 <!--
 <a href="https://www.example.com" class="logo show-for-medium">logo</a>
@@ -65,15 +78,28 @@ C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.
 <nav class="site-nav">
 <div class="nav-home">
 <a href="index.html" >
-<span class="home-icon">⌂</span>Kompics Scala
+<span class="home-icon">⌂</span>Kompics
 </a>
 <div class="version-number">
 2.0.0
 </div>
 </div>
+<select class="supergroup" name="Language"><option class="group" value="group-scala">Scala</option><option class="group" value="group-java">Java</option></select>
 <div class="nav-toc">
 <ul>
-  <li><a href="getting-started.html" class="page">Getting Started</a></li>
+  <li><a href="introduction/index.html" class="page">Introduction</a>
+  <ul>
+    <li><a href="introduction/whatiskompics.html" class="page">What is Kompics?</a></li>
+    <li><a href="introduction/gettingstarted.html" class="page">Getting Started</a></li>
+    <li><a href="introduction/helloworld.html" class="page">Hello World in Kompics</a></li>
+  </ul></li>
+  <li><a href="tutorial/index.html" class="page">Kompics Tutorial</a>
+  <ul>
+    <li><a href="tutorial/basics.html" class="page">Kompics Basics</a></li>
+    <li><a href="tutorial/timers.html" class="page">Timers</a></li>
+    <li><a href="tutorial/networking/index.html" class="page">Networking</a></li>
+    <li><a href="tutorial/simulation/index.html" class="page">Simulation</a></li>
+  </ul></li>
   <li><a href="reference.html" class="active page">Reference</a></li>
 </ul>
 </div>
@@ -90,7 +116,7 @@ C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.
 <div class="medium-12 show-for-medium column">
 <div class="nav-breadcrumbs">
 <ul>
-  <li><a href="index.html">Kompics Scala</a></li>
+  <li><a href="index.html">Kompics</a></li>
   <li>Reference</li>
 </ul>
 </div>
@@ -100,6 +126,18 @@ C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.
 <div class="page-content row">
 <div class="small-12 large-9 column" id="docs">
 <h1><a href="#reference" name="reference" class="anchor"><span class="anchor-link"></span></a>Reference</h1>
+<h2><a href="#kompics-java" name="kompics-java" class="anchor"><span class="anchor-link"></span></a>Kompics Java</h2>
+<p>The Javadocs for all the Kompics Java modules, can be found here:</p>
+<ul>
+  <li><a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/package-summary.html" title="se.sics.kompics.package-summary"><code>kompics-core</code></a></li>
+  <li><a href="https://javadoc.io/doc/se.sics.kompics.basic/kompics-port-timer/1.2.1/se/sics/kompics/timer/package-summary.html" title="se.sics.kompics.timer.package-summary"><code>kompics-port-timer</code></a></li>
+  <li><a href="https://javadoc.io/doc/se.sics.kompics.basic/kompics-component-java-timer/1.2.1/se/sics/kompics/timer/java/package-summary.html" title="se.sics.kompics.timer.java.package-summary"><code>kompics-component-java-timer</code></a></li>
+  <li><a href="https://javadoc.io/doc/se.sics.kompics.basic/kompics-port-network/1.2.1/se/sics/kompics/network/package-summary.html" title="se.sics.kompics.network.package-summary"><code>kompics-port-network</code></a></li>
+  <li><a href="https://javadoc.io/doc/se.sics.kompics.basic/kompics-component-netty-network/1.2.1/se/sics/kompics/network/netty/package-summary.html" title="se.sics.kompics.network.netty.package-summary"><code>kompics-component-netty-network</code></a></li>
+  <li><a href="https://javadoc.io/doc/se.sics.kompics.basic/kompics-port-virtual-network/1.2.1/se/sics/kompics/network/virtual/package-summary.html" title="se.sics.kompics.network.virtual.package-summary"><code>kompics-port-virtual-network</code></a></li>
+  <li><a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/package-summary.html" title="se.sics.kompics.simulator.package-summary"><code>kompics-simulator</code></a></li>
+</ul>
+<h2><a href="#kompics-scala" name="kompics-scala" class="anchor"><span class="anchor-link"></span></a>Kompics Scala</h2>
 <p>The Scaladoc for Kompics Scala can be found <a href="https://kompics.github.io/kompics-scala/api/se/sics/kompics/sl/index.html" title="se.sics.kompics.sl"><code>here</code></a>.</p>
 <div class="source-github">
 The source code for this page can be found <a href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/paradox/reference.md">here</a>.
@@ -107,6 +145,20 @@ The source code for this page can be found <a href="https://github.com/kompics/k
 
 </div>
 <div class="large-3 show-for-large column" data-sticky-container>
+<nav class="sidebar sticky" data-sticky data-anchor="docs" data-sticky-on="large">
+<div class="page-nav">
+<div class="nav-title">On this page:</div>
+<div class="nav-toc">
+<ul>
+  <li><a href="reference.html#reference" class="header">Reference</a>
+  <ul>
+    <li><a href="reference.html#kompics-java" class="header">Kompics Java</a></li>
+    <li><a href="reference.html#kompics-scala" class="header">Kompics Scala</a></li>
+  </ul></li>
+</ul>
+</div>
+</div>
+</nav>
 </div>
 </div>
 
@@ -144,7 +196,7 @@ The source code for this page can be found <a href="https://github.com/kompics/k
 
 <!--
 <div class="copyright">
-<span class="text">&copy; 2019</span>
+<span class="text">&copy; 2020</span>
 <a href="https://www.example.com" class="logo">logo</a>
 </div>
 -->

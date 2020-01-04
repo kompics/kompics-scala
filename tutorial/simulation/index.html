@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+<title>Simulation · Kompics</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content='Kompics-Scala-Docs'/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:100normal,100italic,300normal,300italic,400normal,400italic,500normal,500italic,700normal,700italic,900normal,900italicc" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../lib/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="../../js/page.js"></script>
+<script type="text/javascript" src="../../js/warnOldVersion.js"></script>
+<script type="text/javascript" src="../../js/groups.js"></script>
+<link rel="stylesheet" type="text/css" href="../../lib/foundation/dist/foundation.min.css"/>
+<link rel="stylesheet" type="text/css" href="../../css/page.css"/>
+
+<!--
+<link rel="shortcut icon" href="../../images/favicon.ico" />
+-->
+</head>
+
+<body>
+<div class="off-canvas-wrapper">
+<div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+
+<div class="off-canvas position-left" id="off-canvas-menu" data-off-canvas>
+<nav class="off-canvas-nav">
+<div class="nav-home">
+<a href="../../index.html" >
+<span class="home-icon">⌂</span>Kompics
+</a>
+<div class="version-number">
+2.0.0
+</div>
+</div>
+<select class="supergroup" name="Language"><option class="group" value="group-scala">Scala</option><option class="group" value="group-java">Java</option></select>
+<div class="nav-toc">
+<ul>
+  <li><a href="../../introduction/index.html" class="page">Introduction</a>
+  <ul>
+    <li><a href="../../introduction/whatiskompics.html" class="page">What is Kompics?</a></li>
+    <li><a href="../../introduction/gettingstarted.html" class="page">Getting Started</a></li>
+    <li><a href="../../introduction/helloworld.html" class="page">Hello World in Kompics</a></li>
+  </ul></li>
+  <li><a href="../../tutorial/index.html" class="page">Kompics Tutorial</a>
+  <ul>
+    <li><a href="../../tutorial/basics.html" class="page">Kompics Basics</a></li>
+    <li><a href="../../tutorial/timers.html" class="page">Timers</a></li>
+    <li><a href="../../tutorial/networking/index.html" class="page">Networking</a></li>
+    <li><a href="../../tutorial/simulation/index.html" class="active page">Simulation</a></li>
+  </ul></li>
+  <li><a href="../../reference.html" class="page">Reference</a></li>
+</ul>
+</div>
+
+</nav>
+</div>
+
+<div class="off-canvas-content" data-off-canvas-content>
+
+<header class="site-header expanded row">
+<div class="small-12 column">
+<a href="#" class="off-canvas-toggle hide-for-medium" data-toggle="off-canvas-menu"><svg class="svg-icon svg-icon-menu" version="1.1" id="Menu" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 20 20" enable-background="new 0 0 20 20" xml:space="preserve"> <path class="svg-icon-menu-path" fill="#53CDEC" d="M16.4,9H3.6C3.048,9,3,9.447,3,10c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,9.447,16.952,9,16.4,9z M16.4,13
+H3.6C3.048,13,3,13.447,3,14c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,13.447,16.952,13,16.4,13z M3.6,7H16.4
+C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.048,7,3.6,7z"/></svg>
+</a>
+<div class="title"><a href="../../index.html">Kompics</a></div>
+
+<!--
+<a href="https://www.example.com" class="logo show-for-medium">logo</a>
+-->
+</div>
+</header>
+
+<div class="expanded row">
+
+<div class="medium-3 large-2 show-for-medium column">
+<nav class="site-nav">
+<div class="nav-home">
+<a href="../../index.html" >
+<span class="home-icon">⌂</span>Kompics
+</a>
+<div class="version-number">
+2.0.0
+</div>
+</div>
+<select class="supergroup" name="Language"><option class="group" value="group-scala">Scala</option><option class="group" value="group-java">Java</option></select>
+<div class="nav-toc">
+<ul>
+  <li><a href="../../introduction/index.html" class="page">Introduction</a>
+  <ul>
+    <li><a href="../../introduction/whatiskompics.html" class="page">What is Kompics?</a></li>
+    <li><a href="../../introduction/gettingstarted.html" class="page">Getting Started</a></li>
+    <li><a href="../../introduction/helloworld.html" class="page">Hello World in Kompics</a></li>
+  </ul></li>
+  <li><a href="../../tutorial/index.html" class="page">Kompics Tutorial</a>
+  <ul>
+    <li><a href="../../tutorial/basics.html" class="page">Kompics Basics</a></li>
+    <li><a href="../../tutorial/timers.html" class="page">Timers</a></li>
+    <li><a href="../../tutorial/networking/index.html" class="page">Networking</a></li>
+    <li><a href="../../tutorial/simulation/index.html" class="active page">Simulation</a></li>
+  </ul></li>
+  <li><a href="../../reference.html" class="page">Reference</a></li>
+</ul>
+</div>
+
+</nav>
+</div>
+
+<div class="small-12 medium-9 large-10 column">
+<section class="site-content">
+
+<span id="version-warning"></span>
+
+<div class="page-header row">
+<div class="medium-12 show-for-medium column">
+<div class="nav-breadcrumbs">
+<ul>
+  <li><a href="../../index.html">Kompics</a></li>
+  <li><a href="../../tutorial/index.html">Kompics Tutorial</a></li>
+  <li>Simulation</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="page-content row">
+<div class="small-12 large-9 column" id="docs">
+<h1><a href="#simulation" name="simulation" class="anchor"><span class="anchor-link"></span></a>Simulation</h1>
+<p>We will now show how the same implementation of a distributed system, which is designed for production deployment, is also executable in simulation mode for stepped debugging, protocol correctness testing, or for repeatable studies of the dynamic behaviour of large-scale peer-to-peer systems.</p>
+<p>In order to allow the debugging of code, we require deterministic execution during simulation. We achieve this by executing all events and messages in a deterministic fashion and, additionally, removing other sources of nondeterminism. </p>
+<p>Possible sources of nondeterminism include:</p>
+<ol>
+  <li>system time</li>
+  <li>random generators</li>
+  <li>thread creation/execution</li>
+  <li>network, e.g. latency, packet loss</li>
+  <li>input/output sources</li>
+</ol>
+<p>At a high level, a simulation experiment is specified as a <a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/SimulationScenario.html" title="se.sics.kompics.simulator.SimulationScenario"><code>SimulationScenario</code></a> class, that describes the occurence of events such as starting/stopping a node, changing the parameters of the network, or terminating the simulation. Such a <a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/SimulationScenario.html" title="se.sics.kompics.simulator.SimulationScenario"><code>SimulationScenario</code></a> is then executed by the <a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/core/impl/P2pSimulator.html" title="se.sics.kompics.simulator.core.impl.P2pSimulator"><code>P2pSimulator</code></a> in a single-threaded, deterministic fashion.</p>
+<h3><a href="#dependencies" name="dependencies" class="anchor"><span class="anchor-link"></span></a>Dependencies</h3>
+<p>The examples in this tutorial require a new dependency, which is different depending whether you are using Java or Scala.</p>
+<h4><a href="#kompics-simulator" name="kompics-simulator" class="anchor"><span class="anchor-link"></span></a>Kompics Simulator</h4>
+<p>The <code>kompics-simulator</code> module contains the core definitions and the runtime for the Kompics Simulator framework. It is the required dependency in Kompics Java.</p><dl class="dependency"><dt>sbt</dt><dd><pre class="prettyprint"><code class="language-scala">libraryDependencies += "se.sics.kompics.simulator" % "kompics-simulator" % "1.2.1"</code></pre></dd><dt>Maven</dt><dd><pre class="prettyprint"><code class="language-xml">&lt;dependency&gt;
+  &lt;groupId&gt;se.sics.kompics.simulator&lt;/groupId&gt;
+  &lt;artifactId&gt;kompics-simulator&lt;/artifactId&gt;
+  &lt;version&gt;1.2.1&lt;/version&gt;
+&lt;/dependency&gt;</code></pre></dd><dt>Gradle</dt><dd><pre class="prettyprint"><code class="language-gradle">dependencies {
+  compile group: 'se.sics.kompics.simulator', name: 'kompics-simulator', version: '1.2.1'
+}</code></pre></dd></dl>
+<h4><a href="#kompics-scala-simulator" name="kompics-scala-simulator" class="anchor"><span class="anchor-link"></span></a>Kompics Scala Simulator</h4>
+<p>The <code>kompics-scala-simulator</code> module provides the Scala DSL for Kompics Simulator. Like with Kompics Core, projects including it as a dependency should elide the <code>kompics-simulator</code> dependency above, as it is automatically pulled in as a transitive dependency in the correct version.</p><dl class="dependency"><dt>sbt</dt><dd><pre class="prettyprint"><code class="language-scala">libraryDependencies += "se.sics.kompics.sl" %% "kompics-scala-simulator" % "2.0.0"</code></pre></dd><dt>Maven</dt><dd><pre class="prettyprint"><code class="language-xml">&lt;dependency&gt;
+  &lt;groupId&gt;se.sics.kompics.sl&lt;/groupId&gt;
+  &lt;artifactId&gt;kompics-scala-simulator_2.13&lt;/artifactId&gt;
+  &lt;version&gt;2.0.0&lt;/version&gt;
+&lt;/dependency&gt;</code></pre></dd><dt>Gradle</dt><dd><pre class="prettyprint"><code class="language-gradle">dependencies {
+  compile group: 'se.sics.kompics.sl', name: 'kompics-scala-simulator_2.13', version: '2.0.0'
+}</code></pre></dd></dl>
+<h3><a href="#contents" name="contents" class="anchor"><span class="anchor-link"></span></a>Contents</h3>
+<div class="toc ">
+<ul>
+  <li><a href="../../tutorial/simulation/introduction.html" class="page">Introduction to Simulation</a>
+  <ul>
+    <li><a href="../../tutorial/simulation/introduction.html#stochastic-processes-and-operations" class="header">Stochastic Processes and Operations</a></li>
+    <li><a href="../../tutorial/simulation/introduction.html#simluation-scenario" class="header">Simluation Scenario</a></li>
+    <li><a href="../../tutorial/simulation/introduction.html#running-a-simulation-scenario" class="header">Running a Simulation Scenario</a></li>
+  </ul></li>
+  <li><a href="../../tutorial/simulation/pingpong.html" class="page">PingPong Simulation</a>
+  <ul>
+    <li><a href="../../tutorial/simulation/pingpong.html#parent-vs-host" class="header">Parent vs. Host</a></li>
+    <li><a href="../../tutorial/simulation/pingpong.html#simulation-scenario" class="header">Simulation Scenario</a></li>
+    <li><a href="../../tutorial/simulation/pingpong.html#execution" class="header">Execution</a></li>
+  </ul></li>
+  <li><a href="../../tutorial/simulation/globalview.html" class="page">Global View</a>
+  <ul>
+    <li><a href="../../tutorial/simulation/globalview.html#terminate-on-condition" class="header">Terminate on Condition</a></li>
+    <li><a href="../../tutorial/simulation/globalview.html#execution" class="header">Execution</a></li>
+  </ul></li>
+  <li><a href="../../tutorial/simulation/randsources.html" class="page">Sources of Randomness</a>
+  <ul>
+    <li><a href="../../tutorial/simulation/randsources.html#system-time" class="header">System time</a></li>
+    <li><a href="../../tutorial/simulation/randsources.html#random-generators" class="header">Random Generators</a></li>
+    <li><a href="../../tutorial/simulation/randsources.html#thread-creation" class="header">Thread Creation</a></li>
+    <li><a href="../../tutorial/simulation/randsources.html#network" class="header">Network</a></li>
+    <li><a href="../../tutorial/simulation/randsources.html#input-output-sources" class="header">Input/Output sources</a></li>
+    <li><a href="../../tutorial/simulation/randsources.html#instrumentation-exceptions" class="header">Instrumentation Exceptions</a></li>
+  </ul></li>
+  <li><a href="../../tutorial/simulation/scenarios.html" class="page">Simulation Scenarios Reference</a>
+  <ul>
+    <li><a href="../../tutorial/simulation/scenarios.html#simulation-events" class="header">Simulation Events</a></li>
+    <li><a href="../../tutorial/simulation/scenarios.html#distributions" class="header">Distributions</a></li>
+    <li><a href="../../tutorial/simulation/scenarios.html#operations" class="header">Operations</a></li>
+    <li><a href="../../tutorial/simulation/scenarios.html#stochasticprocesses" class="header">StochasticProcesses</a></li>
+  </ul></li>
+</ul>
+</div>
+<div class="source-github">
+The source code for this page can be found <a href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/paradox/tutorial/simulation/index.md">here</a>.
+</div>
+
+<div class="nav-next">
+<p><strong>Next:</strong> <a href="../../tutorial/simulation/introduction.html">Introduction to Simulation</a></p>
+</div>
+</div>
+<div class="large-3 show-for-large column" data-sticky-container>
+<nav class="sidebar sticky" data-sticky data-anchor="docs" data-sticky-on="large">
+<div class="page-nav">
+<div class="nav-title">On this page:</div>
+<div class="nav-toc">
+<ul>
+  <li><a href="../../tutorial/simulation/index.html#simulation" class="header">Simulation</a>
+  <ul>
+    <li><a href="../../tutorial/simulation/index.html#dependencies" class="header">Dependencies</a></li>
+    <li><a href="../../tutorial/simulation/index.html#contents" class="header">Contents</a></li>
+  </ul></li>
+</ul>
+</div>
+</div>
+</nav>
+</div>
+</div>
+
+</section>
+</div>
+
+</div>
+
+<footer class="site-footer">
+
+<section class="site-footer-nav">
+<div class="expanded row">
+<div class="small-12 large-offset-2 large-10 column">
+<div class="row site-footer-content">
+
+<div class="small-12 medium-4 large-3 text-center column">
+<div class="nav-links">
+<ul>
+<!-- <li><a href="https://www.example.com/products/">Products</a> -->
+</ul>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</section>
+
+<section class="site-footer-base">
+<div class="expanded row">
+<div class="small-12 large-offset-2 large-10 column">
+<div class="row site-footer-content">
+
+<div class="small-12 text-center large-9 column">
+
+<!--
+<div class="copyright">
+<span class="text">&copy; 2020</span>
+<a href="https://www.example.com" class="logo">logo</a>
+</div>
+-->
+</div>
+
+</div>
+</div>
+</div>
+</section>
+</footer>
+
+</div>
+</div>
+</div>
+</body>
+
+<script type="text/javascript" src="../../lib/foundation/dist/foundation.min.js"></script>
+<script type="text/javascript">jQuery(document).foundation();</script>
+<script type="text/javascript" src="../../js/magellan.js"></script>
+
+<style type="text/css">@import "../../lib/prettify/prettify.css";</style>
+<script type="text/javascript" src="../../lib/prettify/prettify.js"></script>
+<script type="text/javascript" src="../../lib/prettify/lang-scala.js"></script>
+<script type="text/javascript">jQuery(function(){window.prettyPrint && prettyPrint()});</script>
+<script type="text/javascript">jQuery(function(jq){initOldVersionWarnings(jq, '2.0.0', '')});</script>
+
+
+</html>

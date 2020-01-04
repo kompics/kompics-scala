@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+<title>Basic Networking · Kompics</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content='Kompics-Scala-Docs'/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:100normal,100italic,300normal,300italic,400normal,400italic,500normal,500italic,700normal,700italic,900normal,900italicc" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../../lib/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="../../../js/page.js"></script>
+<script type="text/javascript" src="../../../js/warnOldVersion.js"></script>
+<script type="text/javascript" src="../../../js/groups.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../lib/foundation/dist/foundation.min.css"/>
+<link rel="stylesheet" type="text/css" href="../../../css/page.css"/>
+
+<!--
+<link rel="shortcut icon" href="../../../images/favicon.ico" />
+-->
+</head>
+
+<body>
+<div class="off-canvas-wrapper">
+<div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+
+<div class="off-canvas position-left" id="off-canvas-menu" data-off-canvas>
+<nav class="off-canvas-nav">
+<div class="nav-home">
+<a href="../../../index.html" >
+<span class="home-icon">⌂</span>Kompics
+</a>
+<div class="version-number">
+2.0.0
+</div>
+</div>
+<select class="supergroup" name="Language"><option class="group" value="group-scala">Scala</option><option class="group" value="group-java">Java</option></select>
+<div class="nav-toc">
+<ul>
+  <li><a href="../../../introduction/index.html" class="page">Introduction</a>
+  <ul>
+    <li><a href="../../../introduction/whatiskompics.html" class="page">What is Kompics?</a></li>
+    <li><a href="../../../introduction/gettingstarted.html" class="page">Getting Started</a></li>
+    <li><a href="../../../introduction/helloworld.html" class="page">Hello World in Kompics</a></li>
+  </ul></li>
+  <li><a href="../../../tutorial/index.html" class="page">Kompics Tutorial</a>
+  <ul>
+    <li><a href="../../../tutorial/basics.html" class="page">Kompics Basics</a></li>
+    <li><a href="../../../tutorial/timers.html" class="page">Timers</a></li>
+    <li><a href="../../../tutorial/networking/index.html" class="page">Networking</a></li>
+    <li><a href="../../../tutorial/simulation/index.html" class="page">Simulation</a></li>
+  </ul></li>
+  <li><a href="../../../reference.html" class="page">Reference</a></li>
+</ul>
+</div>
+
+</nav>
+</div>
+
+<div class="off-canvas-content" data-off-canvas-content>
+
+<header class="site-header expanded row">
+<div class="small-12 column">
+<a href="#" class="off-canvas-toggle hide-for-medium" data-toggle="off-canvas-menu"><svg class="svg-icon svg-icon-menu" version="1.1" id="Menu" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 20 20" enable-background="new 0 0 20 20" xml:space="preserve"> <path class="svg-icon-menu-path" fill="#53CDEC" d="M16.4,9H3.6C3.048,9,3,9.447,3,10c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,9.447,16.952,9,16.4,9z M16.4,13
+H3.6C3.048,13,3,13.447,3,14c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,13.447,16.952,13,16.4,13z M3.6,7H16.4
+C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.048,7,3.6,7z"/></svg>
+</a>
+<div class="title"><a href="../../../index.html">Kompics</a></div>
+
+<!--
+<a href="https://www.example.com" class="logo show-for-medium">logo</a>
+-->
+</div>
+</header>
+
+<div class="expanded row">
+
+<div class="medium-3 large-2 show-for-medium column">
+<nav class="site-nav">
+<div class="nav-home">
+<a href="../../../index.html" >
+<span class="home-icon">⌂</span>Kompics
+</a>
+<div class="version-number">
+2.0.0
+</div>
+</div>
+<select class="supergroup" name="Language"><option class="group" value="group-scala">Scala</option><option class="group" value="group-java">Java</option></select>
+<div class="nav-toc">
+<ul>
+  <li><a href="../../../introduction/index.html" class="page">Introduction</a>
+  <ul>
+    <li><a href="../../../introduction/whatiskompics.html" class="page">What is Kompics?</a></li>
+    <li><a href="../../../introduction/gettingstarted.html" class="page">Getting Started</a></li>
+    <li><a href="../../../introduction/helloworld.html" class="page">Hello World in Kompics</a></li>
+  </ul></li>
+  <li><a href="../../../tutorial/index.html" class="page">Kompics Tutorial</a>
+  <ul>
+    <li><a href="../../../tutorial/basics.html" class="page">Kompics Basics</a></li>
+    <li><a href="../../../tutorial/timers.html" class="page">Timers</a></li>
+    <li><a href="../../../tutorial/networking/index.html" class="page">Networking</a></li>
+    <li><a href="../../../tutorial/simulation/index.html" class="page">Simulation</a></li>
+  </ul></li>
+  <li><a href="../../../reference.html" class="page">Reference</a></li>
+</ul>
+</div>
+
+</nav>
+</div>
+
+<div class="small-12 medium-9 large-10 column">
+<section class="site-content">
+
+<span id="version-warning"></span>
+
+<div class="page-header row">
+<div class="medium-12 show-for-medium column">
+<div class="nav-breadcrumbs">
+<ul>
+  <li><a href="../../../index.html">Kompics</a></li>
+  <li><a href="../../../tutorial/index.html">Kompics Tutorial</a></li>
+  <li><a href="../../../tutorial/networking/index.html">Networking</a></li>
+  <li>Basic Networking</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="page-content row">
+<div class="small-12 large-9 column" id="docs">
+<h1><a href="#basic-networking" name="basic-networking" class="anchor"><span class="anchor-link"></span></a>Basic Networking</h1>
+<p>As opposed to many other languages and frameworks commonly used for writing distributed applications (e.g., <a href="http://www.erlang.se" title="Erlang">Erlang</a> and <a href="http://akka.io/" title="Akka">Akka</a>) in Kompics networking is not handled transparently. Instead, Kompics requires explicit addressing of <em>messages</em>, that is events that (could) go over the network. There are two reasons for this design: First of all, events in Kompics are normally not messages in that they are not addressed, but follow channels instead. So the logical extension of this pattern to a distributed setting would be to create cross-network channels manually. However, this would be very unintuitive for a programmer as it would be way too static a setup. And further, and this is the second reason, it would be misleading to assume that local events and network messages have the same semantics. Network messages have to deal with unavailable nodes, connection loss, partitions, and so on. Instead of trying to force a one-size-fits-all solution onto the programmer, as systems like Akka and the venerable <a href="http://docs.oracle.com/javase/7/docs/technotes/guides/rmi/" title="Java RMI">Java RMI</a> do, Kompics exposes these challenges and allows system designers to find solutions that are appropriate to their particular applications.</p>
+<p>The following sections will describe the Kompics <a href="https://javadoc.io/doc/se.sics.kompics.basic/kompics-port-network/1.2.1/se/sics/kompics/network/Network.html" title="se.sics.kompics.network.Network"><code>Network</code></a> port, and its default implementation <a href="https://javadoc.io/doc/se.sics.kompics.basic/kompics-component-netty-network/1.2.1/se/sics/kompics/network/netty/NettyNetwork.html" title="se.sics.kompics.network.netty.NettyNetwork"><code>NettyNetwork</code></a>. The latter also features a serialisation framework, which will also be described in this part of the tutorial. As our example program we will stick to the <em>PingPong</em> code from the previous tutorials and extend it with networking capabilities.</p>
+<h3><a href="#dependencies" name="dependencies" class="anchor"><span class="anchor-link"></span></a>Dependencies</h3>
+<p>The examples in this tutorial require two new dependencies:</p><dl class="dependency"><dt>sbt</dt><dd><pre class="prettyprint"><code class="language-scala">libraryDependencies ++= Seq(
+  "se.sics.kompics.basic" % "kompics-port-network" % "1.2.1",
+  "se.sics.kompics.basic" % "kompics-component-netty-network" % "1.2.1"
+)</code></pre></dd><dt>Maven</dt><dd><pre class="prettyprint"><code class="language-xml">&lt;dependency&gt;
+  &lt;groupId&gt;se.sics.kompics.basic&lt;/groupId&gt;
+  &lt;artifactId&gt;kompics-port-network&lt;/artifactId&gt;
+  &lt;version&gt;1.2.1&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;se.sics.kompics.basic&lt;/groupId&gt;
+  &lt;artifactId&gt;kompics-component-netty-network&lt;/artifactId&gt;
+  &lt;version&gt;1.2.1&lt;/version&gt;
+&lt;/dependency&gt;</code></pre></dd><dt>Gradle</dt><dd><pre class="prettyprint"><code class="language-gradle">dependencies {
+  compile group: 'se.sics.kompics.basic', name: 'kompics-port-network', version: '1.2.1',
+  compile group: 'se.sics.kompics.basic', name: 'kompics-component-netty-network', version: '1.2.1'
+}</code></pre></dd></dl>
+<h3><a href="#contents" name="contents" class="anchor"><span class="anchor-link"></span></a>Contents</h3>
+<div class="toc ">
+<ul>
+  <li><a href="../../../tutorial/networking/basic/messages.html" class="page">Messages, Addresses, and Headers</a>
+  <ul>
+    <li><a href="../../../tutorial/networking/basic/messages.html#header" class="header">Header</a></li>
+    <li><a href="../../../tutorial/networking/basic/messages.html#address" class="header">Address</a></li>
+    <li><a href="../../../tutorial/networking/basic/messages.html#implementations" class="header">Implementations</a></li>
+    <li><a href="../../../tutorial/networking/basic/messages.html#execution" class="header">Execution</a></li>
+    <li><a href="../../../tutorial/networking/basic/messages.html#problems" class="header">Problems</a></li>
+  </ul></li>
+  <li><a href="../../../tutorial/networking/basic/serialisation.html" class="page">Serialisation</a>
+  <ul>
+    <li><a href="../../../tutorial/networking/basic/serialisation.html#serialiser-identifiers" class="header">Serialiser Identifiers</a></li>
+    <li><a href="../../../tutorial/networking/basic/serialisation.html#serialiser-methods" class="header">Serialiser Methods</a></li>
+    <li><a href="../../../tutorial/networking/basic/serialisation.html#serializers" class="header">Serializers</a></li>
+    <li><a href="../../../tutorial/networking/basic/serialisation.html#default-serialisers" class="header">Default Serialisers</a></li>
+    <li><a href="../../../tutorial/networking/basic/serialisation.html#pingpong-serialisers" class="header">PingPong Serialisers</a></li>
+    <li><a href="../../../tutorial/networking/basic/serialisation.html#distributed-pingpong" class="header">Distributed PingPong</a></li>
+  </ul></li>
+  <li><a href="../../../tutorial/networking/basic/cleanup.html" class="page">Cleanup</a>
+  <ul>
+    <li><a href="../../../tutorial/networking/basic/cleanup.html#configuration-files" class="header">Configuration Files</a></li>
+    <li><a href="../../../tutorial/networking/basic/cleanup.html#pattern-matching-messages" class="header">Pattern Matching Messages</a></li>
+    <li><a href="../../../tutorial/networking/basic/cleanup.html#assembly" class="header">Assembly</a></li>
+  </ul></li>
+</ul>
+</div>
+<div class="source-github">
+The source code for this page can be found <a href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/paradox/tutorial/networking/basic/index.md">here</a>.
+</div>
+
+<div class="nav-next">
+<p><strong>Next:</strong> <a href="../../../tutorial/networking/basic/messages.html">Messages, Addresses, and Headers</a></p>
+</div>
+</div>
+<div class="large-3 show-for-large column" data-sticky-container>
+<nav class="sidebar sticky" data-sticky data-anchor="docs" data-sticky-on="large">
+<div class="page-nav">
+<div class="nav-title">On this page:</div>
+<div class="nav-toc">
+<ul>
+  <li><a href="../../../tutorial/networking/basic/index.html#basic-networking" class="header">Basic Networking</a>
+  <ul>
+    <li><a href="../../../tutorial/networking/basic/index.html#dependencies" class="header">Dependencies</a></li>
+    <li><a href="../../../tutorial/networking/basic/index.html#contents" class="header">Contents</a></li>
+  </ul></li>
+</ul>
+</div>
+</div>
+</nav>
+</div>
+</div>
+
+</section>
+</div>
+
+</div>
+
+<footer class="site-footer">
+
+<section class="site-footer-nav">
+<div class="expanded row">
+<div class="small-12 large-offset-2 large-10 column">
+<div class="row site-footer-content">
+
+<div class="small-12 medium-4 large-3 text-center column">
+<div class="nav-links">
+<ul>
+<!-- <li><a href="https://www.example.com/products/">Products</a> -->
+</ul>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</section>
+
+<section class="site-footer-base">
+<div class="expanded row">
+<div class="small-12 large-offset-2 large-10 column">
+<div class="row site-footer-content">
+
+<div class="small-12 text-center large-9 column">
+
+<!--
+<div class="copyright">
+<span class="text">&copy; 2020</span>
+<a href="https://www.example.com" class="logo">logo</a>
+</div>
+-->
+</div>
+
+</div>
+</div>
+</div>
+</section>
+</footer>
+
+</div>
+</div>
+</div>
+</body>
+
+<script type="text/javascript" src="../../../lib/foundation/dist/foundation.min.js"></script>
+<script type="text/javascript">jQuery(document).foundation();</script>
+<script type="text/javascript" src="../../../js/magellan.js"></script>
+
+<style type="text/css">@import "../../../lib/prettify/prettify.css";</style>
+<script type="text/javascript" src="../../../lib/prettify/prettify.js"></script>
+<script type="text/javascript" src="../../../lib/prettify/lang-scala.js"></script>
+<script type="text/javascript">jQuery(function(){window.prettyPrint && prettyPrint()});</script>
+<script type="text/javascript">jQuery(function(jq){initOldVersionWarnings(jq, '2.0.0', '')});</script>
+
+
+</html>

@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+<title>Channel Selectors · Kompics</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content='Kompics-Scala-Docs'/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:100normal,100italic,300normal,300italic,400normal,400italic,500normal,500italic,700normal,700italic,900normal,900italicc" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../../lib/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="../../../js/page.js"></script>
+<script type="text/javascript" src="../../../js/warnOldVersion.js"></script>
+<script type="text/javascript" src="../../../js/groups.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../lib/foundation/dist/foundation.min.css"/>
+<link rel="stylesheet" type="text/css" href="../../../css/page.css"/>
+
+<!--
+<link rel="shortcut icon" href="../../../images/favicon.ico" />
+-->
+</head>
+
+<body>
+<div class="off-canvas-wrapper">
+<div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+
+<div class="off-canvas position-left" id="off-canvas-menu" data-off-canvas>
+<nav class="off-canvas-nav">
+<div class="nav-home">
+<a href="../../../index.html" >
+<span class="home-icon">⌂</span>Kompics
+</a>
+<div class="version-number">
+2.0.0
+</div>
+</div>
+<select class="supergroup" name="Language"><option class="group" value="group-scala">Scala</option><option class="group" value="group-java">Java</option></select>
+<div class="nav-toc">
+<ul>
+  <li><a href="../../../introduction/index.html" class="page">Introduction</a>
+  <ul>
+    <li><a href="../../../introduction/whatiskompics.html" class="page">What is Kompics?</a></li>
+    <li><a href="../../../introduction/gettingstarted.html" class="page">Getting Started</a></li>
+    <li><a href="../../../introduction/helloworld.html" class="page">Hello World in Kompics</a></li>
+  </ul></li>
+  <li><a href="../../../tutorial/index.html" class="page">Kompics Tutorial</a>
+  <ul>
+    <li><a href="../../../tutorial/basics.html" class="page">Kompics Basics</a></li>
+    <li><a href="../../../tutorial/timers.html" class="page">Timers</a></li>
+    <li><a href="../../../tutorial/networking/index.html" class="page">Networking</a></li>
+    <li><a href="../../../tutorial/simulation/index.html" class="page">Simulation</a></li>
+  </ul></li>
+  <li><a href="../../../reference.html" class="page">Reference</a></li>
+</ul>
+</div>
+
+</nav>
+</div>
+
+<div class="off-canvas-content" data-off-canvas-content>
+
+<header class="site-header expanded row">
+<div class="small-12 column">
+<a href="#" class="off-canvas-toggle hide-for-medium" data-toggle="off-canvas-menu"><svg class="svg-icon svg-icon-menu" version="1.1" id="Menu" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 20 20" enable-background="new 0 0 20 20" xml:space="preserve"> <path class="svg-icon-menu-path" fill="#53CDEC" d="M16.4,9H3.6C3.048,9,3,9.447,3,10c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,9.447,16.952,9,16.4,9z M16.4,13
+H3.6C3.048,13,3,13.447,3,14c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,13.447,16.952,13,16.4,13z M3.6,7H16.4
+C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.048,7,3.6,7z"/></svg>
+</a>
+<div class="title"><a href="../../../index.html">Kompics</a></div>
+
+<!--
+<a href="https://www.example.com" class="logo show-for-medium">logo</a>
+-->
+</div>
+</header>
+
+<div class="expanded row">
+
+<div class="medium-3 large-2 show-for-medium column">
+<nav class="site-nav">
+<div class="nav-home">
+<a href="../../../index.html" >
+<span class="home-icon">⌂</span>Kompics
+</a>
+<div class="version-number">
+2.0.0
+</div>
+</div>
+<select class="supergroup" name="Language"><option class="group" value="group-scala">Scala</option><option class="group" value="group-java">Java</option></select>
+<div class="nav-toc">
+<ul>
+  <li><a href="../../../introduction/index.html" class="page">Introduction</a>
+  <ul>
+    <li><a href="../../../introduction/whatiskompics.html" class="page">What is Kompics?</a></li>
+    <li><a href="../../../introduction/gettingstarted.html" class="page">Getting Started</a></li>
+    <li><a href="../../../introduction/helloworld.html" class="page">Hello World in Kompics</a></li>
+  </ul></li>
+  <li><a href="../../../tutorial/index.html" class="page">Kompics Tutorial</a>
+  <ul>
+    <li><a href="../../../tutorial/basics.html" class="page">Kompics Basics</a></li>
+    <li><a href="../../../tutorial/timers.html" class="page">Timers</a></li>
+    <li><a href="../../../tutorial/networking/index.html" class="page">Networking</a></li>
+    <li><a href="../../../tutorial/simulation/index.html" class="page">Simulation</a></li>
+  </ul></li>
+  <li><a href="../../../reference.html" class="page">Reference</a></li>
+</ul>
+</div>
+
+</nav>
+</div>
+
+<div class="small-12 medium-9 large-10 column">
+<section class="site-content">
+
+<span id="version-warning"></span>
+
+<div class="page-header row">
+<div class="medium-12 show-for-medium column">
+<div class="nav-breadcrumbs">
+<ul>
+  <li><a href="../../../index.html">Kompics</a></li>
+  <li><a href="../../../tutorial/index.html">Kompics Tutorial</a></li>
+  <li><a href="../../../tutorial/networking/index.html">Networking</a></li>
+  <li><a href="../../../tutorial/networking/virtual/index.html">Virtual Networks</a></li>
+  <li>Channel Selectors</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="page-content row">
+<div class="small-12 large-9 column" id="docs">
+<h2><a href="#channel-selectors" name="channel-selectors" class="anchor"><span class="anchor-link"></span></a>Channel Selectors</h2>
+<p>When a <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/Channel.html" title="se.sics.kompics.Channel"><code>Channel</code></a> is connected, it can optionally be given an instance of <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/ChannelSelector.html" title="se.sics.kompics.ChannelSelector"><code>ChannelSelector</code></a> <span class="group-scala">(at least using the Java API for this)</span>, which is both a way to extract some value from an event (i.e. a specific field to use as a <em>selection key</em>) and also define a specific value for which this event should travel along this <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/Channel.html" title="se.sics.kompics.Channel"><code>Channel</code></a>. The internal implementation of this is fairly efficient, but requires the selection value for a <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/Channel.html" title="se.sics.kompics.Channel"><code>Channel</code></a> to be immutable. Note that, despite its previous name, a <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/ChannelSelector.html" title="se.sics.kompics.ChannelSelector"><code>ChannelSelector</code></a> can not be abused as a filter. It is better to think of it as a way to create a routing table (which is in fact pretty much what happens internally).</p>
+<h3><a href="#support-for-node-ids" name="support-for-node-ids" class="anchor"><span class="anchor-link"></span></a>Support for Node Ids</h3>
+<p>We will update our <em>PingPong</em> example such that we start a configurable number of <code>Pinger</code>s per host. We will stick to a single <code>Ponger</code> for now, since otherwise we would have to figure out how to load-balance across them. We shall add a <span class="group-java"><code>byte[]</code></span><span class="group-scala"><code>Array[Byte]</code></span> <em>id</em> field to <code>TAddress</code>, that we will use as a selection key. However, when creating those ids we shall be a bit lazy and simply use ascending integers in their <span class="group-java"><code>byte[]</code></span><span class="group-scala"><code>Array[Byte]</code></span> representation. You will see later why we picked <span class="group-java"><code>byte[]</code></span><span class="group-scala"><code>Array[Byte]</code></span> and not <span class="group-java"><code>int</code></span><span class="group-scala"><code>Int</code></span> directly. Of course, we will also have to update the <code>NetSerializer</code>, which we will not show again here, since it has become pretty big by now and is not terribly relevant to the point.</p>
+<h4><a href="#reference-conf" name="reference-conf" class="anchor"><span class="anchor-link"></span></a>Reference.conf</h4>
+<pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/resources/reference.conf" target="_blank" title="Go to snippet source"></a><code class="language-hocon">pingpong {
+	ponger.addr = &quot;127.0.0.1:34567&quot;
+	pinger {
+		addr {
+			host = &quot;127.0.0.1&quot;
+			port = 34568
+		}
+		num = 2
+		timeout = 1000
+		pongeraddr {
+			host = &quot;127.0.0.1&quot;
+			port = 34567
+		}
+	}
+}</code></pre>
+<h4><a href="#taddress" name="taddress" class="anchor"><span class="anchor-link"></span></a>TAddress</h4>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/virtualnetworking/pingpongselectors/TAddress.java" target="_blank" title="Go to snippet source"></a><code class="language-java">package jexamples.virtualnetworking.pingpongselectors;
+
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.util.Arrays;
+import java.util.Objects;
+import se.sics.kompics.network.Address;
+
+public class TAddress implements Address {
+
+  private final InetSocketAddress isa;
+  private final byte[] id;
+
+  public TAddress(InetAddress addr, int port) {
+    this(addr, port, null);
+  }
+
+  public TAddress(InetAddress addr, int port, byte[] id) {
+    this.isa = new InetSocketAddress(addr, port);
+    this.id = id;
+  }
+
+  @Override
+  public InetAddress getIp() {
+    return this.isa.getAddress();
+  }
+
+  @Override
+  public int getPort() {
+    return this.isa.getPort();
+  }
+
+  public byte[] getId() {
+    return this.id;
+  }
+
+  public TAddress withVirtual(byte[] id) {
+    return new TAddress(isa.getAddress(), isa.getPort(), id);
+  }
+
+  @Override
+  public InetSocketAddress asSocket() {
+    return this.isa;
+  }
+
+  @Override
+  public boolean sameHostAs(Address other) {
+    return this.isa.equals(other.asSocket());
+    /* note that we don&#39;t include the id here, since nodes with different
+     * ids but the same socket are still on the same machine
+     */
+  }
+
+  // Not required but strongly recommended
+
+  @Override
+  public final String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(isa.getHostString());
+    sb.append(&quot;:&quot;);
+    sb.append(isa.getPort());
+    if (id != null) {
+      sb.append(&quot;:&quot;);
+      sb.append(Arrays.toString(id));
+    }
+    return sb.toString();
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(isa, id);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    final TAddress other = (TAddress) obj;
+    return Objects.equals(this.isa, other.isa) &amp;&amp; Objects.deepEquals(this.id, this.id);
+  }
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/virtualnetworking/pingpongselectors/Messages.scala#L9-L30" target="_blank" title="Go to snippet source"></a><code class="language-scala">object TAddress {
+  def apply(addr: InetAddress, port: Int): TAddress = {
+    val isa = new InetSocketAddress(addr, port);
+    TAddress(isa, None)
+  }
+  def apply(addr: InetAddress, port: Int, id: Array[Byte]): TAddress = {
+    val isa = new InetSocketAddress(addr, port);
+    TAddress(isa, Some(id))
+  }
+}
+case class TAddress(isa: InetSocketAddress, id: Option[Array[Byte]]) extends Address {
+
+  override def getIp(): InetAddress = isa.getAddress();
+  override def getPort(): Int = isa.getPort();
+  override def asSocket(): InetSocketAddress = isa;
+  override def sameHostAs(other: Address): Boolean = {
+    /* note that we don&#39;t include the id here, since nodes with different
+     * ids but the same socket are still on the same machine
+     */
+    this.isa.equals(other.asSocket())
+  }
+}</code></pre></dd>
+</dl>
+<h4><a href="#idchannelselector" name="idchannelselector" class="anchor"><span class="anchor-link"></span></a>IdChannelSelector</h4>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/virtualnetworking/pingpongselectors/IdChannelSelector.java" target="_blank" title="Go to snippet source"></a><code class="language-java">package jexamples.virtualnetworking.pingpongselectors;
+
+import java.nio.ByteBuffer;
+import se.sics.kompics.ChannelSelector;
+
+public class IdChannelSelector extends ChannelSelector&lt;TMessage, ByteBuffer&gt; {
+
+  public IdChannelSelector(byte[] id) {
+    super(TMessage.class, ByteBuffer.wrap(id), true);
+  }
+
+  @Override
+  public ByteBuffer getValue(TMessage event) {
+    return ByteBuffer.wrap(event.header.dst.getId());
+  }
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/virtualnetworking/pingpongselectors/IdChannelSelector.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package sexamples.virtualnetworking.pingpongselectors
+
+import java.nio.ByteBuffer
+import se.sics.kompics.ChannelSelector
+
+class IdChannelSelector(id: Array[Byte])
+    extends ChannelSelector[TMessage, ByteBuffer](classOf[TMessage], ByteBuffer.wrap(id), true) {
+  override def getValue(event: TMessage): ByteBuffer = {
+    event.header.dst.id match {
+      case Some(eventId) =&gt; ByteBuffer.wrap(eventId)
+      case None          =&gt; null
+    }
+  }
+}</code></pre></dd>
+</dl>
+<h3><a href="#custom-child-configuration" name="custom-child-configuration" class="anchor"><span class="anchor-link"></span></a>Custom Child Configuration</h3>
+<p>Additionally, we need to tell the <code>Pinger</code> components now what their id is, since we can not pull that out of the configuration file, as that is global to the whole Kompics runtime. We can, however, pass a modified version of the <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/config/Config.html" title="se.sics.kompics.config.Config"><code>Config</code></a> object to child components. So we are going to pull the <code>TAddress</code> from the <code>application.conf</code> in the <code>PingerParent</code> and use it as a base address that we pass to <a href="https://javadoc.io/doc/se.sics.kompics.basic/kompics-component-netty-network/1.2.1/se/sics/kompics/network/netty/NettyNetwork.html" title="se.sics.kompics.network.netty.NettyNetwork"><code>NettyNetwork</code></a>. And then for each <code>Pinger</code> we create, we are going to write a virtual address with the id into the child <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/config/Config.html" title="se.sics.kompics.config.Config"><code>Config</code></a>. This way we do not have to change any code in the <code>Pinger</code> itself.</p>
+<h4><a href="#pingerparent" name="pingerparent" class="anchor"><span class="anchor-link"></span></a>PingerParent</h4>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/virtualnetworking/pingpongselectors/PingerParent.java" target="_blank" title="Go to snippet source"></a><code class="language-java">package jexamples.virtualnetworking.pingpongselectors;
+
+import com.google.common.primitives.Ints;
+import se.sics.kompics.Channel;
+import se.sics.kompics.Component;
+import se.sics.kompics.ComponentDefinition;
+import se.sics.kompics.Init;
+import se.sics.kompics.config.Config;
+import se.sics.kompics.network.Network;
+import se.sics.kompics.network.netty.NettyInit;
+import se.sics.kompics.network.netty.NettyNetwork;
+import se.sics.kompics.timer.Timer;
+import se.sics.kompics.timer.java.JavaTimer;
+
+public class PingerParent extends ComponentDefinition {
+
+  public PingerParent() {
+    TAddress baseSelf = config().getValue(&quot;pingpong.pinger.addr&quot;, TAddress.class);
+
+    Component timer = create(JavaTimer.class, Init.NONE);
+    Component network = create(NettyNetwork.class, new NettyInit(baseSelf));
+
+    int num = config().getValue(&quot;pingpong.pinger.num&quot;, Integer.class);
+    for (int i = 0; i &lt; num; i++) {
+      byte[] id = Ints.toByteArray(i);
+      Config.Builder cbuild = config().modify(this.id());
+      cbuild.setValue(&quot;pingpong.pinger.addr&quot;, baseSelf.withVirtual(id));
+      Component pinger = create(Pinger.class, Init.NONE, cbuild.finalise());
+
+      connect(pinger.getNegative(Timer.class), timer.getPositive(Timer.class), Channel.TWO_WAY);
+
+      connect(
+          pinger.getNegative(Network.class),
+          network.getPositive(Network.class),
+          new IdChannelSelector(id),
+          Channel.TWO_WAY);
+    }
+  }
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/virtualnetworking/pingpongselectors/Parent.scala#L12-L34" target="_blank" title="Go to snippet source"></a><code class="language-scala">class PingerParent extends ComponentDefinition {
+
+  val baseSelf = cfg.getValue[TAddress](&quot;pingpong.pinger.addr&quot;);
+
+  val timer = create[JavaTimer];
+  val network = create[NettyNetwork](new NettyInit(baseSelf));
+
+  val num = cfg.getValue[Int](&quot;pingpong.pinger.num&quot;);
+  for (i &lt;- 0 until num) {
+    val id = Ints.toByteArray(i);
+    val cbuild = this.config().modify(this.id());
+    cbuild.setValue(&quot;pingpong.pinger.addr&quot;, baseSelf.copy(id = Some(id)));
+    val pinger = create[Pinger](Init.none[Pinger], cbuild.finalise());
+
+    connect[Timer](timer -&gt; pinger);
+
+    // must use the Java API here
+    connect(pinger.getNegative(classOf[Network]),
+            network.getPositive(classOf[Network]),
+            new IdChannelSelector(id),
+            Channel.TWO_WAY);
+  }
+}</code></pre></dd>
+</dl>
+<h3><a href="#execution" name="execution" class="anchor"><span class="anchor-link"></span></a>Execution</h3>
+<p>That is it. Either run it again from within sbt, or assemble and copy the fat <code>.jar</code> to the <code>dist</code> folder, and then distribute that folder to where you want to run from and run the <code>Ponger</code> first, then the <code>Pinger</code>. You will see one <code>Pong</code> for every <code>Ping</code>, as expected.</p>
+<div class="source-github">
+The source code for this page can be found <a href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/paradox/tutorial/networking/virtual/channelselectors.md">here</a>.
+</div>
+
+<div class="nav-next">
+<p><strong>Next:</strong> <a href="../../../tutorial/networking/virtual/virtualnetworkchannel.html">Virtual Network Channel</a></p>
+</div>
+</div>
+<div class="large-3 show-for-large column" data-sticky-container>
+<nav class="sidebar sticky" data-sticky data-anchor="docs" data-sticky-on="large">
+<div class="page-nav">
+<div class="nav-title">On this page:</div>
+<div class="nav-toc">
+<ul>
+  <li><a href="../../../tutorial/networking/virtual/channelselectors.html#channel-selectors" class="header">Channel Selectors</a>
+  <ul>
+    <li><a href="../../../tutorial/networking/virtual/channelselectors.html#support-for-node-ids" class="header">Support for Node Ids</a></li>
+    <li><a href="../../../tutorial/networking/virtual/channelselectors.html#custom-child-configuration" class="header">Custom Child Configuration</a></li>
+    <li><a href="../../../tutorial/networking/virtual/channelselectors.html#execution" class="header">Execution</a></li>
+  </ul></li>
+</ul>
+</div>
+</div>
+</nav>
+</div>
+</div>
+
+</section>
+</div>
+
+</div>
+
+<footer class="site-footer">
+
+<section class="site-footer-nav">
+<div class="expanded row">
+<div class="small-12 large-offset-2 large-10 column">
+<div class="row site-footer-content">
+
+<div class="small-12 medium-4 large-3 text-center column">
+<div class="nav-links">
+<ul>
+<!-- <li><a href="https://www.example.com/products/">Products</a> -->
+</ul>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</section>
+
+<section class="site-footer-base">
+<div class="expanded row">
+<div class="small-12 large-offset-2 large-10 column">
+<div class="row site-footer-content">
+
+<div class="small-12 text-center large-9 column">
+
+<!--
+<div class="copyright">
+<span class="text">&copy; 2020</span>
+<a href="https://www.example.com" class="logo">logo</a>
+</div>
+-->
+</div>
+
+</div>
+</div>
+</div>
+</section>
+</footer>
+
+</div>
+</div>
+</div>
+</body>
+
+<script type="text/javascript" src="../../../lib/foundation/dist/foundation.min.js"></script>
+<script type="text/javascript">jQuery(document).foundation();</script>
+<script type="text/javascript" src="../../../js/magellan.js"></script>
+
+<style type="text/css">@import "../../../lib/prettify/prettify.css";</style>
+<script type="text/javascript" src="../../../lib/prettify/prettify.js"></script>
+<script type="text/javascript" src="../../../lib/prettify/lang-scala.js"></script>
+<script type="text/javascript">jQuery(function(){window.prettyPrint && prettyPrint()});</script>
+<script type="text/javascript">jQuery(function(jq){initOldVersionWarnings(jq, '2.0.0', '')});</script>
+
+
+</html>

@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+<title>Timers · Kompics</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content='Kompics-Scala-Docs'/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:100normal,100italic,300normal,300italic,400normal,400italic,500normal,500italic,700normal,700italic,900normal,900italicc" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../lib/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="../js/page.js"></script>
+<script type="text/javascript" src="../js/warnOldVersion.js"></script>
+<script type="text/javascript" src="../js/groups.js"></script>
+<link rel="stylesheet" type="text/css" href="../lib/foundation/dist/foundation.min.css"/>
+<link rel="stylesheet" type="text/css" href="../css/page.css"/>
+
+<!--
+<link rel="shortcut icon" href="../images/favicon.ico" />
+-->
+</head>
+
+<body>
+<div class="off-canvas-wrapper">
+<div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+
+<div class="off-canvas position-left" id="off-canvas-menu" data-off-canvas>
+<nav class="off-canvas-nav">
+<div class="nav-home">
+<a href="../index.html" >
+<span class="home-icon">⌂</span>Kompics
+</a>
+<div class="version-number">
+2.0.0
+</div>
+</div>
+<select class="supergroup" name="Language"><option class="group" value="group-scala">Scala</option><option class="group" value="group-java">Java</option></select>
+<div class="nav-toc">
+<ul>
+  <li><a href="../introduction/index.html" class="page">Introduction</a>
+  <ul>
+    <li><a href="../introduction/whatiskompics.html" class="page">What is Kompics?</a></li>
+    <li><a href="../introduction/gettingstarted.html" class="page">Getting Started</a></li>
+    <li><a href="../introduction/helloworld.html" class="page">Hello World in Kompics</a></li>
+  </ul></li>
+  <li><a href="../tutorial/index.html" class="page">Kompics Tutorial</a>
+  <ul>
+    <li><a href="../tutorial/basics.html" class="page">Kompics Basics</a></li>
+    <li><a href="../tutorial/timers.html" class="active page">Timers</a></li>
+    <li><a href="../tutorial/networking/index.html" class="page">Networking</a></li>
+    <li><a href="../tutorial/simulation/index.html" class="page">Simulation</a></li>
+  </ul></li>
+  <li><a href="../reference.html" class="page">Reference</a></li>
+</ul>
+</div>
+
+</nav>
+</div>
+
+<div class="off-canvas-content" data-off-canvas-content>
+
+<header class="site-header expanded row">
+<div class="small-12 column">
+<a href="#" class="off-canvas-toggle hide-for-medium" data-toggle="off-canvas-menu"><svg class="svg-icon svg-icon-menu" version="1.1" id="Menu" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 20 20" enable-background="new 0 0 20 20" xml:space="preserve"> <path class="svg-icon-menu-path" fill="#53CDEC" d="M16.4,9H3.6C3.048,9,3,9.447,3,10c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,9.447,16.952,9,16.4,9z M16.4,13
+H3.6C3.048,13,3,13.447,3,14c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,13.447,16.952,13,16.4,13z M3.6,7H16.4
+C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.048,7,3.6,7z"/></svg>
+</a>
+<div class="title"><a href="../index.html">Kompics</a></div>
+
+<!--
+<a href="https://www.example.com" class="logo show-for-medium">logo</a>
+-->
+</div>
+</header>
+
+<div class="expanded row">
+
+<div class="medium-3 large-2 show-for-medium column">
+<nav class="site-nav">
+<div class="nav-home">
+<a href="../index.html" >
+<span class="home-icon">⌂</span>Kompics
+</a>
+<div class="version-number">
+2.0.0
+</div>
+</div>
+<select class="supergroup" name="Language"><option class="group" value="group-scala">Scala</option><option class="group" value="group-java">Java</option></select>
+<div class="nav-toc">
+<ul>
+  <li><a href="../introduction/index.html" class="page">Introduction</a>
+  <ul>
+    <li><a href="../introduction/whatiskompics.html" class="page">What is Kompics?</a></li>
+    <li><a href="../introduction/gettingstarted.html" class="page">Getting Started</a></li>
+    <li><a href="../introduction/helloworld.html" class="page">Hello World in Kompics</a></li>
+  </ul></li>
+  <li><a href="../tutorial/index.html" class="page">Kompics Tutorial</a>
+  <ul>
+    <li><a href="../tutorial/basics.html" class="page">Kompics Basics</a></li>
+    <li><a href="../tutorial/timers.html" class="active page">Timers</a></li>
+    <li><a href="../tutorial/networking/index.html" class="page">Networking</a></li>
+    <li><a href="../tutorial/simulation/index.html" class="page">Simulation</a></li>
+  </ul></li>
+  <li><a href="../reference.html" class="page">Reference</a></li>
+</ul>
+</div>
+
+</nav>
+</div>
+
+<div class="small-12 medium-9 large-10 column">
+<section class="site-content">
+
+<span id="version-warning"></span>
+
+<div class="page-header row">
+<div class="medium-12 show-for-medium column">
+<div class="nav-breadcrumbs">
+<ul>
+  <li><a href="../index.html">Kompics</a></li>
+  <li><a href="../tutorial/index.html">Kompics Tutorial</a></li>
+  <li>Timers</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="page-content row">
+<div class="small-12 large-9 column" id="docs">
+<h1><a href="#timers" name="timers" class="anchor"><span class="anchor-link"></span></a>Timers</h1>
+<p>In distributed systems it is quite common to have certain events happen after some time has passed, or in a regular schedule. And while globally synchronised clocks are rarely available, local clock drift is typically small enough that algorithms can rely on local <em>time differences</em> (or <em>intervals</em>).</p>
+<p>There are number of timer facilities for Java and Scala ranging from the simple tree based <a href="https://docs.oracle.com/en/java/javase/13/docs/api/java.base/java/util/Timer.html" title="java.util.Timer"><code>Timer</code></a> to the significantly more advanced <a href="https://netty.io/4.1/api/?io/netty/util/HashedWheelTimer.html" title="io.netty.util.HashedWheelTimer"><code>HashedWheelTimer</code></a>.</p>
+<p>However, Kompics provides its own abstraction for scheduled or periodic events. It is very important that your code only relies on this abstraction as described in this section of the tutorial, if you want to use the Kompics Simulation framework described in section <a href="simulation/index.html">simulation</a>. The reasons for this restriction will be described in detail later in the simulation part of the tutorial, but very shortly it has to do with being able to transparently replace <em>real time</em> with <em>simulation time</em>.</p>
+<p>This section introduces the default Kompics timer facilities and the concept of request-response-type events.</p>
+<h2><a href="#request-response-events" name="request-response-events" class="anchor"><span class="anchor-link"></span></a>Request-Response Events</h2>
+<p>In the previous section we described how Kompics events are broadcasted along all connected channels of their respective ports. We also showed a <em>PingPong</em> application that was already sending messages back and forth. So in a sense we were using the <code>Ping</code> like a request for a <code>Pong</code>-response. However, imagine we add a second <code>Ponger</code> component which we connect in the same way as the first one. Now every <code>Ping</code> would get two <code>Pong</code>s, one from each <code>Ponger</code> component, and our counters would be totally confused. And the same is true the other way around. Imagine we add a second <code>Pinger</code> component. Now there would be two <code>Ping</code>s going out in parallel, being answered by two <code>Pong</code>s which get broadcasted to each <code>Pinger</code> component, which then answers each of those <code>Pong</code>s with another <code>Ping</code> resulting in four <code>Ping</code>s arriving at the <code>Ponger</code> the next time, and so on. While the first type of behaviour might often in fact be what we want, clearly, the second type is rarely going to be the desired.</p><div class="callout note "><div class="callout-title">Note</div>
+<p>If the first type of behaviour is not desired then <a href="networking/virtual/channelselectors.html">Channel Selectors</a> might provide a solution.</p></div>
+<p>In order to get around the second type of behaviour (two <code>Pinger</code> &ndash; one <code>Ponger</code>) where it is necessary, Kompics supports two types of request-response patterns: </p>
+<ul>
+  <li>A <em>normal</em> (or old-style) pattern that records the whole path the request takes, and every response to that request simply backtracks along the channels and components recorded. Events using this pattern have to extend <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/Request.html" title="se.sics.kompics.Request"><code>Request</code></a> and <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/Response.html" title="se.sics.kompics.Response"><code>Response</code></a> respectively.</li>
+  <li>A <em>direct</em> (newer) pattern, that only remembers the origin port of the request and triggers the response directly on that port. Events using this pattern have to extend <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/Direct.Request.html" title="se.sics.kompics.Direct.Request"><code>Direct.Request</code></a> and implement <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/Direct.Response.html" title="se.sics.kompics.Direct.Response"><code>Direct.Response</code></a> respectively.</li>
+</ul>
+<p>It is generally preferred to use the newer <em>direct</em> pattern when possible, because it is more efficient and simpler to understand. However, the disadvantage is that a component will receive responses even after all its channels have been disconnected, which can lead to confusion.</p><div class="callout warning "><div class="callout-title">Warning</div>
+<p>With the old-style pattern, responses will travel along the recorded path back to the orginal port. However, if that port is chained, i.e. there are channels connected on the outgoing side, the response will travel further along those channels like a normal event.</p>
+<p>The <em>direct</em> pattern does not exhibit this behaviour.</p></div>
+<p>In order to show examples for both types of request-response patterns, we will convert the <em>PingPong</em> example to the <em>direct</em> pattern now, and we will show the old-style pattern in the next section where the <em>Kompics Timer</em> is introduced, since it still relies on this pattern.</p>
+<p>First of all, <code>Ping</code> now extends <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/Direct.Request.html" title="se.sics.kompics.Direct.Request"><code>Direct.Request</code></a>, parametrised by <code>Pong</code>, indicating that we expect answer of type <code>Pong</code>.</p>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/basics/pingpongdirect/Ping.java" target="_blank" title="Go to snippet source"></a><code class="language-java">package jexamples.basics.pingpongdirect;
+
+import se.sics.kompics.Direct;
+
+public class Ping extends Direct.Request&lt;Pong&gt; {}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/basics/pingpongdirect/PingPongPort.scala#L7" target="_blank" title="Go to snippet source"></a><code class="language-scala">case class Ping() extends Direct.Request[Pong.type];</code></pre></dd>
+</dl>
+<p>And, of course, <code>Pong</code> has to implement <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/Direct.Response.html" title="se.sics.kompics.Direct.Response"><code>Direct.Response</code></a> in that case.</p>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/basics/pingpongdirect/Pong.java" target="_blank" title="Go to snippet source"></a><code class="language-java">package jexamples.basics.pingpongdirect;
+
+import se.sics.kompics.Direct;
+
+public class Pong implements Direct.Response {}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/basics/pingpongdirect/PingPongPort.scala#L10" target="_blank" title="Go to snippet source"></a><code class="language-scala">object Pong extends Direct.Response;</code></pre></dd>
+</dl>
+<p>Additionally, we have to change our handler for <code>Ping</code> events in the <code>Ponger</code> to use the <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/ComponentDefinition.html#answer" title="se.sics.kompics.ComponentDefinition"><code>answer</code></a> method instead of <code>trigger</code>, which causes Kompics to use the origin port provided in the request instead of a local port.</p>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/basics/pingpongdirect/Ponger.java#L13-L20" target="_blank" title="Go to snippet source"></a><code class="language-java">Handler&lt;Ping&gt; pingHandler =
+    new Handler&lt;Ping&gt;() {
+      public void handle(Ping event) {
+        counter++;
+        logger.info(&quot;Got Ping #{}!&quot;, counter);
+        answer(event, new Pong());
+      }
+    };</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/basics/pingpongdirect/Ponger.scala#L11-L17" target="_blank" title="Go to snippet source"></a><code class="language-scala">ppp uponEvent {
+  case ping: Ping =&gt; {
+    counter += 1L;
+    log.info(s&quot;Got Ping #${counter}!&quot;);
+    answer(ping, Pong);
+  }
+}</code></pre></dd>
+</dl>
+<p>To show that it actually behaves as expected, we add a second <code>Pinger</code> in the <code>Parent</code> and connect it like the first one.</p>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/basics/pingpongdirect/Parent.java" target="_blank" title="Go to snippet source"></a><code class="language-java">package jexamples.basics.pingpongdirect;
+
+import se.sics.kompics.Channel;
+import se.sics.kompics.ComponentDefinition;
+import se.sics.kompics.Component;
+import se.sics.kompics.Init;
+
+public class Parent extends ComponentDefinition {
+  Component pinger = create(Pinger.class, Init.NONE);
+  Component ponger = create(Ponger.class, Init.NONE);
+  Component pinger2 = create(Pinger.class, Init.NONE);
+
+  {
+    connect(
+        pinger.getNegative(PingPongPort.class),
+        ponger.getPositive(PingPongPort.class),
+        Channel.TWO_WAY);
+    connect(
+        pinger2.getNegative(PingPongPort.class),
+        ponger.getPositive(PingPongPort.class),
+        Channel.TWO_WAY);
+  }
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/basics/pingpongdirect/Parent.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package sexamples.basics.pingpongdirect
+
+import se.sics.kompics.sl._
+
+class Parent extends ComponentDefinition {
+  val pinger = create[Pinger];
+  val pinger2 = create[Pinger];
+  val ponger = create[Ponger];
+
+  connect(PingPongPort)(ponger -&gt; pinger);
+  connect(PingPongPort)(ponger -&gt; pinger2);
+}</code></pre></dd>
+</dl>
+<p>Now if we compile and run this we can see that the single <code>Ponger</code> is counting twice as many <code>Ping</code> instances as each <code>Pinger</code> counts <code>Pong</code> instances:</p><div class="group-java">
+<pre class="prettyprint"><code class="language-bash">runMain jexamples.basics.pingpongdirect.Main
+</code></pre></div><div class="group-scala">
+<pre class="prettyprint"><code class="language-bash">runMain sexamples.basics.pingpongdirect.Main
+</code></pre></div>
+<h2><a href="#kompics-timer" name="kompics-timer" class="anchor"><span class="anchor-link"></span></a>Kompics Timer</h2>
+<p>This section describes the Kompics <a href="https://javadoc.io/doc/se.sics.kompics.basic/kompics-port-timer/1.2.1/se/sics/kompics/timer/Timer.html" title="se.sics.kompics.timer.Timer"><code>Timer</code></a> port and the default implementation <a href="https://javadoc.io/doc/se.sics.kompics.basic/kompics-component-java-timer/1.2.1/se/sics/kompics/timer/java/JavaTimer.html" title="se.sics.kompics.timer.java.JavaTimer"><code>JavaTimer</code></a>.</p>
+<p>In order to use the timer port in Kompics, an additional dependency in our build file is required:</p><dl class="dependency"><dt>sbt</dt><dd><pre class="prettyprint"><code class="language-scala">libraryDependencies += "se.sics.kompics.basic" % "kompics-port-timer" % "1.2.1"</code></pre></dd><dt>Maven</dt><dd><pre class="prettyprint"><code class="language-xml">&lt;dependency&gt;
+  &lt;groupId&gt;se.sics.kompics.basic&lt;/groupId&gt;
+  &lt;artifactId&gt;kompics-port-timer&lt;/artifactId&gt;
+  &lt;version&gt;1.2.1&lt;/version&gt;
+&lt;/dependency&gt;</code></pre></dd><dt>Gradle</dt><dd><pre class="prettyprint"><code class="language-gradle">dependencies {
+  compile group: 'se.sics.kompics.basic', name: 'kompics-port-timer', version: '1.2.1'
+}</code></pre></dd></dl>
+<p>The <a href="https://javadoc.io/doc/se.sics.kompics.basic/kompics-port-timer/1.2.1/se/sics/kompics/timer/Timer.html" title="se.sics.kompics.timer.Timer"><code>Timer</code></a> port itself allows four types of requests and only a single indication: <a href="https://javadoc.io/doc/se.sics.kompics.basic/kompics-port-timer/1.2.1/se/sics/kompics/timer/Timeout.html" title="se.sics.kompics.timer.Timeout"><code>Timeout</code></a>, which extends the old-style <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/Response.html" title="se.sics.kompics.Response"><code>Response</code></a> and must be extended further by any component using Kompics&rsquo; timer facilities.</p>
+<p>The requests come in two pairs, a <em>schedule</em> and a <em>cancel</em> for one-shot timers (<a href="https://javadoc.io/doc/se.sics.kompics.basic/kompics-port-timer/1.2.1/se/sics/kompics/timer/ScheduleTimeout.html" title="se.sics.kompics.timer.ScheduleTimeout"><code>ScheduleTimeout</code></a> and <a href="https://javadoc.io/doc/se.sics.kompics.basic/kompics-port-timer/1.2.1/se/sics/kompics/timer/CancelTimeout.html" title="se.sics.kompics.timer.CancelTimeout"><code>CancelTimeout</code></a>) and anotherr pair for periodic timers (<a href="https://javadoc.io/doc/se.sics.kompics.basic/kompics-port-timer/1.2.1/se/sics/kompics/timer/SchedulePeriodicTimeout.html" title="se.sics.kompics.timer.SchedulePeriodicTimeout"><code>SchedulePeriodicTimeout</code></a> and <a href="https://javadoc.io/doc/se.sics.kompics.basic/kompics-port-timer/1.2.1/se/sics/kompics/timer/CancelPeriodicTimeout.html" title="se.sics.kompics.timer.CancelPeriodicTimeout"><code>CancelPeriodicTimeout</code></a>). In both cases the <em>schedule</em> event extends the old-style request and requires a prepared timeout response instance to be passed along to the <code>Timer</code> component, using the <a href="https://javadoc.io/doc/se.sics.kompics.basic/kompics-port-timer/1.2.1/se/sics/kompics/timer/ScheduleTimeout.html#setTimeoutEvent(se.sics.kompics.timer.Timeout)" title="se.sics.kompics.timer.ScheduleTimeout"><code>setTimeoutEvent</code></a> method. Additionally, each <code>Timeout</code> instance generates a random <a href="https://docs.oracle.com/en/java/javase/13/docs/api/java.base/java/util/UUID.html" title="java.util.UUID"><code>UUID</code></a> upon creation, which the scheduling component should store somewhere, since it is needed to cancel the timeout later. This is especially important for the periodic timeouts, which should <strong>always</strong> be cancelled when they are no longer required, in order to reduce resource usage of the system.</p><div class="callout warning "><div class="callout-title">Warning</div>
+<p>It should be pointed out that the semantics, provided by Kompics&rsquo; <code>Timer</code> facilities, are only that timeouts are never handled before their delay/period has passed. Due to propagation and scheduling delays there is no fixed bound on how soon after a timeout was triggered, it is handled. In particular, timeout events can be caught in long port queues on the receiver side, as there is no notion of priority for events in Kompics. </p></div>
+<p>The default component providing the Kompics <a href="https://javadoc.io/doc/se.sics.kompics.basic/kompics-port-timer/1.2.1/se/sics/kompics/timer/Timer.html" title="se.sics.kompics.timer.Timer"><code>Timer</code></a> service is <a href="https://javadoc.io/doc/se.sics.kompics.basic/kompics-component-java-timer/1.2.1/se/sics/kompics/timer/java/JavaTimer.html" title="se.sics.kompics.timer.java.JavaTimer"><code>JavaTimer</code></a> which can be accessed after adding the following dependency to the build file:</p><dl class="dependency"><dt>sbt</dt><dd><pre class="prettyprint"><code class="language-scala">libraryDependencies += "se.sics.kompics.basic" % "kompics-component-java-timer" % "1.2.1"</code></pre></dd><dt>Maven</dt><dd><pre class="prettyprint"><code class="language-xml">&lt;dependency&gt;
+  &lt;groupId&gt;se.sics.kompics.basic&lt;/groupId&gt;
+  &lt;artifactId&gt;kompics-component-java-timer&lt;/artifactId&gt;
+  &lt;version&gt;1.2.1&lt;/version&gt;
+&lt;/dependency&gt;</code></pre></dd><dt>Gradle</dt><dd><pre class="prettyprint"><code class="language-gradle">dependencies {
+  compile group: 'se.sics.kompics.basic', name: 'kompics-component-java-timer', version: '1.2.1'
+}</code></pre></dd></dl>
+<p>The <code>JavaTimer</code> is based on Java&rsquo;s default <a href="https://docs.oracle.com/en/java/javase/13/docs/api/java.base/java/util/Timer.html" title="java.util.Timer"><code>Timer</code></a> and should scale to all but the most extreme needs, with a single instance per Kompics component tree. Since the <code>Timer</code> port uses the old-style request-response pattern, it is recommended that it not be chained through multiple layers of the system, but instead directly connected to all components that require it. Otherwise strange &ldquo;multi timer handling&rdquo;-behaviour can occur, as was pointed out in the previous section. The direct connections also incur slightly less latency compared to chained ones, which is important for the timely handling of timeouts.</p>
+<p>To update our example, we now want to only trigger <code>Ping</code>s periodically, say one per second, and not in response to <code>Pong</code>s anymore. </p>
+<p>First we extend our dual-<code>Pinger</code> setup from before with an instance of <code>JavaTimer</code> and connect everything appropriately.</p>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/basics/pingpongtimer/Parent.java" target="_blank" title="Go to snippet source"></a><code class="language-java">package jexamples.basics.pingpongtimer;
+
+import se.sics.kompics.Channel;
+import se.sics.kompics.ComponentDefinition;
+import se.sics.kompics.Component;
+import se.sics.kompics.Init;
+import se.sics.kompics.timer.Timer;
+import se.sics.kompics.timer.java.JavaTimer;
+
+public class Parent extends ComponentDefinition {
+  Component pinger = create(Pinger.class, Init.NONE);
+  Component ponger = create(Ponger.class, Init.NONE);
+  Component pinger2 = create(Pinger.class, Init.NONE);
+  Component timer = create(JavaTimer.class, Init.NONE);
+
+  {
+    connect(
+        pinger.getNegative(PingPongPort.class),
+        ponger.getPositive(PingPongPort.class),
+        Channel.TWO_WAY);
+    connect(pinger.getNegative(Timer.class), timer.getPositive(Timer.class), Channel.TWO_WAY);
+    connect(
+        pinger2.getNegative(PingPongPort.class),
+        ponger.getPositive(PingPongPort.class),
+        Channel.TWO_WAY);
+    connect(pinger2.getNegative(Timer.class), timer.getPositive(Timer.class), Channel.TWO_WAY);
+  }
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/basics/pingpongtimer/Parent.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package sexamples.basics.pingpongtimer
+
+import se.sics.kompics.sl._
+import se.sics.kompics.timer.Timer
+import se.sics.kompics.timer.java.JavaTimer
+
+class Parent extends ComponentDefinition {
+  val pinger = create[Pinger];
+  val pinger2 = create[Pinger];
+  val ponger = create[Ponger];
+
+  val timer = create[JavaTimer];
+
+  connect(PingPongPort)(ponger -&gt; pinger);
+  connect(PingPongPort)(ponger -&gt; pinger2);
+  connect[Timer](timer -&gt; pinger);
+  connect[Timer](timer -&gt; pinger2);
+
+}</code></pre></dd>
+</dl>
+<p>Then we add <code>Timer</code> as a required port to the <code>Pinger</code> and change the handlers&rsquo; behaviour to schedule a <code>PingTimeout</code> on start and then send a <code>Ping</code> whenever the <code>PingTimeout</code> is received. We&rsquo;ll schedule the timout periodically every second with no initial delay. We also override the <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/ComponentDefinition.html#tearDown" title="se.sics.kompics.ComponentDefinition"><code>tearDown</code></a> method to cancel our periodic timeout when we are being stopped. It simply is good form to clean up after oneself.</p>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/basics/pingpongtimer/Pinger.java" target="_blank" title="Go to snippet source"></a><code class="language-java">package jexamples.basics.pingpongtimer;
+
+import se.sics.kompics.Kompics;
+import se.sics.kompics.ComponentDefinition;
+import se.sics.kompics.Positive;
+import se.sics.kompics.Handler;
+import se.sics.kompics.Start;
+import se.sics.kompics.timer.*;
+
+import java.util.UUID;
+
+public class Pinger extends ComponentDefinition {
+
+  Positive&lt;PingPongPort&gt; ppp = requires(PingPongPort.class);
+  Positive&lt;Timer&gt; timer = requires(Timer.class);
+
+  private long counter = 0;
+  private UUID timerId;
+
+  Handler&lt;Start&gt; startHandler =
+      new Handler&lt;Start&gt;() {
+        public void handle(Start event) {
+          SchedulePeriodicTimeout spt = new SchedulePeriodicTimeout(0, 1000);
+          PingTimeout timeout = new PingTimeout(spt);
+          spt.setTimeoutEvent(timeout);
+          trigger(spt, timer);
+          timerId = timeout.getTimeoutId();
+        }
+      };
+  Handler&lt;Pong&gt; pongHandler =
+      new Handler&lt;Pong&gt;() {
+        public void handle(Pong event) {
+          counter++;
+          logger.info(&quot;Got Pong #{}!&quot;, counter);
+          if (counter &gt; 10) {
+            Kompics.asyncShutdown();
+          }
+        }
+      };
+  Handler&lt;PingTimeout&gt; timeoutHandler =
+      new Handler&lt;PingTimeout&gt;() {
+        public void handle(PingTimeout event) {
+          trigger(new Ping(), ppp);
+        }
+      };
+
+  {
+    subscribe(startHandler, control);
+    subscribe(pongHandler, ppp);
+    subscribe(timeoutHandler, timer);
+  }
+
+  @Override
+  public void tearDown() {
+    trigger(new CancelPeriodicTimeout(timerId), timer);
+  }
+
+  public static class PingTimeout extends Timeout {
+    public PingTimeout(SchedulePeriodicTimeout spt) {
+      super(spt);
+    }
+  }
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/basics/pingpongtimer/Pinger.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package sexamples.basics.pingpongtimer
+
+import se.sics.kompics.sl._
+import se.sics.kompics.timer.{CancelPeriodicTimeout, SchedulePeriodicTimeout, Timeout, Timer}
+
+import java.util.UUID
+
+object Pinger {
+  class PingTimeout(_spt: SchedulePeriodicTimeout) extends Timeout(_spt);
+}
+class Pinger extends ComponentDefinition {
+  import Pinger.PingTimeout;
+
+  val ppp = requires(PingPongPort);
+  val timer = requires[Timer];
+
+  private var counter: Long = 0L;
+  private var timerId: Option[UUID] = None;
+
+  ctrl uponEvent {
+    case _: Start =&gt; {
+      val spt = new SchedulePeriodicTimeout(0, 1000);
+      val timeout = new PingTimeout(spt);
+      spt.setTimeoutEvent(timeout);
+      trigger(spt -&gt; timer);
+      timerId = Some(timeout.getTimeoutId());
+    }
+  }
+
+  ppp uponEvent {
+    case Pong =&gt; {
+      counter += 1L;
+      log.info(s&quot;Got Pong #${counter}!&quot;);
+      if (counter &gt; 10) {
+        Kompics.asyncShutdown();
+      }
+    }
+  }
+
+  timer uponEvent {
+    case _: PingTimeout =&gt; {
+      trigger(Ping() -&gt; ppp);
+    }
+  }
+
+  override def tearDown(): Unit = {
+    timerId match {
+      case Some(id) =&gt; {
+        trigger(new CancelPeriodicTimeout(id) -&gt; timer);
+      }
+      case None =&gt; () // no cleanup necessary
+    }
+  }
+
+}</code></pre></dd>
+</dl>
+<p>If again compile and run this, we should see a significantly lower rate of <code>Ping</code> and <code>Pong</code> event production:</p><div class="group-java">
+<pre class="prettyprint"><code class="language-bash">runMain jexamples.basics.pingpongtimer.Main
+</code></pre></div><div class="group-scala">
+<pre class="prettyprint"><code class="language-bash">runMain sexamples.basics.pingpongtimer.Main
+</code></pre></div>
+<div class="source-github">
+The source code for this page can be found <a href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/paradox/tutorial/timers.md">here</a>.
+</div>
+
+<div class="nav-next">
+<p><strong>Next:</strong> <a href="../tutorial/networking/index.html">Networking</a></p>
+</div>
+</div>
+<div class="large-3 show-for-large column" data-sticky-container>
+<nav class="sidebar sticky" data-sticky data-anchor="docs" data-sticky-on="large">
+<div class="page-nav">
+<div class="nav-title">On this page:</div>
+<div class="nav-toc">
+<ul>
+  <li><a href="../tutorial/timers.html#timers" class="header">Timers</a>
+  <ul>
+    <li><a href="../tutorial/timers.html#request-response-events" class="header">Request-Response Events</a></li>
+    <li><a href="../tutorial/timers.html#kompics-timer" class="header">Kompics Timer</a></li>
+  </ul></li>
+</ul>
+</div>
+</div>
+</nav>
+</div>
+</div>
+
+</section>
+</div>
+
+</div>
+
+<footer class="site-footer">
+
+<section class="site-footer-nav">
+<div class="expanded row">
+<div class="small-12 large-offset-2 large-10 column">
+<div class="row site-footer-content">
+
+<div class="small-12 medium-4 large-3 text-center column">
+<div class="nav-links">
+<ul>
+<!-- <li><a href="https://www.example.com/products/">Products</a> -->
+</ul>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</section>
+
+<section class="site-footer-base">
+<div class="expanded row">
+<div class="small-12 large-offset-2 large-10 column">
+<div class="row site-footer-content">
+
+<div class="small-12 text-center large-9 column">
+
+<!--
+<div class="copyright">
+<span class="text">&copy; 2020</span>
+<a href="https://www.example.com" class="logo">logo</a>
+</div>
+-->
+</div>
+
+</div>
+</div>
+</div>
+</section>
+</footer>
+
+</div>
+</div>
+</div>
+</body>
+
+<script type="text/javascript" src="../lib/foundation/dist/foundation.min.js"></script>
+<script type="text/javascript">jQuery(document).foundation();</script>
+<script type="text/javascript" src="../js/magellan.js"></script>
+
+<style type="text/css">@import "../lib/prettify/prettify.css";</style>
+<script type="text/javascript" src="../lib/prettify/prettify.js"></script>
+<script type="text/javascript" src="../lib/prettify/lang-scala.js"></script>
+<script type="text/javascript">jQuery(function(){window.prettyPrint && prettyPrint()});</script>
+<script type="text/javascript">jQuery(function(jq){initOldVersionWarnings(jq, '2.0.0', '')});</script>
+
+
+</html>

@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+<title>Cleanup · Kompics</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content='Kompics-Scala-Docs'/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:100normal,100italic,300normal,300italic,400normal,400italic,500normal,500italic,700normal,700italic,900normal,900italicc" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../../lib/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="../../../js/page.js"></script>
+<script type="text/javascript" src="../../../js/warnOldVersion.js"></script>
+<script type="text/javascript" src="../../../js/groups.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../lib/foundation/dist/foundation.min.css"/>
+<link rel="stylesheet" type="text/css" href="../../../css/page.css"/>
+
+<!--
+<link rel="shortcut icon" href="../../../images/favicon.ico" />
+-->
+</head>
+
+<body>
+<div class="off-canvas-wrapper">
+<div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+
+<div class="off-canvas position-left" id="off-canvas-menu" data-off-canvas>
+<nav class="off-canvas-nav">
+<div class="nav-home">
+<a href="../../../index.html" >
+<span class="home-icon">⌂</span>Kompics
+</a>
+<div class="version-number">
+2.0.0
+</div>
+</div>
+<select class="supergroup" name="Language"><option class="group" value="group-scala">Scala</option><option class="group" value="group-java">Java</option></select>
+<div class="nav-toc">
+<ul>
+  <li><a href="../../../introduction/index.html" class="page">Introduction</a>
+  <ul>
+    <li><a href="../../../introduction/whatiskompics.html" class="page">What is Kompics?</a></li>
+    <li><a href="../../../introduction/gettingstarted.html" class="page">Getting Started</a></li>
+    <li><a href="../../../introduction/helloworld.html" class="page">Hello World in Kompics</a></li>
+  </ul></li>
+  <li><a href="../../../tutorial/index.html" class="page">Kompics Tutorial</a>
+  <ul>
+    <li><a href="../../../tutorial/basics.html" class="page">Kompics Basics</a></li>
+    <li><a href="../../../tutorial/timers.html" class="page">Timers</a></li>
+    <li><a href="../../../tutorial/networking/index.html" class="page">Networking</a></li>
+    <li><a href="../../../tutorial/simulation/index.html" class="page">Simulation</a></li>
+  </ul></li>
+  <li><a href="../../../reference.html" class="page">Reference</a></li>
+</ul>
+</div>
+
+</nav>
+</div>
+
+<div class="off-canvas-content" data-off-canvas-content>
+
+<header class="site-header expanded row">
+<div class="small-12 column">
+<a href="#" class="off-canvas-toggle hide-for-medium" data-toggle="off-canvas-menu"><svg class="svg-icon svg-icon-menu" version="1.1" id="Menu" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 20 20" enable-background="new 0 0 20 20" xml:space="preserve"> <path class="svg-icon-menu-path" fill="#53CDEC" d="M16.4,9H3.6C3.048,9,3,9.447,3,10c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,9.447,16.952,9,16.4,9z M16.4,13
+H3.6C3.048,13,3,13.447,3,14c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,13.447,16.952,13,16.4,13z M3.6,7H16.4
+C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.048,7,3.6,7z"/></svg>
+</a>
+<div class="title"><a href="../../../index.html">Kompics</a></div>
+
+<!--
+<a href="https://www.example.com" class="logo show-for-medium">logo</a>
+-->
+</div>
+</header>
+
+<div class="expanded row">
+
+<div class="medium-3 large-2 show-for-medium column">
+<nav class="site-nav">
+<div class="nav-home">
+<a href="../../../index.html" >
+<span class="home-icon">⌂</span>Kompics
+</a>
+<div class="version-number">
+2.0.0
+</div>
+</div>
+<select class="supergroup" name="Language"><option class="group" value="group-scala">Scala</option><option class="group" value="group-java">Java</option></select>
+<div class="nav-toc">
+<ul>
+  <li><a href="../../../introduction/index.html" class="page">Introduction</a>
+  <ul>
+    <li><a href="../../../introduction/whatiskompics.html" class="page">What is Kompics?</a></li>
+    <li><a href="../../../introduction/gettingstarted.html" class="page">Getting Started</a></li>
+    <li><a href="../../../introduction/helloworld.html" class="page">Hello World in Kompics</a></li>
+  </ul></li>
+  <li><a href="../../../tutorial/index.html" class="page">Kompics Tutorial</a>
+  <ul>
+    <li><a href="../../../tutorial/basics.html" class="page">Kompics Basics</a></li>
+    <li><a href="../../../tutorial/timers.html" class="page">Timers</a></li>
+    <li><a href="../../../tutorial/networking/index.html" class="page">Networking</a></li>
+    <li><a href="../../../tutorial/simulation/index.html" class="page">Simulation</a></li>
+  </ul></li>
+  <li><a href="../../../reference.html" class="page">Reference</a></li>
+</ul>
+</div>
+
+</nav>
+</div>
+
+<div class="small-12 medium-9 large-10 column">
+<section class="site-content">
+
+<span id="version-warning"></span>
+
+<div class="page-header row">
+<div class="medium-12 show-for-medium column">
+<div class="nav-breadcrumbs">
+<ul>
+  <li><a href="../../../index.html">Kompics</a></li>
+  <li><a href="../../../tutorial/index.html">Kompics Tutorial</a></li>
+  <li><a href="../../../tutorial/networking/index.html">Networking</a></li>
+  <li><a href="../../../tutorial/networking/basic/index.html">Basic Networking</a></li>
+  <li>Cleanup</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="page-content row">
+<div class="small-12 large-9 column" id="docs">
+<h2><a href="#cleanup" name="cleanup" class="anchor"><span class="anchor-link"></span></a>Cleanup</h2>
+<p>While our example from the previous section works, there are still a number of things that are not optimal with it. We will use this section to make the whole code a bit nicer, and also look into a way to deploy the final code, since we can not really rely on sbt being present on all target machines.</p>
+<h3><a href="#configuration-files" name="configuration-files" class="anchor"><span class="anchor-link"></span></a>Configuration Files</h3>
+<p>First of all, you might have noticed that we have a lot of redundancy in the passing around of parameters between the different component <code>Init</code> instances. Furthermore, our reading from the commandline is not the safest. Sure, there are good libraries for commandline options, but this is not really what we want. What we want is to define a bunch of values once and then be able to access them from anywhere within the code. The right solution for this problem is using a <em>configuration file</em>, where we write IPs and ports and such things, and a <em>configuration library</em> that knows how to give us access to the values in our code. Kompics comes with its own configuration library, which by default uses <a href="https://github.com/lightbend/config">Typesafe Config</a> as a backend. </p>
+<p>If you prefer a different configuration library, you may add support for it, by wrapping it in an implementation of <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/config/BaselineConfig.html" title="se.sics.kompics.config.BaselineConfig"><code>BaselineConfig</code></a>, passing it into the <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/config/Config.Factory.html" title="se.sics.kompics.config.Config.Factory"><code>Config.Factory</code></a>, and finally replacing the default config with your custom one using <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/Kompics.html#setConfig" title="se.sics.kompics.Kompics"><code>Kompics.setConfig</code></a> <em>before</em> starting the runtime. </p>
+<p>For the tutorial we are going to stick to <em>Typesafe Config</em> as a baseline. We are thus going to add a <code>src/main/resources/reference.conf</code> file, where we describe default values for all our config options. This is not strictly speaking necessary, but it is generally a good idea to have one place your users can look at where all possible config values are outlined. While we are at it, we also make the timeout period configurable.</p>
+<pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/resources/reference.conf#L2-L18" target="_blank" title="Go to snippet source"></a><code class="language-hocon">pingpong {
+	ponger.addr = &quot;127.0.0.1:34567&quot;
+	pinger {
+		addr {
+			host = &quot;127.0.0.1&quot;
+			port = 34568
+		}
+		timeout = 1000
+		pongeraddr {
+			host = &quot;127.0.0.1&quot;
+			port = 34567
+		}
+	}
+}</code></pre>
+<p>Now that we have a configuration file, we can simply throw away all the <code>Init</code> <span class="group-java">classes</span><span class="group-scala">instances</span> we created before, and pull out the desired values from the config in the <code>Pinger</code> and <code>Ponger</code> constructors. Something along the lines of:</p><div class="group-java">
+<pre class="prettyprint"><code class="language-java">try {
+  InetAddress selfIp = InetAddress.getByName(config().getValue(&quot;pingpong.pinger.addr.host&quot;, String.class));
+  int selfPort = config().getValue(&quot;pingpong.pinger.addr.port&quot;, Integer.class);
+  this.self = new TAddress(selfIp, selfPort);
+  InetAddress pongerIp = InetAddress.getByName(config().getValue(&quot;pingpong.pinger.pongeraddr.host&quot;, String.class));
+  int pongerPort = config().getValue(&quot;pingpong.pinger.pongeraddr.port&quot;, Integer.class);
+  this.ponger = new TAddress(pongerIp, pongerPort);
+  this.timeoutPeriod = config().getValue(&quot;pingpong.pinger.timeout&quot;, Long.class);
+} catch (UnknownHostException ex) {
+  throw new RuntimeException(ex);
+}
+</code></pre></div><div class="group-scala">
+<pre class="prettyprint"><code class="language-scala">val selfIp = InetAddress.getByName(cfg.getValue[String](&quot;pingpong.pinger.addr.host&quot;));
+val selfPort = cfg.getValue[Int](&quot;pingpong.pinger.addr.port&quot;);
+val self = TAddress(selfIp, selfPort);
+val pongerIp = InetAddress.getByName(cfg.getValue[String](&quot;pingpong.pinger.pongeraddr.host&quot;));
+val pongerPort = cfg.getValue[Int](&quot;pingpong.pinger.pongeraddr.port&quot;);
+val ponger = TAddress(selfIp, selfPort);
+val timeoutPeriod = cfg.getValue[Long](&quot;pingpong.pinger.timeout&quot;);
+</code></pre></div>
+<p>However, we require addresses, and in particular the <em>self</em> address in a number of places: <code>Pinger</code>, <code>Ponger</code>, and <code>NettyNetwork</code>. While certainly possible, it may not be the greatest idea to just copy&amp;paste the construction code for it to every place where we need it.</p>
+<p>There is another solution, though, that gives a lot more concise code. Kompics&rsquo; configuration system supports so called <em>conversions</em>, which are used to convert compatible types from the config values to the requested values. For example, it would be unnecessary to throw an exception when the user is asking for an instance of <code>Long</code> but the value is returned as <span class="group-java"><code>Integer</code></span><span class="group-scala"><code>Int</code></span> by <em>Typesafe Config</em>. Instead the config library will look through a number of <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/config/Converter.html" title="se.sics.kompics.config.Converter"><code>Converter</code></a> instances that are registered at <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/config/Conversions.html" title="se.sics.kompics.config.Conversions"><code>Conversions</code></a> (this is very similar to how the serialisation framework is used) and try to find one that can convert an <span class="group-java"><code>Integer</code></span><span class="group-scala"><code>Int</code></span> instance to a <code>Long</code> instance. Thus we can use this system to write <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/config/Converter.html" title="se.sics.kompics.config.Converter"><code>Converter</code></a> that takes the configuration object at <code>&quot;pingpong.self&quot;</code> for example and converts it to a <code>TAddress</code>. It turns out that, because of the way we wrote the <code>reference.conf</code> entries, <em>Typesafe Config</em> will give us a <code>Map</code> with the subvalues as keys. In this case, we can pull out the values, <em>convert</em> them to <code>String</code> and <span class="group-java"><code>Integer</code></span><span class="group-scala"><code>Int</code></span> instances respectively, and then construct the <code>TAddress</code> as before. Just to exemplify the method, we are <em>additionally</em> going to support an alternative way to write a <code>TAddress</code> in the config file: A single <code>String</code> in the format <code>&quot;127.0.0.1:34567&quot;</code>.</p>
+<h4><a href="#taddressconverter" name="taddressconverter" class="anchor"><span class="anchor-link"></span></a>TAddressConverter</h4>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/networking/pingpongcleaned/TAddressConverter.java" target="_blank" title="Go to snippet source"></a><code class="language-java">package jexamples.networking.pingpongcleaned;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Map;
+import se.sics.kompics.config.Conversions;
+import se.sics.kompics.config.Converter;
+
+public class TAddressConverter implements Converter&lt;TAddress&gt; {
+
+  @Override
+  public TAddress convert(Object o) {
+    if (o instanceof Map) {
+      try {
+        Map m = (Map) o;
+        String hostname = Conversions.convert(m.get(&quot;host&quot;), String.class);
+        int port = Conversions.convert(m.get(&quot;port&quot;), Integer.class);
+        InetAddress ip = InetAddress.getByName(hostname);
+        return new TAddress(ip, port);
+      } catch (UnknownHostException ex) {
+        return null;
+      }
+    } else if (o instanceof String) {
+      try {
+        String[] ipport = ((String) o).split(&quot;:&quot;);
+        InetAddress ip = InetAddress.getByName(ipport[0]);
+        int port = Integer.parseInt(ipport[1]);
+        return new TAddress(ip, port);
+      } catch (UnknownHostException ex) {
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  @Override
+  public Class&lt;TAddress&gt; type() {
+    return TAddress.class;
+  }
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/networking/pingpongcleaned/TAddressConverter.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package sexamples.networking.pingpongcleaned
+
+import java.net.{InetAddress, UnknownHostException}
+import java.util.Map
+import se.sics.kompics.config.{Conversions, Converter}
+
+object TAddressConverter extends Converter[TAddress] {
+
+  override def convert(o: AnyRef): TAddress = {
+    o match {
+      case m: Map[String, Any] @unchecked =&gt; {
+        val hostname = Conversions.convert(m.get(&quot;host&quot;), classOf[String]);
+        val port: Int = Conversions.convert(m.get(&quot;port&quot;), classOf[Integer]);
+        val ip = InetAddress.getByName(hostname);
+        TAddress(ip, port)
+      }
+      case s: String =&gt; {
+        val ipport = s.split(&quot;:&quot;);
+        val ip = InetAddress.getByName(ipport(0));
+        val port = Integer.parseInt(ipport(1));
+        TAddress(ip, port)
+      }
+      case _ =&gt; null
+    }
+  }
+
+  override def `type`(): Class[TAddress] = classOf[TAddress];
+}</code></pre></dd>
+</dl>
+<p>Additionally we also need to register the new <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/config/Converter.html" title="se.sics.kompics.config.Converter"><code>Converter</code></a> in the the <code>Main</code> <span class="group-java">class</span><span class="group-scala">object</span> and then we can get an instance of <code>TAddress</code> from the config by simply calling <span class="group-java"><code>config().getValue(&quot;pingpong.pinger.addr&quot;, TAddress.class);</code></span><span class="group-scala"><code>cfg.getValue[TAddress](&quot;pingpong.pinger.addr&quot;)</code></span>, for example.</p>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/networking/pingpongcleaned/Main.java#L12-L24" target="_blank" title="Go to snippet source"></a><code class="language-java">static {
+  // register
+  Serializers.register(new NetSerializer(), &quot;netS&quot;);
+  Serializers.register(new PingPongSerializer(), &quot;ppS&quot;);
+  // map
+  Serializers.register(TAddress.class, &quot;netS&quot;);
+  Serializers.register(THeader.class, &quot;netS&quot;);
+  Serializers.register(TMessage.class, &quot;netS&quot;);
+  Serializers.register(Ping.class, &quot;ppS&quot;);
+  Serializers.register(Pong.class, &quot;ppS&quot;);
+  // conversions
+  Conversions.register(new TAddressConverter());
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/networking/pingpongcleaned/Main.scala#L10-L20" target="_blank" title="Go to snippet source"></a><code class="language-scala">// register
+Serializers.register(NetSerializer, &quot;netS&quot;);
+Serializers.register(PingPongSerializer, &quot;ppS&quot;);
+// map
+Serializers.register(classOf[TAddress], &quot;netS&quot;);
+Serializers.register(classOf[THeader], &quot;netS&quot;);
+Serializers.register(classOf[TMessage], &quot;netS&quot;);
+Serializers.register(Ping.getClass, &quot;ppS&quot;);
+Serializers.register(Pong.getClass, &quot;ppS&quot;);
+// conversions
+Conversions.register(TAddressConverter);</code></pre></dd>
+</dl><div class="callout note "><div class="callout-title">Note</div>
+<p>We are still doing the same work as before to get our <code>TAddress</code> instances. Technically, even more than before, since we have to look through all the registered <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/config/Converter.html" title="se.sics.kompics.config.Converter"><code>Converter</code></a> instances now. It simply looks a lot nicer like this, as there is less unnecessary code duplication. At this time, none of the converted values are cached anywhere. Thus, it is generally recommended to always write values from the configuration that are used often into local fields, instead of pulling them out of the config on demand every time they are needed.</p>
+<p>It is possible to &ldquo;cache&rdquo; converted config entries, by reading them out of the config in the converted object, and then writing them back into it, overriting the original, unconverted entry that was in their place. Config updates are somewhat involved, however, so we will not be treating them here.</p></div>
+<!-- TODO
+	Write another section *somewhere* describing the Config system in more detail including updates.
+//-->
+<h3><a href="#pattern-matching-messages" name="pattern-matching-messages" class="anchor"><span class="anchor-link"></span></a>Pattern Matching Messages</h3>
+<p>Another thing that feels awkward with our code is how we write network messages: Our <code>TMessage</code> class does almost nothing, except define what kind of header we expect, and all actual network messages like <code>Ping</code> and <code>Pong</code> have to implement all these annoying constructors that <code>TMessage</code> requires, instead of focusing on their business logic (which is trivially simple). We would much rather have the <code>TMessage</code> act as a kind of container for <em>data</em> and then <code>Ping</code> and <code>Pong</code> would simply be payloads. But then, how would the handlers of <code>Pinger</code> and <code>Ponger</code> know which <code>TMessage</code> instance are for them, i.e. contain <code>Ping</code> and <code>Pong</code> instances respectively, and which are for other classes? <span class="group-java">They would have to match on <code>TMessage</code> and handle all network messages. That would be way too expensive in a large system. Under no circumstance do we want to schedule components unnecessarily. The solution to our problem can be found in <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/ClassMatchedHandler.html" title="se.sics.kompics.ClassMatchedHandler"><code>ClassMatchedHandler</code></a>, which provides a very simple form of <em>pattern matching</em> for Kompics Java. Instead of matching on a single event type, it matches on two event types: The <em>context</em> type, which we will define as <code>TMessage</code>, and the <em>content</em> type, which will be <code>Ping</code> and <code>Pong</code> respectively.</span><span class="group-scala">We must use pattern matching to already select only the appropriate instance of <code>TMessage</code> in the handler.</span></p>
+<p>We shall rewrite <code>TMessage</code> to carry any kind of <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/KompicsEvent.html" title="se.sics.kompics.KompicsEvent"><code>KompicsEvent</code></a> as a <span class="group-java">payload, and to act as <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/PatternExtractor.html" title="se.sics.kompics.PatternExtractor"><code>PatternExtractor</code></a> for the payload</span><span class="group-scala">payload</span>. We will also move its serialisation logic into the <code>NetSerializer</code> leaving the <code>PingPongSerializer</code> rather trivial as a result.</p>
+<h4><a href="#tmessage" name="tmessage" class="anchor"><span class="anchor-link"></span></a>TMessage</h4>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/networking/pingpongcleaned/TMessage.java" target="_blank" title="Go to snippet source"></a><code class="language-java">package jexamples.networking.pingpongcleaned;
+
+import se.sics.kompics.KompicsEvent;
+import se.sics.kompics.PatternExtractor;
+import se.sics.kompics.network.Msg;
+import se.sics.kompics.network.Transport;
+
+public class TMessage
+    implements Msg&lt;TAddress, THeader&gt;, PatternExtractor&lt;Class&lt;Object&gt;, KompicsEvent&gt; {
+
+  public final THeader header;
+  public final KompicsEvent payload;
+
+  public TMessage(TAddress src, TAddress dst, Transport protocol, KompicsEvent payload) {
+    this.header = new THeader(src, dst, protocol);
+    this.payload = payload;
+  }
+
+  TMessage(THeader header, KompicsEvent payload) {
+    this.header = header;
+    this.payload = payload;
+  }
+
+  @Override
+  public THeader getHeader() {
+    return this.header;
+  }
+
+  @SuppressWarnings(&quot;deprecation&quot;)
+  @Override
+  public TAddress getSource() {
+    return this.header.src;
+  }
+
+  @SuppressWarnings(&quot;deprecation&quot;)
+  @Override
+  public TAddress getDestination() {
+    return this.header.dst;
+  }
+
+  @SuppressWarnings(&quot;deprecation&quot;)
+  @Override
+  public Transport getProtocol() {
+    return this.header.proto;
+  }
+
+  @SuppressWarnings(&quot;unchecked&quot;)
+  @Override
+  public Class&lt;Object&gt; extractPattern() {
+    Class c = payload.getClass();
+    return (Class&lt;Object&gt;) c;
+  }
+
+  @Override
+  public KompicsEvent extractValue() {
+    return payload;
+  }
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/networking/pingpongcleaned/Messages.scala#L35-L46" target="_blank" title="Go to snippet source"></a><code class="language-scala">object TMessage {
+  def apply(src: TAddress, dst: TAddress, payload: KompicsEvent): TMessage = {
+    val header = THeader(src, dst, Transport.TCP);
+    TMessage(header, payload)
+  }
+}
+case class TMessage(header: THeader, payload: KompicsEvent) extends Msg[TAddress, THeader] {
+  override def getHeader(): THeader = header;
+  override def getSource(): TAddress = header.src;
+  override def getDestination(): TAddress = header.dst;
+  override def getProtocol(): Transport = header.proto;
+}</code></pre></dd>
+</dl>
+<h4><a href="#ping" name="ping" class="anchor"><span class="anchor-link"></span></a>Ping</h4>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/networking/pingpongcleaned/Ping.java" target="_blank" title="Go to snippet source"></a><code class="language-java">package jexamples.networking.pingpongcleaned;
+
+import se.sics.kompics.KompicsEvent;
+
+public class Ping implements KompicsEvent {
+  public static final Ping EVENT = new Ping();
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/networking/pingpongcleaned/Messages.scala#L54" target="_blank" title="Go to snippet source"></a><code class="language-scala">object Ping extends KompicsEvent;</code></pre></dd>
+</dl>
+<h4><a href="#pong" name="pong" class="anchor"><span class="anchor-link"></span></a>Pong</h4>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/networking/pingpongcleaned/Pong.java" target="_blank" title="Go to snippet source"></a><code class="language-java">package jexamples.networking.pingpongcleaned;
+
+import se.sics.kompics.KompicsEvent;
+
+public class Pong implements KompicsEvent {
+  public static final Pong EVENT = new Pong();
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/networking/pingpongcleaned/Messages.scala#L50" target="_blank" title="Go to snippet source"></a><code class="language-scala">object Pong extends KompicsEvent;</code></pre></dd>
+</dl>
+<h4><a href="#netserializer" name="netserializer" class="anchor"><span class="anchor-link"></span></a>NetSerializer</h4>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/networking/pingpongcleaned/NetSerializer.java" target="_blank" title="Go to snippet source"></a><code class="language-java">package jexamples.networking.pingpongcleaned;
+
+import io.netty.buffer.ByteBuf;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Optional;
+
+import se.sics.kompics.KompicsEvent;
+import se.sics.kompics.network.Transport;
+import se.sics.kompics.network.netty.serialization.Serializer;
+import se.sics.kompics.network.netty.serialization.Serializers;
+
+public class NetSerializer implements Serializer {
+
+  private static final byte ADDR = 1;
+  private static final byte HEADER = 2;
+  private static final byte MSG = 3;
+
+  @Override
+  public int identifier() {
+    return 100;
+  }
+
+  @Override
+  public void toBinary(Object o, ByteBuf buf) {
+    if (o instanceof TAddress) {
+      TAddress addr = (TAddress) o;
+      buf.writeByte(ADDR); // mark which type we are serialising (1 byte)
+      addressToBinary(addr, buf); // 6 bytes
+      // total 7 bytes
+    } else if (o instanceof THeader) {
+      THeader header = (THeader) o;
+      buf.writeByte(HEADER); // mark which type we are serialising (1 byte)
+      headerToBinary(header, buf); // 13 bytes
+      // total 14 bytes
+    } else if (o instanceof TMessage) {
+      TMessage msg = (TMessage) o;
+      buf.writeByte(MSG); // mark which type we are serialising (1 byte)
+      headerToBinary(msg.header, buf); // 13 bytes
+      Serializers.toBinary(msg.payload, buf); // no idea what it is, let the framework deal with it
+    }
+  }
+
+  @Override
+  public Object fromBinary(ByteBuf buf, Optional&lt;Object&gt; hint) {
+    byte type = buf.readByte(); // read the first byte to figure out the type
+    switch (type) {
+      case ADDR:
+        return addressFromBinary(buf);
+      case HEADER:
+        return headerFromBinary(buf);
+      case MSG:
+        {
+          THeader header = headerFromBinary(buf); // 13 bytes
+          KompicsEvent payload =
+              (KompicsEvent)
+                  Serializers.fromBinary(
+                      buf,
+                      Optional
+                          .empty()); // don&#39;t know what it is but KompicsEvent is the upper bound
+          return new TMessage(header, payload);
+        }
+    }
+    return null; // strange things happened^^
+  }
+
+  private void headerToBinary(THeader header, ByteBuf buf) {
+    addressToBinary(header.src, buf); // 6 bytes
+    addressToBinary(header.dst, buf); // 6 bytes
+    buf.writeByte(header.proto.ordinal()); // 1 byte is enough
+    // total of 13 bytes
+  }
+
+  private THeader headerFromBinary(ByteBuf buf) {
+    TAddress src = addressFromBinary(buf); // 6 bytes
+    TAddress dst = addressFromBinary(buf); // 6 bytes
+    int protoOrd = buf.readByte(); // 1 byte
+    Transport proto = Transport.values()[protoOrd];
+    return new THeader(src, dst, proto); // total of 13 bytes, check
+  }
+
+  private void addressToBinary(TAddress addr, ByteBuf buf) {
+    buf.writeBytes(addr.getIp().getAddress()); // 4 bytes IP (assume it&#39;s IPv4)
+    buf.writeShort(addr.getPort()); // we only need 2 bytes here
+    // total of 6 bytes
+  }
+
+  private TAddress addressFromBinary(ByteBuf buf) {
+    byte[] ipBytes = new byte[4];
+    buf.readBytes(ipBytes); // 4 bytes
+    try {
+      InetAddress ip = InetAddress.getByAddress(ipBytes);
+      int port = buf.readUnsignedShort(); // 2 bytes
+      return new TAddress(ip, port); // total of 6, check
+    } catch (UnknownHostException ex) {
+      throw new RuntimeException(ex); // let Netty deal with this
+    }
+  }
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/networking/pingpongcleaned/NetSerializer.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package sexamples.networking.pingpongcleaned
+
+import io.netty.buffer.ByteBuf
+import java.net.{InetAddress, UnknownHostException}
+import java.util.Optional
+import se.sics.kompics.KompicsEvent
+import se.sics.kompics.network.Transport
+import se.sics.kompics.network.netty.serialization.{Serializer, Serializers}
+
+object NetSerializer extends Serializer {
+  private val ADDR: Byte = 1;
+  private val HEADER: Byte = 2;
+  private val MSG: Byte = 3;
+
+  private val NO_HINT: Optional[AnyRef] = Optional.empty();
+
+  override def identifier(): Int = 100;
+
+  override def toBinary(o: AnyRef, buf: ByteBuf): Unit = {
+    o match {
+      case addr: TAddress =&gt; {
+        buf.writeByte(ADDR); // mark which type we are serialising (1 byte)
+        addressToBinary(addr, buf); // 6 bytes
+        // total 7 bytes
+      }
+      case header: THeader =&gt; {
+        buf.writeByte(HEADER); // mark which type we are serialising (1 byte)
+        headerToBinary(header, buf); // 13 bytes
+        // total 14 bytes
+      }
+      case msg: TMessage =&gt; {
+        buf.writeByte(MSG); // mark which type we are serialising (1 byte)
+        headerToBinary(msg.header, buf); // 13 bytes
+        Serializers.toBinary(msg.payload, buf); // no idea what it is, let the framework deal with it
+      }
+    }
+  }
+
+  override def fromBinary(buf: ByteBuf, hint: Optional[AnyRef]): AnyRef = {
+    val typeFlag = buf.readByte(); // read the first byte to figure out the type
+    typeFlag match {
+      case ADDR =&gt; {
+        return addressFromBinary(buf);
+      }
+      case HEADER =&gt; {
+        return headerFromBinary(buf);
+      }
+      case MSG =&gt; {
+        val header = headerFromBinary(buf); // 13 bytes
+        val payload = Serializers.fromBinary(buf, NO_HINT).asInstanceOf[KompicsEvent]; // don&#39;t know what it is but KompicsEvent is the upper bound
+        return TMessage(header, payload);
+      }
+      case _ =&gt; {
+        Console.err.println(s&quot;Got invalid byte flag=$typeFlag&quot;);
+        return null;
+      }
+    }
+  }
+
+  private def headerToBinary(header: THeader, buf: ByteBuf): Unit = {
+    addressToBinary(header.src, buf); // 6 bytes
+    addressToBinary(header.dst, buf); // 6 bytes
+    buf.writeByte(header.proto.ordinal()); // 1 byte is enough
+    // total of 13 bytes
+  }
+
+  private def headerFromBinary(buf: ByteBuf): THeader = {
+    val src = addressFromBinary(buf); // 6 bytes
+    val dst = addressFromBinary(buf); // 6 bytes
+    val protoOrd = buf.readByte(); // 1 byte
+    val proto = Transport.values()(protoOrd);
+    return THeader(src, dst, proto); // total of 13 bytes, check
+  }
+
+  private def addressToBinary(addr: TAddress, buf: ByteBuf): Unit = {
+    buf.writeBytes(addr.getIp().getAddress()); // 4 bytes IP (assume it&#39;s IPv4)
+    buf.writeShort(addr.getPort()); // we only need 2 bytes here
+    // total of 6 bytes
+  }
+
+  private def addressFromBinary(buf: ByteBuf): TAddress = {
+    val ipBytes = Array.ofDim[Byte](4);
+    buf.readBytes(ipBytes); // 4 bytes
+    val ip = InetAddress.getByAddress(ipBytes);
+    val port = buf.readUnsignedShort(); // 2 bytes
+    return TAddress(ip, port); // total of 7, check
+  }
+}</code></pre></dd>
+</dl>
+<h4><a href="#pingpongserializer" name="pingpongserializer" class="anchor"><span class="anchor-link"></span></a>PingPongSerializer</h4>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/networking/pingpongcleaned/PingPongSerializer.java" target="_blank" title="Go to snippet source"></a><code class="language-java">package jexamples.networking.pingpongcleaned;
+
+import java.util.Optional;
+import io.netty.buffer.ByteBuf;
+import se.sics.kompics.network.netty.serialization.Serializer;
+
+public class PingPongSerializer implements Serializer {
+
+  private static final byte PING = 1;
+  private static final byte PONG = 2;
+
+  @Override
+  public int identifier() {
+    return 200;
+  }
+
+  @Override
+  public void toBinary(Object o, ByteBuf buf) {
+    if (o instanceof Ping) {
+      buf.writeByte(PING); // 1 byte
+      // total 1 bytes
+    } else if (o instanceof Pong) {
+      buf.writeByte(PONG); // 1 byte
+      // total 1 bytes
+    }
+  }
+
+  @Override
+  public Object fromBinary(ByteBuf buf, Optional&lt;Object&gt; hint) {
+    byte type = buf.readByte(); // 1 byte
+    switch (type) {
+      case PING:
+        return Ping.EVENT; // 1 bytes total, check
+      case PONG:
+        return Pong.EVENT; // 1 bytes total, check
+    }
+    return null;
+  }
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/networking/pingpongcleaned/PingPongSerializer.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package sexamples.networking.pingpongcleaned
+
+import io.netty.buffer.ByteBuf
+import java.net.{InetAddress, UnknownHostException}
+import java.util.Optional
+import se.sics.kompics.network.Transport
+import se.sics.kompics.network.netty.serialization.{Serializer, Serializers}
+
+object PingPongSerializer extends Serializer {
+  private val PING: Byte = 1;
+  private val PONG: Byte = 2;
+
+  private val NO_HINT: Optional[AnyRef] = Optional.empty();
+
+  override def identifier(): Int = 200;
+
+  override def toBinary(o: AnyRef, buf: ByteBuf): Unit = {
+    o match {
+      case Ping =&gt; {
+        buf.writeByte(PING); // 1 byte
+        // total 1 bytes
+      }
+      case Pong =&gt; {
+        buf.writeByte(PONG); // 1 byte
+        // total 1 bytes
+      }
+    }
+  }
+
+  override def fromBinary(buf: ByteBuf, hint: Optional[AnyRef]): AnyRef = {
+    val typeFlag = buf.readByte(); // 1 byte
+    typeFlag match {
+      case PING =&gt; {
+        return Ping; // 1 bytes total, check
+      }
+      case PONG =&gt; {
+        return Pong; // 1 bytes total, check
+      }
+      case _ =&gt; {
+        Console.err.println(s&quot;Got invalid byte flag=$typeFlag&quot;);
+        return null;
+      }
+    }
+  }
+}</code></pre></dd>
+</dl>
+<h4><a href="#pinger" name="pinger" class="anchor"><span class="anchor-link"></span></a>Pinger</h4>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/networking/pingpongcleaned/Pinger.java" target="_blank" title="Go to snippet source"></a><code class="language-java">package jexamples.networking.pingpongcleaned;
+
+import se.sics.kompics.Kompics;
+import se.sics.kompics.ClassMatchedHandler;
+import se.sics.kompics.ComponentDefinition;
+import se.sics.kompics.Positive;
+import se.sics.kompics.Handler;
+import se.sics.kompics.Start;
+import se.sics.kompics.timer.*;
+import se.sics.kompics.network.Network;
+import se.sics.kompics.network.Transport;
+
+import java.util.UUID;
+
+public class Pinger extends ComponentDefinition {
+
+  Positive&lt;Network&gt; net = requires(Network.class);
+  Positive&lt;Timer&gt; timer = requires(Timer.class);
+
+  private long counter = 0;
+  private UUID timerId;
+  private final TAddress self;
+  private final TAddress ponger;
+  private final long timeoutPeriod;
+
+  public Pinger() {
+    this.self = config().getValue(&quot;pingpong.pinger.addr&quot;, TAddress.class);
+    this.ponger = config().getValue(&quot;pingpong.pinger.pongeraddr&quot;, TAddress.class);
+    this.timeoutPeriod = config().getValue(&quot;pingpong.pinger.timeout&quot;, Long.class);
+  }
+
+  Handler&lt;Start&gt; startHandler =
+      new Handler&lt;Start&gt;() {
+        public void handle(Start event) {
+          SchedulePeriodicTimeout spt = new SchedulePeriodicTimeout(0, timeoutPeriod);
+          PingTimeout timeout = new PingTimeout(spt);
+          spt.setTimeoutEvent(timeout);
+          trigger(spt, timer);
+          timerId = timeout.getTimeoutId();
+        }
+      };
+
+  ClassMatchedHandler&lt;Pong, TMessage&gt; pongHandler =
+      new ClassMatchedHandler&lt;Pong, TMessage&gt;() {
+
+        @Override
+        public void handle(Pong content, TMessage context) {
+          counter++;
+          logger.info(&quot;Got Pong #{}!&quot;, counter);
+          if (counter &gt; 10) {
+            Kompics.asyncShutdown();
+          }
+        }
+      };
+  Handler&lt;PingTimeout&gt; timeoutHandler =
+      new Handler&lt;PingTimeout&gt;() {
+        public void handle(PingTimeout event) {
+          trigger(new TMessage(self, ponger, Transport.TCP, Ping.EVENT), net);
+        }
+      };
+
+  {
+    subscribe(startHandler, control);
+    subscribe(pongHandler, net);
+    subscribe(timeoutHandler, timer);
+  }
+
+  @Override
+  public void tearDown() {
+    trigger(new CancelPeriodicTimeout(timerId), timer);
+  }
+
+  public static class PingTimeout extends Timeout {
+    public PingTimeout(SchedulePeriodicTimeout spt) {
+      super(spt);
+    }
+  }
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/networking/pingpongcleaned/Pinger.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package sexamples.networking.pingpongcleaned
+
+import se.sics.kompics.sl._
+import se.sics.kompics.network.Network
+import se.sics.kompics.timer.{CancelPeriodicTimeout, SchedulePeriodicTimeout, Timeout, Timer}
+
+import java.util.UUID
+
+object Pinger {
+  class PingTimeout(_spt: SchedulePeriodicTimeout) extends Timeout(_spt);
+}
+class Pinger extends ComponentDefinition {
+  import Pinger.PingTimeout;
+
+  val self = cfg.getValue[TAddress](&quot;pingpong.pinger.addr&quot;);
+  val ponger = cfg.getValue[TAddress](&quot;pingpong.pinger.pongeraddr&quot;);
+  val timeoutPeriod = cfg.getValue[Long](&quot;pingpong.pinger.timeout&quot;);
+
+  val net = requires[Network];
+  val timer = requires[Timer];
+
+  private var counter: Long = 0L;
+  private var timerId: Option[UUID] = None;
+
+  ctrl uponEvent {
+    case _: Start =&gt; {
+      val spt = new SchedulePeriodicTimeout(0, timeoutPeriod);
+      val timeout = new PingTimeout(spt);
+      spt.setTimeoutEvent(timeout);
+      trigger(spt -&gt; timer);
+      timerId = Some(timeout.getTimeoutId());
+    }
+  }
+
+  net uponEvent {
+    case TMessage(_, Pong) =&gt; {
+      counter += 1L;
+      log.info(s&quot;Got Pong #${counter}!&quot;);
+      if (counter &gt; 10) {
+        Kompics.asyncShutdown();
+      }
+    }
+  }
+
+  timer uponEvent {
+    case _: PingTimeout =&gt; {
+      trigger(TMessage(self, ponger, Ping) -&gt; net);
+    }
+  }
+
+  override def tearDown(): Unit = {
+    timerId match {
+      case Some(id) =&gt; {
+        trigger(new CancelPeriodicTimeout(id) -&gt; timer);
+      }
+      case None =&gt; () // no cleanup necessary
+    }
+  }
+
+}</code></pre></dd>
+</dl>
+<h4><a href="#ponger" name="ponger" class="anchor"><span class="anchor-link"></span></a>Ponger</h4>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/networking/pingpongcleaned/Ponger.java" target="_blank" title="Go to snippet source"></a><code class="language-java">package jexamples.networking.pingpongcleaned;
+
+import se.sics.kompics.ClassMatchedHandler;
+import se.sics.kompics.ComponentDefinition;
+import se.sics.kompics.Positive;
+import se.sics.kompics.Handler;
+import se.sics.kompics.network.Network;
+import se.sics.kompics.network.Transport;
+
+public class Ponger extends ComponentDefinition {
+
+  Positive&lt;Network&gt; net = requires(Network.class);
+
+  private long counter = 0;
+  private final TAddress self;
+
+  public Ponger() {
+    this.self = config().getValue(&quot;pingpong.ponger.addr&quot;, TAddress.class);
+  }
+
+  ClassMatchedHandler&lt;Ping, TMessage&gt; pingHandler =
+      new ClassMatchedHandler&lt;Ping, TMessage&gt;() {
+        @Override
+        public void handle(Ping content, TMessage context) {
+          counter++;
+          logger.info(&quot;Got Ping #{}!&quot;, counter);
+          trigger(new TMessage(self, context.getSource(), Transport.TCP, Pong.EVENT), net);
+        }
+      };
+
+  {
+    subscribe(pingHandler, net);
+  }
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/networking/pingpongcleaned/Ponger.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package sexamples.networking.pingpongcleaned
+
+import se.sics.kompics.sl._
+import se.sics.kompics.network.Network
+
+class Ponger extends ComponentDefinition {
+
+  val self = cfg.getValue[TAddress](&quot;pingpong.ponger.addr&quot;);
+
+  val net = requires[Network];
+
+  private var counter: Long = 0L;
+
+  net uponEvent {
+    case TMessage(header, Ping) =&gt; {
+      counter += 1L;
+      log.info(s&quot;Got Ping #${counter}!&quot;);
+      trigger(TMessage(self, header.getSource(), Pong) -&gt; net);
+    }
+  }
+}</code></pre></dd>
+</dl>
+<p>And, of course, we must remember to register <code>TMessage</code> to the <code>&quot;netS&quot;</code> serialiser in the <code>Main</code> <span class="group-java">class</span><span class="group-scala">object</span>.</p><div class="callout note group-java"><div class="callout-title">Note</div>
+<p>The <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/ClassMatchedHandler.html" title="se.sics.kompics.ClassMatchedHandler"><code>ClassMatchedHandler</code></a> is in fact only a specialisation of the more general <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/MatchedHandler.html" title="se.sics.kompics.MatchedHandler"><code>MatchedHandler</code></a>, which can use any kind of pattern to select values, and not just <a href="https://docs.oracle.com/en/java/javase/13/docs/api/java.base/java/lang/Class.html" title="java.lang.Class"><code>Class</code></a> instances. The advantage of the <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/ClassMatchedHandler.html" title="se.sics.kompics.ClassMatchedHandler"><code>ClassMatchedHandler</code></a> is that the pattern to match against can be automatically extracted from the signature of the <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/MatchedHandler.html#handle(V,E)" title="se.sics.kompics.MatchedHandler"><code>handle</code></a> method using Java&rsquo;s reflection API. For more general <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/MatchedHandler.html" title="se.sics.kompics.MatchedHandler"><code>MatchedHandler</code></a> usages, the pattern would have to be supplied manually by overriding the <a href="https://javadoc.io/static/se.sics.kompics/kompics-core/1.2.1/se/sics/kompics/MatchedHandler.html#pattern()" title="se.sics.kompics.MatchedHandler"><code>pattern</code></a> method.</p></div>
+<h3><a href="#assembly" name="assembly" class="anchor"><span class="anchor-link"></span></a>Assembly</h3>
+<p>Finally, we need to move away from using sbt to run our code. We need to able to deploy, configure, and run complete artifacts with all dependencies included. To achieve that goal we are going to need four things: </p>
+<ol>
+  <li>The <a href="https://github.com/sbt/sbt-assembly" title="sbt assembly plugin">sbt assembly plugin</a>,</li>
+  <li>a folder named <code>dist</code>, where we collect all deployment artifacts,</li>
+  <li>an <code>application.conf</code> file in the <code>dist</code> folder, that is used to override configuration values from the <code>reference.conf</code> file, which we need to customise for a specific deployment, and</li>
+  <li>two bash scripts <code>pinger.sh</code> and <code>ponger.sh</code>, that hide away the ugly JVM configuration parameters from the users (or simply save us time typing them).</li>
+</ol>
+<p>For the assembly plugin to select the correct main file, if we have more than one, add the following to the build settings:</p><div class="group-java">
+<pre class="prettyprint"><code class="language-scala">mainClass in assembly := Some(&quot;jexamples.networking.pingpongcleaned.Main&quot;)
+</code></pre></div><div class="group-scala">
+<pre class="prettyprint"><code class="language-scala">mainClass in assembly := Some(&quot;sexamples.networking.pingpongcleaned.Main&quot;)
+</code></pre></div>
+<p>Then simply call <code>assembly</code> in sbt.</p>
+<p>After we create the new <code>dist</code> folder and move the new fat jar from the <code>target</code> folder into it, we create the two scripts and the <code>application.conf</code> file such that the content looks similar to the following:</p>
+<pre class="prettyprint"><code class="language-console">$ ls -ohn
+total 9984
+-rw-r--r--  1 501   165B Dec 26 18:43 application.conf
+-rw-r--r--  1 501   4.9M Dec 26 18:28 ping-pong-1.0-SNAPSHOT-fat.jar
+-rwxr-xr-x  1 501    93B Dec 26 18:35 pinger.sh
+-rwxr-xr-x  1 501    93B Dec 26 18:33 ponger.sh
+</code></pre>
+<p>Note the <em>executable</em> flag set on the bash scripts. Now write the following into the newly created files.</p>
+<h4><a href="#application-conf" name="application-conf" class="anchor"><span class="anchor-link"></span></a>application.conf</h4>
+<pre class="prettyprint"><code class="language-hocon">pingpong.ponger.addr = &quot;&quot; // insert ponger self address
+pingpong.pinger.addr = &quot;&quot; // insert pinger self address
+pingpong.pinger.pongeraddr = &quot;&quot; // insert ponger target address
+</code></pre>
+<h4><a href="#pinger-sh" name="pinger-sh" class="anchor"><span class="anchor-link"></span></a>pinger.sh</h4>
+<pre class="prettyprint"><code class="language-bash">#!/bin/bash
+
+java -Dconfig.file=./application.conf -jar ping-pong-1.0-SNAPSHOT-fat.jar pinger
+</code></pre>
+<h4><a href="#ponger-sh" name="ponger-sh" class="anchor"><span class="anchor-link"></span></a>ponger.sh</h4>
+<pre class="prettyprint"><code class="language-bash">#!/bin/bash
+
+java -Dconfig.file=./application.conf -jar ping-pong-1.0-SNAPSHOT-fat.jar ponger
+</code></pre>
+<p>And now you can simply pack up the <code>dist</code> folder and distribute it to two machines that are connected via the network, unpack, and fill in the necessary fields in <code>application.conf</code> on both machines.</p>
+<p>Finally, start first the ponger with:</p>
+<pre class="prettyprint"><code class="language-bash">./ponger.sh
+</code></pre>
+<p>And then the pinger:</p>
+<pre class="prettyprint"><code class="language-bash">./pinger.sh
+</code></pre><div class="callout note "><div class="callout-title">Note</div>
+<p>Of course, the bash files only work on *nix machines. If you need this to run on Windows, you&rsquo;ll either have to write <code>.bat</code> files, or use one of the application packaging tools that generate <code>.exe</code> files from <code>.jar</code> files, and you&rsquo;ll have to fix all the paths.</p></div>
+<div class="source-github">
+The source code for this page can be found <a href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/paradox/tutorial/networking/basic/cleanup.md">here</a>.
+</div>
+
+<div class="nav-next">
+<p><strong>Next:</strong> <a href="../../../tutorial/networking/virtual/index.html">Virtual Networks</a></p>
+</div>
+</div>
+<div class="large-3 show-for-large column" data-sticky-container>
+<nav class="sidebar sticky" data-sticky data-anchor="docs" data-sticky-on="large">
+<div class="page-nav">
+<div class="nav-title">On this page:</div>
+<div class="nav-toc">
+<ul>
+  <li><a href="../../../tutorial/networking/basic/cleanup.html#cleanup" class="header">Cleanup</a>
+  <ul>
+    <li><a href="../../../tutorial/networking/basic/cleanup.html#configuration-files" class="header">Configuration Files</a></li>
+    <li><a href="../../../tutorial/networking/basic/cleanup.html#pattern-matching-messages" class="header">Pattern Matching Messages</a></li>
+    <li><a href="../../../tutorial/networking/basic/cleanup.html#assembly" class="header">Assembly</a></li>
+  </ul></li>
+</ul>
+</div>
+</div>
+</nav>
+</div>
+</div>
+
+</section>
+</div>
+
+</div>
+
+<footer class="site-footer">
+
+<section class="site-footer-nav">
+<div class="expanded row">
+<div class="small-12 large-offset-2 large-10 column">
+<div class="row site-footer-content">
+
+<div class="small-12 medium-4 large-3 text-center column">
+<div class="nav-links">
+<ul>
+<!-- <li><a href="https://www.example.com/products/">Products</a> -->
+</ul>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</section>
+
+<section class="site-footer-base">
+<div class="expanded row">
+<div class="small-12 large-offset-2 large-10 column">
+<div class="row site-footer-content">
+
+<div class="small-12 text-center large-9 column">
+
+<!--
+<div class="copyright">
+<span class="text">&copy; 2020</span>
+<a href="https://www.example.com" class="logo">logo</a>
+</div>
+-->
+</div>
+
+</div>
+</div>
+</div>
+</section>
+</footer>
+
+</div>
+</div>
+</div>
+</body>
+
+<script type="text/javascript" src="../../../lib/foundation/dist/foundation.min.js"></script>
+<script type="text/javascript">jQuery(document).foundation();</script>
+<script type="text/javascript" src="../../../js/magellan.js"></script>
+
+<style type="text/css">@import "../../../lib/prettify/prettify.css";</style>
+<script type="text/javascript" src="../../../lib/prettify/prettify.js"></script>
+<script type="text/javascript" src="../../../lib/prettify/lang-scala.js"></script>
+<script type="text/javascript">jQuery(function(){window.prettyPrint && prettyPrint()});</script>
+<script type="text/javascript">jQuery(function(jq){initOldVersionWarnings(jq, '2.0.0', '')});</script>
+
+
+</html>

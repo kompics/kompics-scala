@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+<title>Introduction to Simulation · Kompics</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content='Kompics-Scala-Docs'/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:100normal,100italic,300normal,300italic,400normal,400italic,500normal,500italic,700normal,700italic,900normal,900italicc" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../lib/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="../../js/page.js"></script>
+<script type="text/javascript" src="../../js/warnOldVersion.js"></script>
+<script type="text/javascript" src="../../js/groups.js"></script>
+<link rel="stylesheet" type="text/css" href="../../lib/foundation/dist/foundation.min.css"/>
+<link rel="stylesheet" type="text/css" href="../../css/page.css"/>
+
+<!--
+<link rel="shortcut icon" href="../../images/favicon.ico" />
+-->
+</head>
+
+<body>
+<div class="off-canvas-wrapper">
+<div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+
+<div class="off-canvas position-left" id="off-canvas-menu" data-off-canvas>
+<nav class="off-canvas-nav">
+<div class="nav-home">
+<a href="../../index.html" >
+<span class="home-icon">⌂</span>Kompics
+</a>
+<div class="version-number">
+2.0.0
+</div>
+</div>
+<select class="supergroup" name="Language"><option class="group" value="group-scala">Scala</option><option class="group" value="group-java">Java</option></select>
+<div class="nav-toc">
+<ul>
+  <li><a href="../../introduction/index.html" class="page">Introduction</a>
+  <ul>
+    <li><a href="../../introduction/whatiskompics.html" class="page">What is Kompics?</a></li>
+    <li><a href="../../introduction/gettingstarted.html" class="page">Getting Started</a></li>
+    <li><a href="../../introduction/helloworld.html" class="page">Hello World in Kompics</a></li>
+  </ul></li>
+  <li><a href="../../tutorial/index.html" class="page">Kompics Tutorial</a>
+  <ul>
+    <li><a href="../../tutorial/basics.html" class="page">Kompics Basics</a></li>
+    <li><a href="../../tutorial/timers.html" class="page">Timers</a></li>
+    <li><a href="../../tutorial/networking/index.html" class="page">Networking</a></li>
+    <li><a href="../../tutorial/simulation/index.html" class="page">Simulation</a></li>
+  </ul></li>
+  <li><a href="../../reference.html" class="page">Reference</a></li>
+</ul>
+</div>
+
+</nav>
+</div>
+
+<div class="off-canvas-content" data-off-canvas-content>
+
+<header class="site-header expanded row">
+<div class="small-12 column">
+<a href="#" class="off-canvas-toggle hide-for-medium" data-toggle="off-canvas-menu"><svg class="svg-icon svg-icon-menu" version="1.1" id="Menu" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 20 20" enable-background="new 0 0 20 20" xml:space="preserve"> <path class="svg-icon-menu-path" fill="#53CDEC" d="M16.4,9H3.6C3.048,9,3,9.447,3,10c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,9.447,16.952,9,16.4,9z M16.4,13
+H3.6C3.048,13,3,13.447,3,14c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,13.447,16.952,13,16.4,13z M3.6,7H16.4
+C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.048,7,3.6,7z"/></svg>
+</a>
+<div class="title"><a href="../../index.html">Kompics</a></div>
+
+<!--
+<a href="https://www.example.com" class="logo show-for-medium">logo</a>
+-->
+</div>
+</header>
+
+<div class="expanded row">
+
+<div class="medium-3 large-2 show-for-medium column">
+<nav class="site-nav">
+<div class="nav-home">
+<a href="../../index.html" >
+<span class="home-icon">⌂</span>Kompics
+</a>
+<div class="version-number">
+2.0.0
+</div>
+</div>
+<select class="supergroup" name="Language"><option class="group" value="group-scala">Scala</option><option class="group" value="group-java">Java</option></select>
+<div class="nav-toc">
+<ul>
+  <li><a href="../../introduction/index.html" class="page">Introduction</a>
+  <ul>
+    <li><a href="../../introduction/whatiskompics.html" class="page">What is Kompics?</a></li>
+    <li><a href="../../introduction/gettingstarted.html" class="page">Getting Started</a></li>
+    <li><a href="../../introduction/helloworld.html" class="page">Hello World in Kompics</a></li>
+  </ul></li>
+  <li><a href="../../tutorial/index.html" class="page">Kompics Tutorial</a>
+  <ul>
+    <li><a href="../../tutorial/basics.html" class="page">Kompics Basics</a></li>
+    <li><a href="../../tutorial/timers.html" class="page">Timers</a></li>
+    <li><a href="../../tutorial/networking/index.html" class="page">Networking</a></li>
+    <li><a href="../../tutorial/simulation/index.html" class="page">Simulation</a></li>
+  </ul></li>
+  <li><a href="../../reference.html" class="page">Reference</a></li>
+</ul>
+</div>
+
+</nav>
+</div>
+
+<div class="small-12 medium-9 large-10 column">
+<section class="site-content">
+
+<span id="version-warning"></span>
+
+<div class="page-header row">
+<div class="medium-12 show-for-medium column">
+<div class="nav-breadcrumbs">
+<ul>
+  <li><a href="../../index.html">Kompics</a></li>
+  <li><a href="../../tutorial/index.html">Kompics Tutorial</a></li>
+  <li><a href="../../tutorial/simulation/index.html">Simulation</a></li>
+  <li>Introduction to Simulation</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="page-content row">
+<div class="small-12 large-9 column" id="docs">
+<h2><a href="#introduction-to-simulation" name="introduction-to-simulation" class="anchor"><span class="anchor-link"></span></a>Introduction to Simulation</h2>
+<p>In order to use the simulator, we must first write a simulation scenario. A scenario is a parallel and/or sequential composition of <em>stochastic processes</em>, which is a finite random sequence of events. We invoke a stochastic process with a specified distribution of inter-arrival times. In other words, stochastic processes define series of events that occur in simulation.</p>
+<h3><a href="#stochastic-processes-and-operations" name="stochastic-processes-and-operations" class="anchor"><span class="anchor-link"></span></a>Stochastic Processes and Operations</h3>
+<p>The following snippet of code creates a single stochastic process that will generate 1000 events of type <code>SimpleEvent</code> with an interarrival time of 2000ms (or 2s) of <em>simulation time</em>.</p>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/simulation/basic/BasicSimulation.java#L10-L42" target="_blank" title="Go to snippet source"></a><code class="language-java">static Operation&lt;SimpleEvent&gt; simpleEventGen1 =
+    new Operation&lt;SimpleEvent&gt;() {
+
+      @Override
+      public SimpleEvent generate() {
+        return new SimpleEvent();
+      }
+    };
+          StochasticProcess p1 =
+              new StochasticProcess() {
+                {
+                  eventInterarrivalTime(constant(2000));
+                  raise(1000, simpleEventGen1);
+                }
+              };</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/simulation/basic/BasicSimulation.scala#L16-L30" target="_blank" title="Go to snippet source"></a><code class="language-scala">val simpleEventGen1 = Op { (_: Unit) =&gt;
+  SimpleEvent()
+};
+  /* ... */
+  raise(1000, simpleEventGen1).arrival(constant(2.seconds))</code></pre></dd>
+</dl>
+<p>However, in the example above, all events are exactly the same; there is no variation to the 1000 events generated. We can generate events that differ slightly, by having the event take an integer parameter and generating this parameter randomly.</p>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/simulation/basic/BasicSimulation.java#L21-L52" target="_blank" title="Go to snippet source"></a><code class="language-java">static Operation1&lt;SimpleEvent, Long&gt; simpleEventGen2 =
+    new Operation1&lt;SimpleEvent, Long&gt;() {
+
+      @Override
+      public SimpleEvent generate(Long param) {
+        return new SimpleEvent(param);
+      }
+    };
+          StochasticProcess p2 =
+              new StochasticProcess() {
+                {
+                  eventInterarrivalTime(constant(2000));
+                  raise(1000, simpleEventGen2, uniform(1000L, 2000L));
+                }
+              };</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/simulation/basic/BasicSimulation.scala#L22-L34" target="_blank" title="Go to snippet source"></a><code class="language-scala">val simpleEventGen2 = Op { (param: java.lang.Long) =&gt;
+  SimpleEvent(param)
+};
+  /* ... */
+  raise(1000, simpleEventGen2, uniform(1000L, 2000L)).arrival(constant(2.seconds))</code></pre></dd>
+</dl>
+<p>The new events generated have a parameter that takes uniform long random values between 1000 and 2000. Both the interarrival time and the event parameters are defined as instances of <a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/adaptor/distributions/Distribution.html" title="se.sics.kompics.simulator.adaptor.distributions.Distribution"><code>Distribution</code></a>, and the <span class="group-java"><a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/SimulationScenario.html#constant(long)" title="se.sics.kompics.simulator.SimulationScenario"><code>constant</code></a></span><span class="group-scala"><a href="https://kompics.github.io/kompics-scala/api/se/sics/kompics/sl/simulator/Distributions$.html#constant(Long)" title="se.sics.kompics.sl.simulator.Distributions"><code>constant</code></a></span> and <span class="group-java"><a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/SimulationScenario.html#uniform(long,long)" title="se.sics.kompics.simulator.SimulationScenario"><code>uniform</code></a></span><span class="group-scala"><a href="https://kompics.github.io/kompics-scala/api/se/sics/kompics/sl/simulator/Distributions$.html#uniform(Long,Long)" title="se.sics.kompics.sl.simulator.Distributions"><code>uniform</code></a></span> are just helper methods to generate these distributions. </p>
+<p>There are several types of operations (<a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/adaptor/Operation.html" title="se.sics.kompics.simulator.adaptor.Operation"><code>Operation</code></a>, <a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/adaptor/Operation1.html" title="se.sics.kompics.simulator.adaptor.Operation1"><code>Operation1</code></a>, &hellip;, <a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/adaptor/Operation5.html" title="se.sics.kompics.simulator.adaptor.Operation5"><code>Operation5</code></a>) that can be interpreted by the simulator, and they differ in the number of parameters they take to customise the generated events. All parameters are given as distributions. There are a number of distributions provided by the simulator, or you can write your own distribution by extending <a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/adaptor/distributions/Distribution.html" title="se.sics.kompics.simulator.adaptor.distributions.Distribution"><code>Distribution</code></a>. </p>
+<p>In order to start the stochastic processes and to define the iterative/parallel behaviour, <span class="group-java">the <a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/SimulationScenario.StochasticProcess.html" title="se.sics.kompics.simulator.SimulationScenario.StochasticProcess"><code>StochasticProcess</code></a> has a number of start/terminate methods</span><span class="group-scala">a <a href="https://kompics.github.io/kompics-scala/api/se/sics/kompics/sl/simulator/StochasticProcessBuilder.html" title="se.sics.kompics.sl.simulator.StochasticProcessBuilder"><code>builder DSL</code></a> is provided</span>.</p>
+<p>If we want to start the two stochastic processes above, a possible example would be:</p>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/simulation/basic/BasicSimulation.java#L56-L58" target="_blank" title="Go to snippet source"></a><code class="language-java">p1.start();
+p2.startAfterTerminationOf(1000, p1);
+terminateAfterTerminationOf(1000, p2);</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/simulation/basic/BasicSimulation.scala#L40-L48" target="_blank" title="Go to snippet source"></a><code class="language-scala">val scenario = raise(1000, simpleEventGen1)
+  .arrival(constant(2.seconds))
+  .andThen(1.second)
+  .afterTermination(
+    raise(1000, simpleEventGen2, uniform(1000L, 2000L))
+      .arrival(constant(2.seconds))
+  )
+  .andThen(2.seconds)
+  .afterTermination(Terminate);</code></pre></dd>
+</dl>
+<p>The above example would start the first stochastic process at the beginning of the simulation. After all 1000 if its events are generated, the simulation waits another 1000ms of simulation time and then starts the second stochastic process. After generating all 1000 of its defined events and waiting another 2000ms of simulation time, the simulation is terminated.</p>
+<h3><a href="#simluation-scenario" name="simluation-scenario" class="anchor"><span class="anchor-link"></span></a>Simluation Scenario</h3>
+<p>The stochastic processes created and their order will be defined within a <a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/SimulationScenario.html" title="se.sics.kompics.simulator.SimulationScenario"><code>SimulationScenario</code></a>, such as the on the in the following <span class="group-java">class</span><span class="group-scala">object</span>.</p>
+<h4><a href="#basic-scenario" name="basic-scenario" class="anchor"><span class="anchor-link"></span></a>Basic Scenario</h4>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/simulation/basic/BasicSimulation.java" target="_blank" title="Go to snippet source"></a><code class="language-java">package jexamples.simulation.basic;
+
+import se.sics.kompics.simulator.adaptor.Operation;
+import se.sics.kompics.simulator.adaptor.Operation1;
+import se.sics.kompics.simulator.SimulationScenario;
+
+public class BasicSimulation {
+
+  static Operation&lt;SimpleEvent&gt; simpleEventGen1 =
+      new Operation&lt;SimpleEvent&gt;() {
+
+        @Override
+        public SimpleEvent generate() {
+          return new SimpleEvent();
+        }
+      };
+
+  static Operation1&lt;SimpleEvent, Long&gt; simpleEventGen2 =
+      new Operation1&lt;SimpleEvent, Long&gt;() {
+
+        @Override
+        public SimpleEvent generate(Long param) {
+          return new SimpleEvent(param);
+        }
+      };
+
+  public static SimulationScenario scenario() {
+    SimulationScenario scen =
+        new SimulationScenario() {
+          {
+            StochasticProcess p1 =
+                new StochasticProcess() {
+                  {
+                    eventInterarrivalTime(constant(2000));
+                    raise(1000, simpleEventGen1);
+                  }
+                };
+
+            StochasticProcess p2 =
+                new StochasticProcess() {
+                  {
+                    eventInterarrivalTime(constant(2000));
+                    raise(1000, simpleEventGen2, uniform(1000L, 2000L));
+                  }
+                };
+
+            p1.start();
+            p2.startAfterTerminationOf(1000, p1);
+            terminateAfterTerminationOf(1000, p2);
+          }
+        };
+    return scen;
+  }
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/simulation/basic/BasicSimulation.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package sexamples.simulation.basic
+
+import se.sics.kompics.sl._
+import se.sics.kompics.sl.simulator._
+import se.sics.kompics.simulator.{SimulationScenario =&gt; JSimulationScenario}
+import scala.concurrent.duration._
+
+case class SimpleEvent(num: Long = 0L) extends KompicsEvent;
+
+object BasicSimulation {
+  import Distributions._
+  // needed for the distributions, but needs to be initialised after setting the seed
+  implicit val random = JSimulationScenario.getRandom();
+
+  val simpleEventGen1 = Op { (_: Unit) =&gt;
+    SimpleEvent()
+  };
+
+  val simpleEventGen2 = Op { (param: java.lang.Long) =&gt;
+    SimpleEvent(param)
+  };
+
+  val _ignoreThisIsJustForDocs = {
+    /* ... */
+    raise(1000, simpleEventGen1).arrival(constant(2.seconds))
+    /* ... */
+    raise(1000, simpleEventGen2, uniform(1000L, 2000L)).arrival(constant(2.seconds))
+    ()
+  }
+
+  val scenario = raise(1000, simpleEventGen1)
+    .arrival(constant(2.seconds))
+    .andThen(1.second)
+    .afterTermination(
+      raise(1000, simpleEventGen2, uniform(1000L, 2000L))
+        .arrival(constant(2.seconds))
+    )
+    .andThen(2.seconds)
+    .afterTermination(Terminate);
+}</code></pre></dd>
+</dl>
+<h3><a href="#running-a-simulation-scenario" name="running-a-simulation-scenario" class="anchor"><span class="anchor-link"></span></a>Running a Simulation Scenario</h3>
+<p>In order to run the simulation scenario, the following <code>Main</code> code is required:</p>
+<dl>
+  <dt>Java</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/java/jexamples/simulation/basic/Main.java" target="_blank" title="Go to snippet source"></a><code class="language-java">package jexamples.simulation.basic;
+
+import se.sics.kompics.simulator.SimulationScenario;
+import se.sics.kompics.simulator.run.LauncherComp;
+
+public class Main {
+  public static void main(String[] args) {
+    long seed = 123;
+    SimulationScenario.setSeed(seed);
+    SimulationScenario simpleBootScenario = BasicSimulation.scenario();
+    simpleBootScenario.simulate(LauncherComp.class);
+  }
+}</code></pre></dd>
+  <dt>Scala</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/scala/sexamples/simulation/basic/Main.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package sexamples.simulation.basic
+
+import se.sics.kompics.simulator.SimulationScenario
+import se.sics.kompics.simulator.run.LauncherComp
+
+object Main {
+  def main(args: Array[String]): Unit = {
+    val seed = 123;
+    SimulationScenario.setSeed(seed);
+    val simpleBootScenario = BasicSimulation.scenario;
+    simpleBootScenario.simulate(classOf[LauncherComp]);
+  }
+}</code></pre></dd>
+</dl>
+<p>In the above code, we set the simulation scenario <em>seed</em> (more about this seed in later sections), we construct the simulation scenario and we use the <a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/run/LauncherComp.html" title="se.sics.kompics.simulator.run.LauncherComp"><code>LauncherComp</code></a> to execute it.</p>
+<p>We can attempt to run this using:</p><div class="group-java">
+<pre class="prettyprint"><code class="language-bash">runMain jexamples.simulation.basic.Main
+</code></pre></div><div class="group-scala">
+<pre class="prettyprint"><code class="language-bash">runMain sexamples.simulation.basic.Main
+</code></pre></div>
+<p>However, the execution will fail with an exception indicating that we are triggering an invalid event. In fact, the only events that can be generated by stochastic processes and interpreted by the simulator are:</p>
+<ol>
+  <li><a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/events/SetupEvent.html" title="se.sics.kompics.simulator.events.SetupEvent"><code>SetupEvent</code></a></li>
+  <li><a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/events/system/StartNodeEvent.html" title="se.sics.kompics.simulator.events.system.StartNodeEvent"><code>StartNodeEvent</code></a></li>
+  <li><a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/events/system/KillNodeEvent.html" title="se.sics.kompics.simulator.events.system.KillNodeEvent"><code>KillNodeEvent</code></a></li>
+  <li><a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/events/TerminateExperiment.html" title="se.sics.kompics.simulator.events.TerminateExperiment"><code>TerminateExperiment</code></a></li>
+  <li><a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/events/system/ChangeNetworkModelEvent.html" title="se.sics.kompics.simulator.events.system.ChangeNetworkModelEvent"><code>ChangeNetworkModelEvent</code></a></li>
+</ol>
+<p>You can read more about operations, distributions and stochastic processes in the section on <a href="scenarios.html">Scenarios</a>.</p>
+<div class="source-github">
+The source code for this page can be found <a href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/paradox/tutorial/simulation/introduction.md">here</a>.
+</div>
+
+<div class="nav-next">
+<p><strong>Next:</strong> <a href="../../tutorial/simulation/pingpong.html">PingPong Simulation</a></p>
+</div>
+</div>
+<div class="large-3 show-for-large column" data-sticky-container>
+<nav class="sidebar sticky" data-sticky data-anchor="docs" data-sticky-on="large">
+<div class="page-nav">
+<div class="nav-title">On this page:</div>
+<div class="nav-toc">
+<ul>
+  <li><a href="../../tutorial/simulation/introduction.html#introduction-to-simulation" class="header">Introduction to Simulation</a>
+  <ul>
+    <li><a href="../../tutorial/simulation/introduction.html#stochastic-processes-and-operations" class="header">Stochastic Processes and Operations</a></li>
+    <li><a href="../../tutorial/simulation/introduction.html#simluation-scenario" class="header">Simluation Scenario</a></li>
+    <li><a href="../../tutorial/simulation/introduction.html#running-a-simulation-scenario" class="header">Running a Simulation Scenario</a></li>
+  </ul></li>
+</ul>
+</div>
+</div>
+</nav>
+</div>
+</div>
+
+</section>
+</div>
+
+</div>
+
+<footer class="site-footer">
+
+<section class="site-footer-nav">
+<div class="expanded row">
+<div class="small-12 large-offset-2 large-10 column">
+<div class="row site-footer-content">
+
+<div class="small-12 medium-4 large-3 text-center column">
+<div class="nav-links">
+<ul>
+<!-- <li><a href="https://www.example.com/products/">Products</a> -->
+</ul>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</section>
+
+<section class="site-footer-base">
+<div class="expanded row">
+<div class="small-12 large-offset-2 large-10 column">
+<div class="row site-footer-content">
+
+<div class="small-12 text-center large-9 column">
+
+<!--
+<div class="copyright">
+<span class="text">&copy; 2020</span>
+<a href="https://www.example.com" class="logo">logo</a>
+</div>
+-->
+</div>
+
+</div>
+</div>
+</div>
+</section>
+</footer>
+
+</div>
+</div>
+</div>
+</body>
+
+<script type="text/javascript" src="../../lib/foundation/dist/foundation.min.js"></script>
+<script type="text/javascript">jQuery(document).foundation();</script>
+<script type="text/javascript" src="../../js/magellan.js"></script>
+
+<style type="text/css">@import "../../lib/prettify/prettify.css";</style>
+<script type="text/javascript" src="../../lib/prettify/prettify.js"></script>
+<script type="text/javascript" src="../../lib/prettify/lang-scala.js"></script>
+<script type="text/javascript">jQuery(function(){window.prettyPrint && prettyPrint()});</script>
+<script type="text/javascript">jQuery(function(jq){initOldVersionWarnings(jq, '2.0.0', '')});</script>
+
+
+</html>

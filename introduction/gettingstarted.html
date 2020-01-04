@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+<title>Getting Started · Kompics</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content='Kompics-Scala-Docs'/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:100normal,100italic,300normal,300italic,400normal,400italic,500normal,500italic,700normal,700italic,900normal,900italicc" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../lib/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="../js/page.js"></script>
+<script type="text/javascript" src="../js/warnOldVersion.js"></script>
+<script type="text/javascript" src="../js/groups.js"></script>
+<link rel="stylesheet" type="text/css" href="../lib/foundation/dist/foundation.min.css"/>
+<link rel="stylesheet" type="text/css" href="../css/page.css"/>
+
+<!--
+<link rel="shortcut icon" href="../images/favicon.ico" />
+-->
+</head>
+
+<body>
+<div class="off-canvas-wrapper">
+<div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+
+<div class="off-canvas position-left" id="off-canvas-menu" data-off-canvas>
+<nav class="off-canvas-nav">
+<div class="nav-home">
+<a href="../index.html" >
+<span class="home-icon">⌂</span>Kompics
+</a>
+<div class="version-number">
+2.0.0
+</div>
+</div>
+<select class="supergroup" name="Language"><option class="group" value="group-scala">Scala</option><option class="group" value="group-java">Java</option></select>
+<div class="nav-toc">
+<ul>
+  <li><a href="../introduction/index.html" class="page">Introduction</a>
+  <ul>
+    <li><a href="../introduction/whatiskompics.html" class="page">What is Kompics?</a></li>
+    <li><a href="../introduction/gettingstarted.html" class="active page">Getting Started</a></li>
+    <li><a href="../introduction/helloworld.html" class="page">Hello World in Kompics</a></li>
+  </ul></li>
+  <li><a href="../tutorial/index.html" class="page">Kompics Tutorial</a>
+  <ul>
+    <li><a href="../tutorial/basics.html" class="page">Kompics Basics</a></li>
+    <li><a href="../tutorial/timers.html" class="page">Timers</a></li>
+    <li><a href="../tutorial/networking/index.html" class="page">Networking</a></li>
+    <li><a href="../tutorial/simulation/index.html" class="page">Simulation</a></li>
+  </ul></li>
+  <li><a href="../reference.html" class="page">Reference</a></li>
+</ul>
+</div>
+
+</nav>
+</div>
+
+<div class="off-canvas-content" data-off-canvas-content>
+
+<header class="site-header expanded row">
+<div class="small-12 column">
+<a href="#" class="off-canvas-toggle hide-for-medium" data-toggle="off-canvas-menu"><svg class="svg-icon svg-icon-menu" version="1.1" id="Menu" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 20 20" enable-background="new 0 0 20 20" xml:space="preserve"> <path class="svg-icon-menu-path" fill="#53CDEC" d="M16.4,9H3.6C3.048,9,3,9.447,3,10c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,9.447,16.952,9,16.4,9z M16.4,13
+H3.6C3.048,13,3,13.447,3,14c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,13.447,16.952,13,16.4,13z M3.6,7H16.4
+C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.048,7,3.6,7z"/></svg>
+</a>
+<div class="title"><a href="../index.html">Kompics</a></div>
+
+<!--
+<a href="https://www.example.com" class="logo show-for-medium">logo</a>
+-->
+</div>
+</header>
+
+<div class="expanded row">
+
+<div class="medium-3 large-2 show-for-medium column">
+<nav class="site-nav">
+<div class="nav-home">
+<a href="../index.html" >
+<span class="home-icon">⌂</span>Kompics
+</a>
+<div class="version-number">
+2.0.0
+</div>
+</div>
+<select class="supergroup" name="Language"><option class="group" value="group-scala">Scala</option><option class="group" value="group-java">Java</option></select>
+<div class="nav-toc">
+<ul>
+  <li><a href="../introduction/index.html" class="page">Introduction</a>
+  <ul>
+    <li><a href="../introduction/whatiskompics.html" class="page">What is Kompics?</a></li>
+    <li><a href="../introduction/gettingstarted.html" class="active page">Getting Started</a></li>
+    <li><a href="../introduction/helloworld.html" class="page">Hello World in Kompics</a></li>
+  </ul></li>
+  <li><a href="../tutorial/index.html" class="page">Kompics Tutorial</a>
+  <ul>
+    <li><a href="../tutorial/basics.html" class="page">Kompics Basics</a></li>
+    <li><a href="../tutorial/timers.html" class="page">Timers</a></li>
+    <li><a href="../tutorial/networking/index.html" class="page">Networking</a></li>
+    <li><a href="../tutorial/simulation/index.html" class="page">Simulation</a></li>
+  </ul></li>
+  <li><a href="../reference.html" class="page">Reference</a></li>
+</ul>
+</div>
+
+</nav>
+</div>
+
+<div class="small-12 medium-9 large-10 column">
+<section class="site-content">
+
+<span id="version-warning"></span>
+
+<div class="page-header row">
+<div class="medium-12 show-for-medium column">
+<div class="nav-breadcrumbs">
+<ul>
+  <li><a href="../index.html">Kompics</a></li>
+  <li><a href="../introduction/index.html">Introduction</a></li>
+  <li>Getting Started</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="page-content row">
+<div class="small-12 large-9 column" id="docs">
+<h1><a href="#getting-started" name="getting-started" class="anchor"><span class="anchor-link"></span></a>Getting Started</h1>
+<h2><a href="#prerequisites" name="prerequisites" class="anchor"><span class="anchor-link"></span></a>Prerequisites</h2>
+<p>Kompics requires that you have a JDK on your machine. Since Kompics <code>1.1.0</code> at least Java 8 is required, and any newer release should work fine.</p>
+<h2><a href="#including-kompics" name="including-kompics" class="anchor"><span class="anchor-link"></span></a>Including Kompics</h2>
+<p>The best way to include Kompics is to use a build tool, such as <a href="https://www.scala-sbt.org/" title="SBT">SBT</a> or <a href="https://maven.apache.org/" title="Maven">Maven</a>, and add the required Kompics modules as a dependency.</p>
+<h3><a href="#modules" name="modules" class="anchor"><span class="anchor-link"></span></a>Modules</h3>
+<p>Kompics is very modular and consists of several sub-projects, containing different features, ports, and components.</p>
+<h4><a href="#kompics-core" name="kompics-core" class="anchor"><span class="anchor-link"></span></a>Kompics Core</h4>
+<p>The <code>kompics-core</code> module contains Kompics&rsquo; Java runtime and the basic definitions. It is the minimum required dependency in Kompics Java.</p><dl class="dependency"><dt>sbt</dt><dd><pre class="prettyprint"><code class="language-scala">libraryDependencies += "se.sics.kompics" % "kompics-core" % "1.2.1"</code></pre></dd><dt>Maven</dt><dd><pre class="prettyprint"><code class="language-xml">&lt;dependency&gt;
+  &lt;groupId&gt;se.sics.kompics&lt;/groupId&gt;
+  &lt;artifactId&gt;kompics-core&lt;/artifactId&gt;
+  &lt;version&gt;1.2.1&lt;/version&gt;
+&lt;/dependency&gt;</code></pre></dd><dt>Gradle</dt><dd><pre class="prettyprint"><code class="language-gradle">dependencies {
+  compile group: 'se.sics.kompics', name: 'kompics-core', version: '1.2.1'
+}</code></pre></dd></dl>
+<h4><a href="#kompics-scala" name="kompics-scala" class="anchor"><span class="anchor-link"></span></a>Kompics Scala</h4>
+<p>The <code>kompics-scala</code> module provides the core Scala DSL for Kompics. Projects including it as a dependency should elide the <code>kompics-core</code> dependency above, as it is automatically pulled in as a transitive dependency in the correct version.</p><dl class="dependency"><dt>sbt</dt><dd><pre class="prettyprint"><code class="language-scala">libraryDependencies += "se.sics.kompics" %% "kompics-scala" % "2.0.0"</code></pre></dd><dt>Maven</dt><dd><pre class="prettyprint"><code class="language-xml">&lt;dependency&gt;
+  &lt;groupId&gt;se.sics.kompics&lt;/groupId&gt;
+  &lt;artifactId&gt;kompics-scala_2.13&lt;/artifactId&gt;
+  &lt;version&gt;2.0.0&lt;/version&gt;
+&lt;/dependency&gt;</code></pre></dd><dt>Gradle</dt><dd><pre class="prettyprint"><code class="language-gradle">dependencies {
+  compile group: 'se.sics.kompics', name: 'kompics-scala_2.13', version: '2.0.0'
+}</code></pre></dd></dl>
+<h4><a href="#timer" name="timer" class="anchor"><span class="anchor-link"></span></a>Timer</h4>
+<p>The <code>kompics-port-timer</code> module provides the definition of a port that provides scheduled timeouts. An implementation of that port can be found in the <code>kompics-component-java-timer</code> module.</p><dl class="dependency"><dt>sbt</dt><dd><pre class="prettyprint"><code class="language-scala">libraryDependencies ++= Seq(
+  "se.sics.kompics.basic" % "kompics-port-timer" % "1.2.1",
+  "se.sics.kompics.basic" % "kompics-component-java-timer" % "1.2.1"
+)</code></pre></dd><dt>Maven</dt><dd><pre class="prettyprint"><code class="language-xml">&lt;dependency&gt;
+  &lt;groupId&gt;se.sics.kompics.basic&lt;/groupId&gt;
+  &lt;artifactId&gt;kompics-port-timer&lt;/artifactId&gt;
+  &lt;version&gt;1.2.1&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;se.sics.kompics.basic&lt;/groupId&gt;
+  &lt;artifactId&gt;kompics-component-java-timer&lt;/artifactId&gt;
+  &lt;version&gt;1.2.1&lt;/version&gt;
+&lt;/dependency&gt;</code></pre></dd><dt>Gradle</dt><dd><pre class="prettyprint"><code class="language-gradle">dependencies {
+  compile group: 'se.sics.kompics.basic', name: 'kompics-port-timer', version: '1.2.1',
+  compile group: 'se.sics.kompics.basic', name: 'kompics-component-java-timer', version: '1.2.1'
+}</code></pre></dd></dl>
+<h4><a href="#network" name="network" class="anchor"><span class="anchor-link"></span></a>Network</h4>
+<p>The <code>kompics-port-network</code> module provides the definition of a port that provides networking capabilities, that is sending of addressed messages over network protocols. An implementation of that port using the <a href="https://netty.io/" title="Netty library">Netty library</a> can be found in the <code>kompics-component-netty-network</code> module. It provides networking via TCP, UDP, and UDT.</p><dl class="dependency"><dt>sbt</dt><dd><pre class="prettyprint"><code class="language-scala">libraryDependencies ++= Seq(
+  "se.sics.kompics.basic" % "kompics-port-network" % "1.2.1",
+  "se.sics.kompics.basic" % "kompics-component-netty-network" % "1.2.1"
+)</code></pre></dd><dt>Maven</dt><dd><pre class="prettyprint"><code class="language-xml">&lt;dependency&gt;
+  &lt;groupId&gt;se.sics.kompics.basic&lt;/groupId&gt;
+  &lt;artifactId&gt;kompics-port-network&lt;/artifactId&gt;
+  &lt;version&gt;1.2.1&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;se.sics.kompics.basic&lt;/groupId&gt;
+  &lt;artifactId&gt;kompics-component-netty-network&lt;/artifactId&gt;
+  &lt;version&gt;1.2.1&lt;/version&gt;
+&lt;/dependency&gt;</code></pre></dd><dt>Gradle</dt><dd><pre class="prettyprint"><code class="language-gradle">dependencies {
+  compile group: 'se.sics.kompics.basic', name: 'kompics-port-network', version: '1.2.1',
+  compile group: 'se.sics.kompics.basic', name: 'kompics-component-netty-network', version: '1.2.1'
+}</code></pre></dd></dl>
+<p>Additionally, the kompics-port-virtual-network adds a few definitions to the network port to allow for the usage of <em>virtual nodes</em> within the same Kompics instance.</p><dl class="dependency"><dt>sbt</dt><dd><pre class="prettyprint"><code class="language-scala">libraryDependencies += "se.sics.kompics.basic" % "kompics-port-virtual-network" % "1.2.1"</code></pre></dd><dt>Maven</dt><dd><pre class="prettyprint"><code class="language-xml">&lt;dependency&gt;
+  &lt;groupId&gt;se.sics.kompics.basic&lt;/groupId&gt;
+  &lt;artifactId&gt;kompics-port-virtual-network&lt;/artifactId&gt;
+  &lt;version&gt;1.2.1&lt;/version&gt;
+&lt;/dependency&gt;</code></pre></dd><dt>Gradle</dt><dd><pre class="prettyprint"><code class="language-gradle">dependencies {
+  compile group: 'se.sics.kompics.basic', name: 'kompics-port-virtual-network', version: '1.2.1'
+}</code></pre></dd></dl>
+<h4><a href="#simulator" name="simulator" class="anchor"><span class="anchor-link"></span></a>Simulator</h4>
+<p>Kompics comes with a DSL to describe experiment/test scenarios and a scheduler and base components to run them. These can be found in the Kompics Simulator module.</p><dl class="dependency"><dt>sbt</dt><dd><pre class="prettyprint"><code class="language-scala">libraryDependencies += "se.sics.kompics.simulator" % "core" % "1.2.1"</code></pre></dd><dt>Maven</dt><dd><pre class="prettyprint"><code class="language-xml">&lt;dependency&gt;
+  &lt;groupId&gt;se.sics.kompics.simulator&lt;/groupId&gt;
+  &lt;artifactId&gt;core&lt;/artifactId&gt;
+  &lt;version&gt;1.2.1&lt;/version&gt;
+&lt;/dependency&gt;</code></pre></dd><dt>Gradle</dt><dd><pre class="prettyprint"><code class="language-gradle">dependencies {
+  compile group: 'se.sics.kompics.simulator', name: 'core', version: '1.2.1'
+}</code></pre></dd></dl>
+<p>As setting up simulation scenarios can be quite verbose using the Java API, there is also a Scala DSL for the simulator, that makes creation of simulations a bit more streamlined.</p><dl class="dependency"><dt>sbt</dt><dd><pre class="prettyprint"><code class="language-scala">libraryDependencies += "se.sics.kompics" % "kompics-scala-simulator" % "2.0.0"</code></pre></dd><dt>Maven</dt><dd><pre class="prettyprint"><code class="language-xml">&lt;dependency&gt;
+  &lt;groupId&gt;se.sics.kompics&lt;/groupId&gt;
+  &lt;artifactId&gt;kompics-scala-simulator&lt;/artifactId&gt;
+  &lt;version&gt;2.0.0&lt;/version&gt;
+&lt;/dependency&gt;</code></pre></dd><dt>Gradle</dt><dd><pre class="prettyprint"><code class="language-gradle">dependencies {
+  compile group: 'se.sics.kompics', name: 'kompics-scala-simulator', version: '2.0.0'
+}</code></pre></dd></dl><div class="callout note "><div class="callout-title">Note</div>
+<p>Implementations always depend on the modules defining the port types they implement. Thus it is sufficient to add the implementation as a dependency. The separation is meant to allow different implementations for the same port type.</p></div>
+<h2><a href="#ide-support" name="ide-support" class="anchor"><span class="anchor-link"></span></a>IDE Support</h2>
+<p>Kompics (Java) can be used with any IDE that supports Java and maven, such as <a href="https://www.jetbrains.com" title="IntelliJ">IntelliJ</a>, <a href="https://www.eclipse.org/" title="Eclipse">Eclipse</a>, or <a href="https://netbeans.org/" title="Netbeans">Netbeans</a>, for example.</p>
+<p>Kompics Scala can be used with any IDE that supports Scala, such as <a href="https://www.jetbrains.com/help/idea/discover-intellij-idea-for-scala.html" title="IntelliJ">IntelliJ</a>, <a href="http://scala-ide.org/" title="Scala IDE">Scala IDE</a>, or <a href="https://code.visualstudio.com/" title="VSCode">VSCode</a> via <a href="https://scalameta.org/metals/" title="Metals">Metals</a>.</p>
+<h2><a href="#build-from-sources" name="build-from-sources" class="anchor"><span class="anchor-link"></span></a>Build from Sources</h2>
+<p>The sources for Kompics Scala are hosted on <a href="https://github.com/kompics">Github</a>.</p>
+<p>To clone the sources you need <a href="http://git-scm.com" title="Git">Git</a> installed on your machine.</p>
+<h3><a href="#kompics-java-from-source" name="kompics-java-from-source" class="anchor"><span class="anchor-link"></span></a>Kompics Java from Source</h3>
+<p>To clone Kompics Java, for example, execute the following in a shell:</p>
+<pre class="prettyprint"><code class="language-bash">git clone git@github.com:kompics/kompics.git
+</code></pre>
+<p>If you have already cloned the repository previously then you can update the code with git pull:</p>
+<pre class="prettyprint"><code class="language-bash">git pull origin master
+</code></pre>
+<p>Change into the <code>kompics</code> root directory and execute the following command to build and install a local Kompics version:</p>
+<pre class="prettyprint"><code class="language-bash">mvn clean install
+</code></pre><div class="callout note "><div class="callout-title">Note</div>
+<p>Some of the tests take a very long time to execute and open a lot of file-descriptors. Depending on the rights on your machine, they might in fact fail for you. Either increase the number of concurrent open file-handles allowed for your user, or simply skip the tests with <code>-DskipTests</code>.</p></div>
+<h3><a href="#kompics-scala-from-source" name="kompics-scala-from-source" class="anchor"><span class="anchor-link"></span></a>Kompics Scala from Source</h3>
+<p>To clone Kompics Scala, for example, execute the following in a shell:</p>
+<pre class="prettyprint"><code class="language-bash">git clone git@github.com:kompics/kompics-scala.git
+</code></pre>
+<p>If you have already cloned the repository previously then you can update the code with git pull:</p>
+<pre class="prettyprint"><code class="language-bash">git pull origin master
+</code></pre>
+<p>Change into the <code>kompics-scala</code> root directory and execute the following command to build and install a local Kompics Scala version:</p>
+<pre class="prettyprint"><code class="language-bash">sbt publishLocal
+</code></pre>
+<div class="source-github">
+The source code for this page can be found <a href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/paradox/introduction/gettingstarted.md">here</a>.
+</div>
+
+<div class="nav-next">
+<p><strong>Next:</strong> <a href="../introduction/helloworld.html">Hello World in Kompics</a></p>
+</div>
+</div>
+<div class="large-3 show-for-large column" data-sticky-container>
+<nav class="sidebar sticky" data-sticky data-anchor="docs" data-sticky-on="large">
+<div class="page-nav">
+<div class="nav-title">On this page:</div>
+<div class="nav-toc">
+<ul>
+  <li><a href="../introduction/gettingstarted.html#getting-started" class="header">Getting Started</a>
+  <ul>
+    <li><a href="../introduction/gettingstarted.html#prerequisites" class="header">Prerequisites</a></li>
+    <li><a href="../introduction/gettingstarted.html#including-kompics" class="header">Including Kompics</a></li>
+    <li><a href="../introduction/gettingstarted.html#ide-support" class="header">IDE Support</a></li>
+    <li><a href="../introduction/gettingstarted.html#build-from-sources" class="header">Build from Sources</a></li>
+  </ul></li>
+</ul>
+</div>
+</div>
+</nav>
+</div>
+</div>
+
+</section>
+</div>
+
+</div>
+
+<footer class="site-footer">
+
+<section class="site-footer-nav">
+<div class="expanded row">
+<div class="small-12 large-offset-2 large-10 column">
+<div class="row site-footer-content">
+
+<div class="small-12 medium-4 large-3 text-center column">
+<div class="nav-links">
+<ul>
+<!-- <li><a href="https://www.example.com/products/">Products</a> -->
+</ul>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</section>
+
+<section class="site-footer-base">
+<div class="expanded row">
+<div class="small-12 large-offset-2 large-10 column">
+<div class="row site-footer-content">
+
+<div class="small-12 text-center large-9 column">
+
+<!--
+<div class="copyright">
+<span class="text">&copy; 2020</span>
+<a href="https://www.example.com" class="logo">logo</a>
+</div>
+-->
+</div>
+
+</div>
+</div>
+</div>
+</section>
+</footer>
+
+</div>
+</div>
+</div>
+</body>
+
+<script type="text/javascript" src="../lib/foundation/dist/foundation.min.js"></script>
+<script type="text/javascript">jQuery(document).foundation();</script>
+<script type="text/javascript" src="../js/magellan.js"></script>
+
+<style type="text/css">@import "../lib/prettify/prettify.css";</style>
+<script type="text/javascript" src="../lib/prettify/prettify.js"></script>
+<script type="text/javascript" src="../lib/prettify/lang-scala.js"></script>
+<script type="text/javascript">jQuery(function(){window.prettyPrint && prettyPrint()});</script>
+<script type="text/javascript">jQuery(function(jq){initOldVersionWarnings(jq, '2.0.0', '')});</script>
+
+
+</html>

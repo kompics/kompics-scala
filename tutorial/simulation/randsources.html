@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+<title>Sources of Randomness · Kompics</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content='Kompics-Scala-Docs'/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:100normal,100italic,300normal,300italic,400normal,400italic,500normal,500italic,700normal,700italic,900normal,900italicc" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../lib/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="../../js/page.js"></script>
+<script type="text/javascript" src="../../js/warnOldVersion.js"></script>
+<script type="text/javascript" src="../../js/groups.js"></script>
+<link rel="stylesheet" type="text/css" href="../../lib/foundation/dist/foundation.min.css"/>
+<link rel="stylesheet" type="text/css" href="../../css/page.css"/>
+
+<!--
+<link rel="shortcut icon" href="../../images/favicon.ico" />
+-->
+</head>
+
+<body>
+<div class="off-canvas-wrapper">
+<div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+
+<div class="off-canvas position-left" id="off-canvas-menu" data-off-canvas>
+<nav class="off-canvas-nav">
+<div class="nav-home">
+<a href="../../index.html" >
+<span class="home-icon">⌂</span>Kompics
+</a>
+<div class="version-number">
+2.0.0
+</div>
+</div>
+<select class="supergroup" name="Language"><option class="group" value="group-scala">Scala</option><option class="group" value="group-java">Java</option></select>
+<div class="nav-toc">
+<ul>
+  <li><a href="../../introduction/index.html" class="page">Introduction</a>
+  <ul>
+    <li><a href="../../introduction/whatiskompics.html" class="page">What is Kompics?</a></li>
+    <li><a href="../../introduction/gettingstarted.html" class="page">Getting Started</a></li>
+    <li><a href="../../introduction/helloworld.html" class="page">Hello World in Kompics</a></li>
+  </ul></li>
+  <li><a href="../../tutorial/index.html" class="page">Kompics Tutorial</a>
+  <ul>
+    <li><a href="../../tutorial/basics.html" class="page">Kompics Basics</a></li>
+    <li><a href="../../tutorial/timers.html" class="page">Timers</a></li>
+    <li><a href="../../tutorial/networking/index.html" class="page">Networking</a></li>
+    <li><a href="../../tutorial/simulation/index.html" class="page">Simulation</a></li>
+  </ul></li>
+  <li><a href="../../reference.html" class="page">Reference</a></li>
+</ul>
+</div>
+
+</nav>
+</div>
+
+<div class="off-canvas-content" data-off-canvas-content>
+
+<header class="site-header expanded row">
+<div class="small-12 column">
+<a href="#" class="off-canvas-toggle hide-for-medium" data-toggle="off-canvas-menu"><svg class="svg-icon svg-icon-menu" version="1.1" id="Menu" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 20 20" enable-background="new 0 0 20 20" xml:space="preserve"> <path class="svg-icon-menu-path" fill="#53CDEC" d="M16.4,9H3.6C3.048,9,3,9.447,3,10c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,9.447,16.952,9,16.4,9z M16.4,13
+H3.6C3.048,13,3,13.447,3,14c0,0.553,0.048,1,0.6,1H16.4c0.552,0,0.6-0.447,0.6-1C17,13.447,16.952,13,16.4,13z M3.6,7H16.4
+C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.048,7,3.6,7z"/></svg>
+</a>
+<div class="title"><a href="../../index.html">Kompics</a></div>
+
+<!--
+<a href="https://www.example.com" class="logo show-for-medium">logo</a>
+-->
+</div>
+</header>
+
+<div class="expanded row">
+
+<div class="medium-3 large-2 show-for-medium column">
+<nav class="site-nav">
+<div class="nav-home">
+<a href="../../index.html" >
+<span class="home-icon">⌂</span>Kompics
+</a>
+<div class="version-number">
+2.0.0
+</div>
+</div>
+<select class="supergroup" name="Language"><option class="group" value="group-scala">Scala</option><option class="group" value="group-java">Java</option></select>
+<div class="nav-toc">
+<ul>
+  <li><a href="../../introduction/index.html" class="page">Introduction</a>
+  <ul>
+    <li><a href="../../introduction/whatiskompics.html" class="page">What is Kompics?</a></li>
+    <li><a href="../../introduction/gettingstarted.html" class="page">Getting Started</a></li>
+    <li><a href="../../introduction/helloworld.html" class="page">Hello World in Kompics</a></li>
+  </ul></li>
+  <li><a href="../../tutorial/index.html" class="page">Kompics Tutorial</a>
+  <ul>
+    <li><a href="../../tutorial/basics.html" class="page">Kompics Basics</a></li>
+    <li><a href="../../tutorial/timers.html" class="page">Timers</a></li>
+    <li><a href="../../tutorial/networking/index.html" class="page">Networking</a></li>
+    <li><a href="../../tutorial/simulation/index.html" class="page">Simulation</a></li>
+  </ul></li>
+  <li><a href="../../reference.html" class="page">Reference</a></li>
+</ul>
+</div>
+
+</nav>
+</div>
+
+<div class="small-12 medium-9 large-10 column">
+<section class="site-content">
+
+<span id="version-warning"></span>
+
+<div class="page-header row">
+<div class="medium-12 show-for-medium column">
+<div class="nav-breadcrumbs">
+<ul>
+  <li><a href="../../index.html">Kompics</a></li>
+  <li><a href="../../tutorial/index.html">Kompics Tutorial</a></li>
+  <li><a href="../../tutorial/simulation/index.html">Simulation</a></li>
+  <li>Sources of Randomness</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="page-content row">
+<div class="small-12 large-9 column" id="docs">
+<h1><a href="#sources-of-randomness" name="sources-of-randomness" class="anchor"><span class="anchor-link"></span></a>Sources of Randomness</h1>
+<p>In order to circumvent nondeterministic execution when running in simulation mode, the Java bytecode of the system is instrumented using the <a href="http://jboss-javassist.github.io/javassist/" title="Javaassist">Javaassist</a> toolkit to intercept a number of method calls and replace them with code that exhibits similar, but deterministic behaviour. </p>
+<p>The advantage of using bytecode instrumentation for whole-system simulation is that in order to execute a system in simulation there is no need to change any of its source code. The implication of this fact is that we can simulate not only the code of the system under development, but also any third-party libraries that it might use. The only limitation of this approach is when a third-party library invokes native code. Allowing the execution to &ldquo;escape&rdquo; the managed environment of the JVM into native code means that we loose the guarantee of deterministic execution.</p>
+<p>As stated before, the sources of randomness that we consider in simulation include:</p>
+<ol>
+  <li>system time</li>
+  <li>random generators</li>
+  <li>thread creation/execution</li>
+  <li>network, e.g. latency, packet loss</li>
+  <li>input/output sources</li>
+</ol>
+<h2><a href="#system-time" name="system-time" class="anchor"><span class="anchor-link"></span></a>System time</h2>
+<p>The two sources of system time that we consider are the Java system calls: <a href="https://docs.oracle.com/en/java/javase/13/docs/api/java.base/java/lang/System.html#currentTimeMillis()" title="java.lang.System"><code>System.currentTimeMillis()</code></a> and <a href="https://docs.oracle.com/en/java/javase/13/docs/api/java.base/java/lang/System.html#nanoTime()" title="java.lang.System"><code>System.nanoTime()</code></a>. </p>
+<p>These two methods will be instrumented to point to simulation time, instead. Since the granulatiry of simulation time is only milliseconds, the <a href="https://docs.oracle.com/en/java/javase/13/docs/api/java.base/java/lang/System.html#nanoTime()" title="java.lang.System"><code>System.nanoTime()</code></a> is a simple multiple of <a href="https://docs.oracle.com/en/java/javase/13/docs/api/java.base/java/lang/System.html#currentTimeMillis()" title="java.lang.System"><code>System.currentTimeMillis()</code></a> in simulation.</p>
+<h2><a href="#random-generators" name="random-generators" class="anchor"><span class="anchor-link"></span></a>Random Generators</h2>
+<p>The random generators we consider are <a href="https://docs.oracle.com/en/java/javase/13/docs/api/java.base/java/util/Random.html" title="java.util.Random"><code>Random</code></a>, <a href="https://docs.oracle.com/en/java/javase/13/docs/api/java.base/java/security/SecureRandom.html" title="java.security.SecureRandom"><code>SecureRandom</code></a>, and <a href="https://docs.oracle.com/en/java/javase/13/docs/api/java.base/java/util/UUID.html" title="java.util.UUID"><code>UUID</code></a> generation. </p>
+<p>Currently, <a href="https://docs.oracle.com/en/java/javase/13/docs/api/java.base/java/security/SecureRandom.html" title="java.security.SecureRandom"><code>SecureRandom</code></a> type generators are simply not allowed in simulations. </p>
+<p>When using <code>new Random()</code> (the no argument constructor), the call is instrumented to <code>new Random(0)</code>, in order to be deterministic.</p>
+<p>When using <code>UUID.randomUUID()</code> the call is instrumented as two calls to the <a href="https://docs.oracle.com/en/java/javase/13/docs/api/java.base/java/util/Random.html#nextLong()" title="java.util.Random"><code>Random.nextLong()</code></a> method on the simulation&rsquo;s global random generator (which is controlled by the simulation seed). </p>
+<h2><a href="#thread-creation" name="thread-creation" class="anchor"><span class="anchor-link"></span></a>Thread Creation</h2>
+<p>Thread interleaving creates nondeterminism, which we want to avoid during simulation and thus, we instrument calls to <a href="https://docs.oracle.com/en/java/javase/13/docs/api/java.base/java/lang/Thread.html#start()" title="java.lang.Thread"><code>Thread.start()</code></a> and <a href="https://docs.oracle.com/en/java/javase/13/docs/api/java.base/java/lang/Thread.html#sleep(long)" title="java.lang.Thread"><code>Thread.sleep()</code></a>. All attempts to create threads are intercepted and the simulation halts with an error informing the user that deterministic execution cannot be guaranteed. Kompics protocol components are typically reactive and do not need to spawn threads of their own, so they lend themselves well to simulation.</p>
+<p>In some cases, especially third party libraries, threads are created, but they might not interact with component logic. If this is the case, we can add that class to the exception list (see section <a href="randsources.html#instrumentation-exceptions">Instrumentation Exceptions</a>) to prevent it from getting instrumented.</p>
+<h2><a href="#network" name="network" class="anchor"><span class="anchor-link"></span></a>Network</h2>
+<p>Randomness induced by network parameters, such as latency and network loss, are modeled using the <a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/SimulationScenario.html" title="se.sics.kompics.simulator.SimulationScenario"><code>SimulationScenario</code></a> and <a href="https://javadoc.io/doc/se.sics.kompics.simulator/core/1.2.1/se/sics/kompics/simulator/network/NetworkModel.html" title="se.sics.kompics.simulator.network.NetworkModel"><code>NetworkModel</code></a> abstraction.</p>
+<h2><a href="#input-output-sources" name="input-output-sources" class="anchor"><span class="anchor-link"></span></a>Input/Output sources</h2>
+<p>Currently, there is no warning/error for using I/O Sources, but it should be kept in mind that these might introduce uncertainty into the simulation.</p>
+<h2><a href="#instrumentation-exceptions" name="instrumentation-exceptions" class="anchor"><span class="anchor-link"></span></a>Instrumentation Exceptions</h2>
+<p>You can add classes to the instrumentation exception list by adding the following lines to your configuration file:</p>
+<pre class="prettyprint"><code class="language-hocon">instrumentation.exceptions = [
+	&quot;a.b.c.MyClass&quot;,
+	&quot;d.e.f.MyOtherClass&quot;
+]
+</code></pre>
+<div class="source-github">
+The source code for this page can be found <a href="https://github.com/kompics/kompics-scala/tree/v2.0.0/docs/src/main/paradox/tutorial/simulation/randsources.md">here</a>.
+</div>
+
+<div class="nav-next">
+<p><strong>Next:</strong> <a href="../../tutorial/simulation/scenarios.html">Simulation Scenarios Reference</a></p>
+</div>
+</div>
+<div class="large-3 show-for-large column" data-sticky-container>
+<nav class="sidebar sticky" data-sticky data-anchor="docs" data-sticky-on="large">
+<div class="page-nav">
+<div class="nav-title">On this page:</div>
+<div class="nav-toc">
+<ul>
+  <li><a href="../../tutorial/simulation/randsources.html#sources-of-randomness" class="header">Sources of Randomness</a>
+  <ul>
+    <li><a href="../../tutorial/simulation/randsources.html#system-time" class="header">System time</a></li>
+    <li><a href="../../tutorial/simulation/randsources.html#random-generators" class="header">Random Generators</a></li>
+    <li><a href="../../tutorial/simulation/randsources.html#thread-creation" class="header">Thread Creation</a></li>
+    <li><a href="../../tutorial/simulation/randsources.html#network" class="header">Network</a></li>
+    <li><a href="../../tutorial/simulation/randsources.html#input-output-sources" class="header">Input/Output sources</a></li>
+    <li><a href="../../tutorial/simulation/randsources.html#instrumentation-exceptions" class="header">Instrumentation Exceptions</a></li>
+  </ul></li>
+</ul>
+</div>
+</div>
+</nav>
+</div>
+</div>
+
+</section>
+</div>
+
+</div>
+
+<footer class="site-footer">
+
+<section class="site-footer-nav">
+<div class="expanded row">
+<div class="small-12 large-offset-2 large-10 column">
+<div class="row site-footer-content">
+
+<div class="small-12 medium-4 large-3 text-center column">
+<div class="nav-links">
+<ul>
+<!-- <li><a href="https://www.example.com/products/">Products</a> -->
+</ul>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</section>
+
+<section class="site-footer-base">
+<div class="expanded row">
+<div class="small-12 large-offset-2 large-10 column">
+<div class="row site-footer-content">
+
+<div class="small-12 text-center large-9 column">
+
+<!--
+<div class="copyright">
+<span class="text">&copy; 2020</span>
+<a href="https://www.example.com" class="logo">logo</a>
+</div>
+-->
+</div>
+
+</div>
+</div>
+</div>
+</section>
+</footer>
+
+</div>
+</div>
+</div>
+</body>
+
+<script type="text/javascript" src="../../lib/foundation/dist/foundation.min.js"></script>
+<script type="text/javascript">jQuery(document).foundation();</script>
+<script type="text/javascript" src="../../js/magellan.js"></script>
+
+<style type="text/css">@import "../../lib/prettify/prettify.css";</style>
+<script type="text/javascript" src="../../lib/prettify/prettify.js"></script>
+<script type="text/javascript" src="../../lib/prettify/lang-scala.js"></script>
+<script type="text/javascript">jQuery(function(){window.prettyPrint && prettyPrint()});</script>
+<script type="text/javascript">jQuery(function(jq){initOldVersionWarnings(jq, '2.0.0', '')});</script>
+
+
+</html>
