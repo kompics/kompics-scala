@@ -86,7 +86,7 @@ runMain sexamples.basics.pingpongdirect.Main
 
 Kompics Timer
 -------------
-This section describes the Kompics `Timer` port and the default implementation `JavaTimer`.
+This section describes the Kompics @javadoc:[Timer](se.sics.kompics.timer.Timer) port and the default implementation @javadoc:[JavaTimer](se.sics.kompics.timer.java.JavaTimer).
 
 In order to use the timer port in Kompics, an additional dependency in our build file is required:
 
@@ -106,7 +106,7 @@ It should be pointed out that the semantics, provided by Kompics' `Timer` facili
 
 @@@
 
-The default component providing the Kompics `Timer` service is @javadoc:[JavaTimer](se.sics.kompics.timer.java.JavaTimer) which can be accessed after adding the following dependency to the build file:
+The default component providing the Kompics @javadoc:[Timer](se.sics.kompics.timer.Timer) service is @javadoc:[JavaTimer](se.sics.kompics.timer.java.JavaTimer) which can be accessed after adding the following dependency to the build file:
 
 @@dependency[sbt,Maven,Gradle] {
   group="se.sics.kompics.basic"

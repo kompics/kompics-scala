@@ -1,6 +1,7 @@
 @@@ index
 * [Introduction to Simulation](introduction.md)
 * [Ping Pong](pingpong.md)
+* [Global View](globalview.md)
 * [Sources of Randomness](randsources.md)
 * [Scenarios](scenarios.md)
 @@@
