@@ -2,9 +2,11 @@ val kompicsV = "1.2.1";
 val silencerV = "1.4.4";
 
 val commonSettings = Seq(
-  resolvers += Resolver.mavenLocal,
-  resolvers += Resolver.jcenterRepo,
-  resolvers += Resolver.bintrayRepo("kompics", "Maven"),
+  sonatypeCredentialHost := "s01.oss.sonatype.org",
+  sonatypeRepository := "https://s01.oss.sonatype.org/service/local",
+  publishTo := sonatypePublishToBundle.value,
+  resolvers += Resolver.sonatypeRepo("releases"),
+  credentials += Credentials(Path.userHome / ".sbt" / ".credentials"),
   organization := "se.sics.kompics",
   version := "2.0.0",
   scalaVersion := "2.13.1",
@@ -21,16 +23,30 @@ val commonSettings = Seq(
     "com.github.ghik" % "silencer-lib" % silencerV % Provided cross CrossVersion.full
   ),
   parallelExecution in Test := false,
-  bintrayOrganization := Some("kompics"),
-  bintrayRepository := "Maven",
   licenses += ("GPL-2.0", url("http://www.opensource.org/licenses/gpl-2.0.php")),
+  homepage := Some(url("https://kompics.sics.se/kompics-scala")),
+  developers := List(Developer(
+    id = "lkroll",
+    name = "Lars Kroll",
+    email = "bathtor@googlemail.com",
+    url = url("https://github.com/Bathtor")),
+    Developer(
+    id = "meldrum",
+    name = "Max Meldrum",
+    email = "mmeldrum@kth.se",
+    url = url("https://github.com/Max-Meldrum"))
+  ),
   autoAPIMappings := true,
   apiURL := Some(url("https://kompics.github.io/kompics-scala/api/"))
 );
 
+resolvers += Resolver.sonatypeRepo("releases")
+
+
 lazy val root = (project in file("."))
   .settings(
     commonSettings,
+    publish / skip := true,
     name := "Kompics-Scala-Root"
   )
   .aggregate(core, simulator);
