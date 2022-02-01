@@ -1,4 +1,5 @@
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.3.0")
+addSbtPlugin("com.lightbend.sbt" % "sbt-java-formatter" % "0.5.0")
 
 addSbtPlugin("com.thoughtworks.sbt-api-mappings" % "sbt-api-mappings" % "latest.release")
 
